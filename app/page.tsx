@@ -53,6 +53,7 @@ type Stat = {
   value: string;
   label: string;
   icon?: Icon;
+  wide?: boolean;
 };
 
 function FacebookIcon({ className }: { className?: string }) {
@@ -147,6 +148,7 @@ type SiteCopy = {
     eyebrow: string;
     title: string;
     text: string;
+    emphasis: string;
     allCta: string;
     detailsCta: string;
     items: Property[];
@@ -199,6 +201,8 @@ type SiteCopy = {
     phoneLabel: string;
     whatsappLabel: string;
     socialLabel: string;
+    cyprusPhoneLabel: string;
+    polandPhoneLabel: string;
   };
   footer: {
     description: string;
@@ -223,9 +227,6 @@ const instagramHref = "https://www.instagram.com/projectcyprus_/";
 
 const heroImage =
   "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2400&q=85";
-const whyImage =
-  "https://images.unsplash.com/photo-1572120360610-d971b9d7767c?auto=format&fit=crop&w=1400&q=85";
-
 const propertyImages = [
   "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=85",
   "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1400&q=85",
@@ -258,7 +259,7 @@ const content = {
     },
     hero: {
       imageAlt: "Wybrzeże Cypru o zachodzie słońca",
-      eyebrow: "Polskojęzyczne wsparcie na Cyprze",
+      eyebrow: "Wsparcie po polsku, angielsku i grecku na Cyprze",
       title: "Znajdź nieruchomość na Cyprze z pełnym spokojem.",
       text: "Pomagamy wybrać sprawdzone apartamenty, wille i inwestycje w najlepszych lokalizacjach południowego Cypru — od pierwszej rozmowy do odbioru kluczy.",
       primaryCta: "Umów bezpłatną konsultację",
@@ -267,8 +268,13 @@ const content = {
       scrollCue: "Przewiń",
     },
     heroStats: [
-      { value: "15+", label: "lat doświadczenia", icon: Star },
-      { value: "PL / EN", label: "obsługa", icon: MessageCircle },
+      {
+        value: "Licencjonowana agencja",
+        label: "Współpracujemy z licencjonowaną cypryjską agencją nieruchomości",
+        icon: Star,
+        wide: true,
+      },
+      { value: "PL / EN / GR", label: "obsługa", icon: MessageCircle },
       { value: "0%", label: "prowizji od kupującego", icon: Euro },
       { value: "Pafos", label: "i południowy Cypr", icon: MapPin },
     ],
@@ -293,6 +299,11 @@ const content = {
         text: "Klucze to nie koniec. Pomagamy odnaleźć się na miejscu i zadbać o praktyczne sprawy.",
         icon: KeyRound,
       },
+      {
+        title: "Ponad 90% ofert",
+        text: "Nieruchomości z rynku pierwotnego, wtórnego, działek oraz lokali komercyjnych.",
+        icon: Sparkles,
+      },
     ],
     intro: {
       eyebrow: "Styl życia i inwestycja",
@@ -306,8 +317,9 @@ const content = {
     properties: {
       eyebrow: "Wybrane oferty",
       title: "Wybrane nieruchomości warte uwagi",
-      text: "Starannie wybrane apartamenty, domy i wille w lokalizacjach, które łączą potencjał inwestycyjny z jakością życia.",
-      allCta: "Zobacz wszystkie oferty",
+      text: "Nie ograniczamy się do ofert widocznych na stronie.\nPrezentowane nieruchomości są jedynie przykładem dostępnych możliwości.",
+      emphasis: "Na podstawie Twoich oczekiwań przygotujemy indywidualnie dopasowaną ofertę spośród ponad 90% nieruchomości dostępnych na rynku pierwotnym i wtórnym.",
+      allCta: "",
       detailsCta: "Zapytaj",
       items: [
         {
@@ -389,7 +401,7 @@ const content = {
     },
     about: {
       eyebrow: "O Project Cyprus",
-      title: "Lokalna wiedza, polska komunikacja, indywidualne podejście.",
+      title: "Lokalna wiedza, komunikacja PL/EN/GR, indywidualne podejście.",
       text: "Project Cyprus pomaga osobom szukającym nieruchomości na Cyprze przejść przez cały proces z jasnością i spokojem — od wyboru lokalizacji, przez selekcję ofert, po kontakt z prawnikami, deweloperami i usługami po zakupie.",
       imageAlt: "Eleganckie wnętrze apartamentu",
       imageCardText: "Lokalne rozeznanie, sprawdzone kontakty i komunikacja, która daje poczucie kontroli.",
@@ -397,8 +409,11 @@ const content = {
       secondaryCta: "Napisz na WhatsApp",
     },
     credibility: [
-      { value: "15+", label: "lat doświadczenia" },
-      { value: "PL / EN", label: "komunikacja" },
+      {
+        value: "Licencja",
+        label: "Współpracujemy z licencjonowaną cypryjską agencją nieruchomości",
+      },
+      { value: "PL / EN / GR", label: "komunikacja" },
       { value: "0%", label: "prowizji od kupującego" },
       { value: "Południe", label: "Cypr jako fokus" },
     ],
@@ -466,9 +481,11 @@ const content = {
       phoneLabel: "Telefon",
       whatsappLabel: "WhatsApp",
       socialLabel: "Media społecznościowe",
+      cyprusPhoneLabel: "Cypr",
+      polandPhoneLabel: "Polska",
     },
     footer: {
-      description: "Premiumowe wsparcie dla osób szukających apartamentu, domu lub willi na południowym Cyprze.",
+      description: "Wsparcie premium dla osób szukających apartamentu, domu lub willi na południowym Cyprze.",
       navTitle: "Nawigacja",
       contactTitle: "Kontakt",
       languageTitle: "Język",
@@ -501,7 +518,7 @@ const content = {
     },
     hero: {
       imageAlt: "Cyprus coastline at sunset",
-      eyebrow: "English-speaking support in Cyprus",
+      eyebrow: "Support in Polish, English and Greek in Cyprus",
       title: "Find your property in Cyprus with complete peace of mind.",
       text: "We help you choose verified apartments, villas, and investment properties in the best locations of southern Cyprus, from the first conversation to collecting the keys.",
       primaryCta: "Book a free consultation",
@@ -510,8 +527,13 @@ const content = {
       scrollCue: "Scroll",
     },
     heroStats: [
-      { value: "15+", label: "years of experience", icon: Star },
-      { value: "PL / EN", label: "support", icon: MessageCircle },
+      {
+        value: "Licensed agency",
+        label: "We work with a licensed Cyprus real estate agency",
+        icon: Star,
+        wide: true,
+      },
+      { value: "PL / EN / GR", label: "support", icon: MessageCircle },
       { value: "0%", label: "buyer commission", icon: Euro },
       { value: "Paphos", label: "and southern Cyprus", icon: MapPin },
     ],
@@ -536,6 +558,11 @@ const content = {
         text: "The keys are not the end. We help you settle practical matters on the ground.",
         icon: KeyRound,
       },
+      {
+        title: "Over 90% of offers",
+        text: "Properties from the new-build market, resale market, plots and commercial premises.",
+        icon: Sparkles,
+      },
     ],
     intro: {
       eyebrow: "Lifestyle and investment",
@@ -549,8 +576,9 @@ const content = {
     properties: {
       eyebrow: "Featured listings",
       title: "Selected properties worth your attention",
-      text: "Carefully chosen apartments, houses, and villas in locations that combine investment potential with quality of life.",
-      allCta: "See all offers",
+      text: "We are not limited to the offers visible on the website.\nThe properties shown are only examples of available possibilities.",
+      emphasis: "Based on your expectations, we will prepare an individually matched offer from over 90% of properties available on the new-build and resale markets.",
+      allCta: "",
       detailsCta: "Ask",
       items: [
         {
@@ -640,8 +668,8 @@ const content = {
       secondaryCta: "Message us on WhatsApp",
     },
     credibility: [
-      { value: "15+", label: "years of experience" },
-      { value: "PL / EN", label: "communication" },
+      { value: "Licensed", label: "We work with a licensed Cyprus real estate agency" },
+      { value: "PL / EN / GR", label: "communication" },
       { value: "0%", label: "buyer commission" },
       { value: "South", label: "Cyprus focus" },
     ],
@@ -709,6 +737,8 @@ const content = {
       phoneLabel: "Phone",
       whatsappLabel: "WhatsApp",
       socialLabel: "Social media",
+      cyprusPhoneLabel: "Cyprus",
+      polandPhoneLabel: "Poland",
     },
     footer: {
       description: "Premium support for people looking for an apartment, house, or villa in southern Cyprus.",
@@ -753,8 +783,13 @@ const content = {
       scrollCue: "Κύλιση",
     },
     heroStats: [
-      { value: "15+", label: "χρόνια εμπειρίας", icon: Star },
-      { value: "PL / EN", label: "εξυπηρέτηση", icon: MessageCircle },
+      {
+        value: "Αδειοδοτημένο γραφείο",
+        label: "Συνεργαζόμαστε με αδειοδοτημένο κυπριακό κτηματομεσιτικό γραφείο",
+        icon: Star,
+        wide: true,
+      },
+      { value: "PL / EN / GR", label: "επικοινωνία", icon: MessageCircle },
       { value: "0%", label: "προμήθεια αγοραστή", icon: Euro },
       { value: "Πάφος", label: "και νότια Κύπρος", icon: MapPin },
     ],
@@ -779,6 +814,11 @@ const content = {
         text: "Η παράδοση των κλειδιών δεν είναι το τέλος. Σας βοηθάμε με πρακτικά θέματα επιτόπου.",
         icon: KeyRound,
       },
+      {
+        title: "Πάνω από το 90% των προσφορών",
+        text: "Ακίνητα από την αγορά νεόδμητων, μεταπωλήσεων, οικοπέδων και επαγγελματικών χώρων.",
+        icon: Sparkles,
+      },
     ],
     intro: {
       eyebrow: "Τρόπος ζωής και επένδυση",
@@ -792,8 +832,9 @@ const content = {
     properties: {
       eyebrow: "Επιλεγμένες προτάσεις",
       title: "Επιλεγμένα ακίνητα που αξίζουν την προσοχή σας",
-      text: "Προσεκτικά επιλεγμένα διαμερίσματα, κατοικίες και βίλες σε τοποθεσίες που συνδυάζουν επενδυτική προοπτική με ποιότητα ζωής.",
-      allCta: "Δείτε όλες τις προσφορές",
+      text: "Δεν περιοριζόμαστε στις προσφορές που εμφανίζονται στην ιστοσελίδα.\nΤα ακίνητα που παρουσιάζονται είναι μόνο παραδείγματα των διαθέσιμων επιλογών.",
+      emphasis: "Με βάση τις ανάγκες σας, θα ετοιμάσουμε μια εξατομικευμένη πρόταση από πάνω από το 90% των ακινήτων που είναι διαθέσιμα στην αγορά νεόδμητων και μεταπωλήσεων.",
+      allCta: "",
       detailsCta: "Ρωτήστε",
       items: [
         {
@@ -883,8 +924,11 @@ const content = {
       secondaryCta: "Στείλτε μήνυμα στο WhatsApp",
     },
     credibility: [
-      { value: "15+", label: "χρόνια εμπειρίας" },
-      { value: "PL / EN", label: "επικοινωνία" },
+      {
+        value: "Άδεια",
+        label: "Συνεργαζόμαστε με αδειοδοτημένο κυπριακό κτηματομεσιτικό γραφείο",
+      },
+      { value: "PL / EN / GR", label: "επικοινωνία" },
       { value: "0%", label: "προμήθεια αγοραστή" },
       { value: "Νότια", label: "Κύπρος ως επίκεντρο" },
     ],
@@ -952,6 +996,8 @@ const content = {
       phoneLabel: "Τηλέφωνο",
       whatsappLabel: "WhatsApp",
       socialLabel: "Κοινωνικά δίκτυα",
+      cyprusPhoneLabel: "Κύπρος",
+      polandPhoneLabel: "Πολωνία",
     },
     footer: {
       description: "Premium υποστήριξη για όσους αναζητούν διαμέρισμα, κατοικία ή βίλα στη νότια Κύπρο.",
@@ -1081,17 +1127,17 @@ function FloatingHeader({
 
   return (
     <header className="fixed left-0 right-0 top-0 z-50 px-4 pt-4 md:px-6 md:pt-6">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-[2rem] border border-[#D4AF37]/20 bg-[#030303]/76 px-4 py-3 text-[#FFF8E1] shadow-[0_22px_80px_rgba(0,0,0,0.46)] backdrop-blur-2xl md:rounded-full md:px-5">
-        <a href="#" className="flex items-center gap-3" aria-label="Project Cyprus">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-[2.35rem] border border-[#D4AF37]/20 bg-[#030303]/76 px-4 py-3 text-[#FFF8E1] shadow-[0_22px_80px_rgba(0,0,0,0.46)] backdrop-blur-2xl md:rounded-full md:px-6 md:py-3.5">
+        <a href="#" className="flex shrink-0 items-center gap-4" aria-label="Project Cyprus">
           <Image
             src={brandAssets.logoTransparent}
             alt="Project Cyprus"
             width={500}
             height={500}
             priority
-            className="h-12 w-12 rounded-full object-contain ring-1 ring-[#D4AF37]/22 md:h-14 md:w-14"
+            className="h-20 w-20 rounded-full object-contain ring-1 ring-[#D4AF37]/22 md:h-24 md:w-24"
           />
-          <span className="hidden text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#D4AF37]/80 sm:block">
+          <span className="hidden max-w-[9rem] text-[0.72rem] font-semibold uppercase leading-5 tracking-[0.22em] text-[#D4AF37]/80 sm:block">
             {copy.headerSubtitle}
           </span>
         </a>
@@ -1101,7 +1147,7 @@ function FloatingHeader({
             <a
               key={item.href}
               href={item.href}
-              className="rounded-full px-4 py-2 text-sm text-[#F5E8C7]/78 transition hover:bg-[#D4AF37]/10 hover:text-[#E0C46C]"
+              className="rounded-full px-4 py-2 text-[0.95rem] text-[#F5E8C7]/78 transition hover:bg-[#D4AF37]/10 hover:text-[#E0C46C]"
             >
               {item.label}
             </a>
@@ -1141,7 +1187,7 @@ function FloatingHeader({
               alt="Project Cyprus"
               width={500}
               height={500}
-              className="h-12 w-12 rounded-full object-contain ring-1 ring-[#D4AF37]/20"
+              className="h-16 w-16 rounded-full object-contain ring-1 ring-[#D4AF37]/20"
             />
             <span className="text-xs font-semibold uppercase tracking-[0.22em] text-[#D4AF37]/80">
               {copy.headerSubtitle}
@@ -1188,18 +1234,18 @@ function SectionHeading({
       className={`mx-auto ${align === "center" ? "max-w-3xl text-center" : "max-w-4xl"}`}
     >
       <p
-        className="text-xs font-semibold uppercase tracking-[0.28em] text-[#D4AF37]"
+        className="text-sm font-bold uppercase tracking-[0.22em] text-[#D4AF37] md:text-base"
       >
         {eyebrow}
       </p>
       <h2
-        className="mt-4 font-serif text-4xl leading-[1.05] tracking-tight text-[#FFF8E1] md:text-6xl"
+        className="mt-4 font-serif text-4xl leading-[1.08] tracking-tight text-[#FFF8E1] sm:text-5xl md:text-[3.25rem]"
       >
         {title}
       </h2>
       {text && (
         <p
-          className={`mt-5 text-base leading-8 md:text-lg ${
+          className={`mt-6 text-lg leading-8 ${
             light ? "text-[#FFF8E1]/68" : "text-[#D7C9A0]/76"
           }`}
         >
@@ -1222,7 +1268,7 @@ function HeroSection({ copy }: { copy: SiteCopy }) {
         className="object-cover"
       />
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,3,3,0.95),rgba(3,3,3,0.7)_42%,rgba(3,3,3,0.3)),linear-gradient(0deg,rgba(3,3,3,0.98),rgba(3,3,3,0.08)_44%,rgba(3,3,3,0.45))]" />
-      <div className="relative mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-end px-5 pb-10 pt-32 md:px-8 md:pb-12 md:pt-40">
+      <div className="relative mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-end px-5 pb-10 pt-44 md:px-8 md:pb-12 md:pt-52">
         <div className="grid items-end gap-10 lg:grid-cols-[1fr_0.78fr]">
           <motion.div
             initial={{ opacity: 0, y: 28 }}
@@ -1252,18 +1298,20 @@ function HeroSection({ copy }: { copy: SiteCopy }) {
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.18 }}
-            className="grid grid-cols-2 gap-3"
+            className="grid grid-cols-2 auto-rows-fr gap-3"
           >
             {copy.heroStats.map((stat) => {
               const Icon = stat.icon;
               return (
                 <div
                   key={stat.label}
-                  className="rounded-[1.5rem] border border-white/14 bg-white/10 p-4 shadow-[0_20px_70px_rgba(0,0,0,0.22)] backdrop-blur-xl"
+                  className="flex min-h-[9.75rem] flex-col rounded-[1.5rem] border border-white/14 bg-white/10 p-4 shadow-[0_20px_70px_rgba(0,0,0,0.22)] backdrop-blur-xl"
                 >
-                  {Icon && <Icon className="mb-5 h-5 w-5 text-[#D4AF37]" />}
-                  <p className="text-2xl font-semibold tracking-tight">{stat.value}</p>
-                  <p className="mt-1 text-sm leading-5 text-[#FFF8E1]/68">{stat.label}</p>
+                  {Icon && <Icon className="mb-4 h-5 w-5 shrink-0 text-[#D4AF37]" />}
+                  <p className="text-lg font-semibold leading-tight tracking-tight md:text-xl">
+                    {stat.value}
+                  </p>
+                  <p className="mt-2 text-xs leading-5 text-[#FFF8E1]/68 md:text-[0.82rem]">{stat.label}</p>
                 </div>
               );
             })}
@@ -1284,14 +1332,14 @@ function HeroSection({ copy }: { copy: SiteCopy }) {
 function TrustStrip({ copy }: { copy: SiteCopy }) {
   return (
     <section id="promise" className="bg-[#030303] px-5 py-6 md:px-8">
-      <div className="mx-auto grid max-w-7xl gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="mx-auto grid max-w-7xl gap-4 md:grid-cols-2 xl:grid-cols-5">
         {copy.promises.map((item, index) => {
           const Icon = item.icon;
           return (
             <FadeIn key={item.title} delay={index * 0.06}>
-              <div className="h-full rounded-[1.75rem] border border-white/10 bg-[#101010] p-6 shadow-[0_22px_80px_rgba(0,0,0,0.22)]">
+              <div className="h-full rounded-[1.75rem] border border-white/10 bg-[#101010] p-5 shadow-[0_22px_80px_rgba(0,0,0,0.22)]">
                 <Icon className="h-6 w-6 text-[#D4AF37]" />
-                <h3 className="mt-6 text-lg font-semibold text-[#FFF8E1]">{item.title}</h3>
+                <h3 className="mt-5 text-base font-semibold leading-6 text-[#FFF8E1]">{item.title}</h3>
                 <p className="mt-3 text-sm leading-6 text-[#FFF8E1]/62">{item.text}</p>
               </div>
             </FadeIn>
@@ -1305,9 +1353,9 @@ function TrustStrip({ copy }: { copy: SiteCopy }) {
 function IntroSection({ copy }: { copy: SiteCopy }) {
   return (
     <section className="bg-[#050505] px-5 py-24 md:px-8 md:py-32">
-      <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1fr_0.8fr]">
-        <FadeIn>
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#D4AF37]">
+      <div className="mx-auto grid max-w-7xl items-start gap-12 lg:grid-cols-[0.95fr_1.05fr]">
+        <FadeIn className="flex h-full flex-col justify-between gap-10">
+          <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#D4AF37] md:text-base">
             {copy.intro.eyebrow}
           </p>
           <h2 className="mt-5 max-w-4xl font-serif text-5xl leading-[1.02] tracking-tight text-[#FFF8E1] md:text-7xl">
@@ -1316,7 +1364,7 @@ function IntroSection({ copy }: { copy: SiteCopy }) {
           <p className="mt-7 max-w-2xl text-lg leading-9 text-[#D7C9A0]/76">
             {copy.intro.text}
           </p>
-          <blockquote className="mt-10 max-w-3xl border-l border-[#C9A227] pl-6 font-serif text-2xl leading-snug text-[#F5E8C7] md:text-3xl">
+          <blockquote className="max-w-3xl border-l border-[#C9A227] pl-6 font-serif text-2xl leading-snug text-[#F5E8C7] md:text-3xl">
             {copy.intro.quote}
           </blockquote>
         </FadeIn>
@@ -1329,7 +1377,7 @@ function IntroSection({ copy }: { copy: SiteCopy }) {
               fullSrc={brandAssets.videos.whyCyprus.full}
               labels={copy.video}
               aspectClassName="aspect-[9/16]"
-              className="mx-auto w-full max-w-[360px]"
+              className="mx-auto w-full max-w-[420px]"
             />
             <div className="mt-4 rounded-[1.5rem] border border-[#D4AF37]/16 bg-[#101010]/80 p-5 text-[#FFF8E1]">
               <p className="text-xs uppercase tracking-[0.24em] text-[#D4AF37]">
@@ -1401,17 +1449,27 @@ function PropertyCard({
 
 function FeaturedProperties({ copy }: { copy: SiteCopy }) {
   return (
-    <section id="properties" className="bg-[#050505] px-5 py-24 md:px-8 md:py-32">
+    <section id="properties" className="scroll-mt-36 bg-[#050505] px-5 py-24 md:scroll-mt-40 md:px-8 md:py-32">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-12 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(280px,380px)] lg:items-end">
+        <div className="mb-12 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(320px,440px)] lg:items-start">
           <div>
-            <SectionHeading
-              eyebrow={copy.properties.eyebrow}
-              title={copy.properties.title}
-              text={copy.properties.text}
-            />
-            <FadeIn className="mt-8">
-              <SecondaryButton href="#contact">{copy.properties.allCta}</SecondaryButton>
+            <FadeIn className="flex h-full max-w-4xl flex-col justify-between gap-8">
+              <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#D4AF37] md:text-base">
+                {copy.properties.eyebrow}
+              </p>
+              <h2 className="mt-4 font-serif text-4xl leading-[1.08] tracking-tight text-[#FFF8E1] sm:text-5xl md:text-[3.25rem]">
+                {copy.properties.title}
+              </h2>
+              <div className="max-w-3xl space-y-5 rounded-[1.5rem] border border-[#D4AF37]/14 bg-[#101010]/58 p-6">
+                <div className="space-y-4 text-base leading-8 text-[#D7C9A0]/78 md:text-lg">
+                  {copy.properties.text.split("\n").map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </div>
+                <p className="border-l border-[#C9A227] pl-5 font-serif text-xl leading-snug text-[#F5E8C7] md:text-2xl">
+                  {copy.properties.emphasis}
+                </p>
+              </div>
             </FadeIn>
           </div>
           <FadeIn delay={0.12} className="w-full lg:justify-self-end">
@@ -1420,7 +1478,7 @@ function FeaturedProperties({ copy }: { copy: SiteCopy }) {
               fullSrc={brandAssets.videos.featuredListings.full}
               labels={copy.video}
               aspectClassName="aspect-[9/16]"
-              className="mx-auto w-full max-w-[320px]"
+              className="mx-auto w-full max-w-[420px] lg:mx-0"
             />
           </FadeIn>
         </div>
@@ -1441,16 +1499,23 @@ function FeaturedProperties({ copy }: { copy: SiteCopy }) {
 
 function WhyCyprus({ copy }: { copy: SiteCopy }) {
   return (
-    <section id="why" className="overflow-hidden bg-[#030303] px-5 py-24 text-[#FFF8E1] md:px-8 md:py-32">
-      <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[0.85fr_1fr]">
-        <div>
-          <SectionHeading
-            eyebrow={copy.why.eyebrow}
-            title={copy.why.title}
-            text={copy.why.text}
-            light
-          />
-          <FadeIn className="mt-10 grid gap-3 sm:grid-cols-2">
+    <section id="why" className="scroll-mt-36 overflow-hidden bg-[#030303] px-5 py-24 text-[#FFF8E1] md:scroll-mt-40 md:px-8 md:py-32">
+      <div className="mx-auto grid max-w-7xl items-start gap-14 lg:grid-cols-[0.85fr_1fr]">
+        <div className="flex h-full flex-col justify-between gap-10">
+          <div>
+            <SectionHeading
+              eyebrow={copy.why.eyebrow}
+              title={copy.why.title}
+              text={copy.why.text}
+              light
+            />
+            <FadeIn delay={0.06} className="mt-8">
+              <p className="max-w-3xl border-l border-[#C9A227] pl-5 font-serif text-xl leading-snug text-[#F5E8C7] md:text-2xl">
+                {copy.why.locationText}
+              </p>
+            </FadeIn>
+          </div>
+          <FadeIn className="grid gap-3 sm:grid-cols-2">
             {copy.why.cards.map((item) => (
               <div
                 key={item}
@@ -1465,16 +1530,14 @@ function WhyCyprus({ copy }: { copy: SiteCopy }) {
 
         <FadeIn delay={0.14} className="relative">
           <div className="absolute -right-8 -top-8 h-52 w-52 rounded-full bg-[#D4AF37]/20 blur-3xl" />
-          <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/8 shadow-[0_26px_100px_rgba(0,0,0,0.35)]">
-            <Image
-              src={whyImage}
-              alt={copy.why.imageAlt}
-              width={1000}
-              height={1200}
-              sizes="(min-width: 1024px) 48vw, 100vw"
-              className="h-[620px] w-full object-cover"
+          <div className="relative mx-auto w-full max-w-[520px] lg:mx-0 lg:ml-auto">
+            <PremiumVideoCard
+              previewSrc={brandAssets.videos.whyCyprusAlt.preview}
+              fullSrc={brandAssets.videos.whyCyprusAlt.full}
+              labels={copy.video}
+              aspectClassName="aspect-[9/16]"
+              className="w-full"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#030303]/86 via-[#030303]/10 to-transparent" />
             <div className="absolute bottom-6 left-6 right-6 rounded-[1.6rem] border border-white/14 bg-[#030303]/55 p-6 backdrop-blur-xl">
               <p className="text-xs uppercase tracking-[0.24em] text-[#D4AF37]">
                 {copy.why.locationEyebrow}
@@ -1671,12 +1734,12 @@ function PremiumVideoCard({
 
 function ProcessVideoCard({ labels }: { labels: VideoCopy }) {
   return (
-    <FadeIn delay={0.12} className="w-full lg:justify-self-end">
+    <FadeIn delay={0.12} className="w-full lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:justify-self-end">
       <PremiumVideoCard
         previewSrc={brandAssets.videos.buyingProcess.preview}
         fullSrc={brandAssets.videos.buyingProcess.full}
         labels={labels}
-        className="mx-auto w-full max-w-[310px] md:max-w-[350px] lg:max-w-[380px]"
+        className="mx-auto w-full max-w-[330px] md:max-w-[400px] lg:max-w-[460px]"
       />
     </FadeIn>
   );
@@ -1684,41 +1747,41 @@ function ProcessVideoCard({ labels }: { labels: VideoCopy }) {
 
 function ProcessTimeline({ copy }: { copy: SiteCopy }) {
   return (
-    <section id="process" className="relative overflow-hidden bg-[#050505] px-5 py-24 md:px-8 md:py-32">
+    <section id="process" className="relative scroll-mt-36 overflow-hidden bg-[#050505] px-5 py-24 md:scroll-mt-40 md:px-8 md:py-32">
       <div className="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-[#030303]/8 to-transparent" />
       <div className="relative mx-auto max-w-7xl">
-        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(280px,380px)]">
+        <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(360px,460px)]">
           <FadeIn>
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#D4AF37]">
+            <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#D4AF37] md:text-base">
               {copy.process.eyebrow}
             </p>
-            <h2 className="mt-4 max-w-4xl font-serif text-4xl leading-[1.05] tracking-tight text-[#FFF8E1] md:text-6xl">
+            <h2 className="mt-4 max-w-4xl font-serif text-4xl leading-[1.08] tracking-tight text-[#FFF8E1] sm:text-5xl md:text-[3.25rem]">
               {copy.process.title}
             </h2>
-            <p className="mt-5 max-w-2xl text-base leading-8 text-[#D7C9A0]/76 md:text-lg">
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-[#D7C9A0]/76">
               {copy.process.text}
             </p>
           </FadeIn>
           <ProcessVideoCard labels={copy.video} />
-        </div>
 
-        <div className="mt-16 grid gap-4 lg:grid-cols-3">
-          {copy.process.steps.map((step, index) => (
-            <FadeIn key={step.title} delay={index * 0.05}>
-              <div className="group h-full rounded-[1.75rem] border border-[#D4AF37]/14 bg-[#101010]/78 p-6 shadow-[0_20px_70px_rgba(0,0,0,0.22)] backdrop-blur transition hover:-translate-y-1 hover:border-[#D4AF37]/35 hover:bg-[#141414]">
-                <div className="flex items-center justify-between">
-                  <span className="font-serif text-5xl text-[#C9A227]">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span className="flex h-11 w-11 items-center justify-center rounded-full border border-[#D4AF37]/20 bg-[#030303] text-[#D4AF37] transition group-hover:rotate-6">
-                    <ArrowRight className="h-4 w-4" />
-                  </span>
+          <div className="grid gap-3 sm:grid-cols-2 lg:col-start-1 lg:row-start-2">
+            {copy.process.steps.map((step, index) => (
+              <FadeIn key={step.title} delay={index * 0.04}>
+                <div className="group h-full rounded-[1.35rem] border border-[#D4AF37]/14 bg-[#101010]/78 p-4 shadow-[0_20px_70px_rgba(0,0,0,0.18)] backdrop-blur transition hover:-translate-y-1 hover:border-[#D4AF37]/35 hover:bg-[#141414]">
+                  <div className="flex items-center justify-between">
+                    <span className="font-serif text-3xl text-[#C9A227]">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="flex h-9 w-9 items-center justify-center rounded-full border border-[#D4AF37]/20 bg-[#030303] text-[#D4AF37] transition group-hover:rotate-6">
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </span>
+                  </div>
+                  <h3 className="mt-5 text-base font-semibold leading-6 text-[#FFF8E1]">{step.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-[#D7C9A0]/74">{step.text}</p>
                 </div>
-                <h3 className="mt-8 text-xl font-semibold text-[#FFF8E1]">{step.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-[#D7C9A0]/74">{step.text}</p>
-              </div>
-            </FadeIn>
-          ))}
+              </FadeIn>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -1727,29 +1790,31 @@ function ProcessTimeline({ copy }: { copy: SiteCopy }) {
 
 function AboutSection({ copy }: { copy: SiteCopy }) {
   return (
-    <section id="about" className="bg-[#050505] px-5 pb-24 md:px-8 md:pb-32">
-      <div className="mx-auto grid max-w-7xl items-center gap-12 rounded-[2rem] border border-[#D4AF37]/14 bg-[#101010] p-4 shadow-[0_30px_100px_rgba(0,0,0,0.32)] lg:grid-cols-[0.86fr_1fr] lg:p-6">
+    <section id="about" className="scroll-mt-36 bg-[#050505] px-5 pb-24 md:scroll-mt-40 md:px-8 md:pb-32">
+      <div className="mx-auto grid max-w-7xl items-start gap-12 rounded-[2rem] border border-[#D4AF37]/14 bg-[#101010] p-4 shadow-[0_30px_100px_rgba(0,0,0,0.32)] lg:grid-cols-[0.95fr_1fr] lg:p-6">
         <FadeIn>
           <PremiumVideoCard
             previewSrc={brandAssets.videos.about.preview}
             fullSrc={brandAssets.videos.about.full}
             labels={copy.video}
             aspectClassName="aspect-[9/16]"
-            className="mx-auto w-full max-w-[360px]"
+            className="mx-auto w-full max-w-[440px]"
           />
           <div className="mt-4 rounded-[1.4rem] border border-[#D4AF37]/16 bg-[#030303]/62 p-5 text-[#FFF8E1]">
             <p className="text-sm leading-6">{copy.about.imageCardText}</p>
           </div>
         </FadeIn>
 
-        <FadeIn delay={0.12} className="px-2 py-8 md:px-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#D4AF37]">
+        <FadeIn delay={0.12} className="flex h-full flex-col justify-between gap-8 px-2 pt-1 pb-8 md:px-8 md:pt-2">
+          <div>
+          <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#D4AF37] md:text-base">
             {copy.about.eyebrow}
           </p>
-          <h2 className="mt-5 font-serif text-4xl leading-[1.08] tracking-tight text-[#FFF8E1] md:text-6xl">
+          <h2 className="mt-4 font-serif text-4xl leading-[1.08] tracking-tight text-[#FFF8E1] sm:text-5xl md:text-[3.25rem]">
             {copy.about.title}
           </h2>
-          <p className="mt-7 text-lg leading-9 text-[#D7C9A0]/76">{copy.about.text}</p>
+          <p className="mt-6 text-lg leading-8 text-[#D7C9A0]/76">{copy.about.text}</p>
+          </div>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <PrimaryButton href="#contact" dark>
               {copy.about.primaryCta}
@@ -1993,16 +2058,28 @@ function ContactDetails({ copy, compact = false }: { copy: SiteCopy; compact?: b
           </p>
         </a>
       </div>
-      <div className={`grid ${compact ? "gap-2.5" : "gap-3"}`}>
+      <div className={`grid ${compact ? "grid-cols-2 gap-2.5" : "gap-3 sm:grid-cols-2"}`}>
+        <a
+          href={cyprusPhoneHref}
+          className={cardClass}
+        >
+          <Phone className={iconClass} />
+          <p className={labelClass}>
+            {copy.contact.cyprusPhoneLabel}
+          </p>
+          <p className={compact ? "mt-1 text-xs font-semibold text-[#FFF8E1] group-hover:text-[#D4AF37] sm:text-sm" : valueClass}>
+            {cyprusPhone}
+          </p>
+        </a>
         <a
           href={polishPhoneHref}
           className={cardClass}
         >
           <Phone className={iconClass} />
           <p className={labelClass}>
-            {copy.contact.phoneLabel}
+            {copy.contact.polandPhoneLabel}
           </p>
-          <p className={valueClass}>
+          <p className={compact ? "mt-1 text-xs font-semibold text-[#FFF8E1] group-hover:text-[#D4AF37] sm:text-sm" : valueClass}>
             {polishPhone}
           </p>
         </a>
@@ -2013,18 +2090,18 @@ function ContactDetails({ copy, compact = false }: { copy: SiteCopy; compact?: b
 
 function CTASection({ copy }: { copy: SiteCopy }) {
   return (
-    <section id="contact" className="relative overflow-hidden bg-[#030303] px-5 py-24 text-[#FFF8E1] md:px-8 md:py-32">
+    <section id="contact" className="relative scroll-mt-36 overflow-hidden bg-[#030303] px-5 py-24 text-[#FFF8E1] md:scroll-mt-40 md:px-8 md:py-32">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(212,175,55,0.12),transparent_30rem),radial-gradient(circle_at_88%_72%,rgba(224,196,108,0.08),transparent_26rem)]" />
       <div className="relative mx-auto grid max-w-7xl gap-8 rounded-[2.2rem] border border-[#D4AF37]/16 bg-[#101010]/72 p-5 shadow-[0_34px_110px_rgba(0,0,0,0.38)] backdrop-blur-xl lg:grid-cols-[1.05fr_0.95fr] lg:p-7">
         <FadeIn className="flex flex-col justify-between gap-8">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#D4AF37]">
+          <div className="rounded-[2rem] border border-[#D4AF37]/12 bg-[#030303]/28 p-5">
+            <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#D4AF37] md:text-base">
               {copy.cta.eyebrow}
             </p>
-            <h2 className="mt-5 max-w-4xl font-serif text-5xl leading-[1] tracking-tight md:text-7xl">
+            <h2 className="mt-4 max-w-4xl font-serif text-4xl leading-[1.08] tracking-tight sm:text-5xl md:text-[3.25rem]">
               {copy.cta.title}
             </h2>
-            <p className="mt-7 max-w-2xl text-lg leading-8 text-[#FFF8E1]/72">
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-[#FFF8E1]/72">
               {copy.cta.text}
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">

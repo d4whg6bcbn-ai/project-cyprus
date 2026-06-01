@@ -26,6 +26,10 @@ export const brandAssets = {
       preview: "/videos/why-cyprus-preview.mp4",
       full: "/videos/why-cyprus-preview.mp4",
     },
+    whyCyprusAlt: {
+      preview: "/videos/example-offer-preview.mp4",
+      full: "/videos/example-offer-preview.mp4",
+    },
   },
 } as const;
 

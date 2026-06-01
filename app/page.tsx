@@ -276,7 +276,7 @@ const content = {
     heroStats: [
       {
         value: "Licencjonowana agencja",
-        label: "Współpracujemy z licencjonowaną cypryjską agencją nieruchomości",
+        label: "Współpracujemy z cypryjską agencją nieruchomości",
         icon: Star,
         wide: true,
       },
@@ -285,6 +285,11 @@ const content = {
       { value: "Pafos", label: "i południowy Cypr", icon: MapPin },
     ],
     promises: [
+      {
+        title: "Ponad 90% ofert",
+        text: "Nieruchomości z rynku pierwotnego, wtórnego, działek oraz lokali komercyjnych.",
+        icon: Sparkles,
+      },
       {
         title: "Sprawdzeni deweloperzy",
         text: "Weryfikujemy projekty, lokalizacje i partnerów zanim pokażemy je klientom.",
@@ -304,11 +309,6 @@ const content = {
         title: "Pomoc po zakupie",
         text: "Klucze to nie koniec. Pomagamy odnaleźć się na miejscu i zadbać o praktyczne sprawy.",
         icon: KeyRound,
-      },
-      {
-        title: "Ponad 90% ofert",
-        text: "Nieruchomości z rynku pierwotnego, wtórnego, działek oraz lokali komercyjnych.",
-        icon: Sparkles,
       },
     ],
     intro: {
@@ -428,7 +428,7 @@ const content = {
     credibility: [
       {
         value: "Licencja",
-        label: "Współpracujemy z licencjonowaną cypryjską agencją nieruchomości",
+        label: "Współpracujemy z cypryjską agencją nieruchomości",
       },
       { value: "PL / EN / GR", label: "komunikacja" },
       { value: "0%", label: "prowizji od kupującego" },
@@ -556,6 +556,11 @@ const content = {
     ],
     promises: [
       {
+        title: "Over 90% of offers",
+        text: "Properties from the new-build market, resale market, plots and commercial premises.",
+        icon: Sparkles,
+      },
+      {
         title: "Verified developers",
         text: "We check projects, locations, and partners before presenting them to clients.",
         icon: Building2,
@@ -574,11 +579,6 @@ const content = {
         title: "After-purchase help",
         text: "The keys are not the end. We help you settle practical matters on the ground.",
         icon: KeyRound,
-      },
-      {
-        title: "Over 90% of offers",
-        text: "Properties from the new-build market, resale market, plots and commercial premises.",
-        icon: Sparkles,
       },
     ],
     intro: {
@@ -823,6 +823,11 @@ const content = {
     ],
     promises: [
       {
+        title: "Πάνω από το 90% των προσφορών",
+        text: "Ακίνητα από την αγορά νεόδμητων, μεταπωλήσεων, οικοπέδων και επαγγελματικών χώρων.",
+        icon: Sparkles,
+      },
+      {
         title: "Ελεγμένοι κατασκευαστές",
         text: "Ελέγχουμε έργα, τοποθεσίες και συνεργάτες πριν τα παρουσιάσουμε στους πελάτες.",
         icon: Building2,
@@ -841,11 +846,6 @@ const content = {
         title: "Βοήθεια μετά την αγορά",
         text: "Η παράδοση των κλειδιών δεν είναι το τέλος. Σας βοηθάμε με πρακτικά θέματα επιτόπου.",
         icon: KeyRound,
-      },
-      {
-        title: "Πάνω από το 90% των προσφορών",
-        text: "Ακίνητα από την αγορά νεόδμητων, μεταπωλήσεων, οικοπέδων και επαγγελματικών χώρων.",
-        icon: Sparkles,
       },
     ],
     intro: {

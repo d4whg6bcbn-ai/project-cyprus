@@ -173,10 +173,16 @@ type SiteCopy = {
     eyebrow: string;
     title: string;
     text: string;
+    emphasis: string;
     imageAlt: string;
     imageCardText: string;
     primaryCta: string;
     secondaryCta: string;
+    agent: {
+      heading: string;
+      body: string[];
+      imageAlt: string;
+    };
   };
   credibility: Stat[];
   testimonials: {
@@ -225,8 +231,8 @@ const whatsappHref = "https://wa.me/48601922193";
 const facebookHref = "https://www.facebook.com/profile.php?id=61577908631612";
 const instagramHref = "https://www.instagram.com/projectcyprus_/";
 
-const heroImage =
-  "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2400&q=85";
+const heroImage = "/images/background-head.jpeg";
+const agentPortrait = "/images/agent-portrait.jpg";
 const propertyImages = [
   "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=85",
   "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1400&q=85",
@@ -402,11 +408,22 @@ const content = {
     about: {
       eyebrow: "O Project Cyprus",
       title: "Lokalna wiedza, komunikacja PL/EN/GR, indywidualne podejście.",
-      text: "Project Cyprus pomaga osobom szukającym nieruchomości na Cyprze przejść przez cały proces z jasnością i spokojem — od wyboru lokalizacji, przez selekcję ofert, po kontakt z prawnikami, deweloperami i usługami po zakupie.",
+      text: "Project Cyprus pomaga osobom szukającym nieruchomości na Cyprze przejść przez cały proces z jasnością i spokojem.",
+      emphasis: "Od wyboru lokalizacji, przez selekcję ofert, po kontakt z prawnikami, deweloperami i usługami po zakupie.",
       imageAlt: "Eleganckie wnętrze apartamentu",
       imageCardText: "Lokalne rozeznanie, sprawdzone kontakty i komunikacja, która daje poczucie kontroli.",
       primaryCta: "Poznajmy się",
       secondaryCta: "Napisz na WhatsApp",
+      agent: {
+        heading: "O mnie",
+        imageAlt: "Małgorzata Pietkiewicz",
+        body: [
+          "Nazywam się Małgorzata Pietkiewicz i mieszkam w malowniczym Pafos na Cyprze. Współpracuję z renomowaną agencją nieruchomości posiadającą ponad 25 lat doświadczenia na lokalnym rynku, pomagając klientom w znalezieniu wymarzonego domu, apartamentu lub inwestycji na wyspie.",
+          "Cypr zachwycił mnie swoim klimatem, kulturą i niezwykłymi krajobrazami już od pierwszych chwil pobytu. To tutaj odkryłam swoją pasję do nieruchomości oraz satysfakcję płynącą z pomagania innym w odnalezieniu miejsca, które mogą nazwać swoim domem.",
+          "Każdego klienta traktuję indywidualnie, starannie dobierając oferty do jego potrzeb, oczekiwań i stylu życia. Moim celem jest, aby cały proces zakupu przebiegał w atmosferze zaufania, komfortu i pełnego wsparcia na każdym etapie.",
+          "Serdecznie zapraszam do kontaktu. Z przyjemnością pomogę Państwu spełnić marzenie o własnej nieruchomości na słonecznym Cyprze.",
+        ],
+      },
     },
     credibility: [
       {
@@ -661,11 +678,22 @@ const content = {
     about: {
       eyebrow: "About Project Cyprus",
       title: "Local knowledge, clear communication, and a personal approach.",
-      text: "Project Cyprus helps people looking for property in Cyprus move through the whole process with clarity and confidence, from choosing a location and shortlisting offers to coordinating with lawyers, developers, and after-purchase services.",
+      text: "Project Cyprus helps people looking for property in Cyprus move through the whole process with clarity and confidence.",
+      emphasis: "From choosing a location and shortlisting offers to coordinating with lawyers, developers, and after-purchase services.",
       imageAlt: "Elegant apartment interior",
       imageCardText: "Local insight, trusted contacts, and communication that gives you a sense of control.",
       primaryCta: "Let’s meet",
       secondaryCta: "Message us on WhatsApp",
+      agent: {
+        heading: "About me",
+        imageAlt: "Małgorzata Pietkiewicz",
+        body: [
+          "My name is Małgorzata Pietkiewicz and I live in picturesque Paphos, Cyprus. I work with a reputable real estate agency with over 25 years of experience in the local market, helping clients find their dream home, apartment or investment on the island.",
+          "Cyprus captivated me with its climate, culture and extraordinary landscapes from the very first moments of my stay. It was here that I discovered my passion for real estate and the satisfaction that comes from helping others find a place they can call home.",
+          "I treat every client individually, carefully matching properties to their needs, expectations and lifestyle. My goal is to make the entire purchase process feel trustworthy, comfortable and fully supported at every stage.",
+          "I warmly invite you to get in touch. I will be happy to help you fulfil your dream of owning a property in sunny Cyprus.",
+        ],
+      },
     },
     credibility: [
       { value: "Licensed", label: "We work with a licensed Cyprus real estate agency" },
@@ -917,11 +945,22 @@ const content = {
     about: {
       eyebrow: "Σχετικά με το Project Cyprus",
       title: "Τοπική γνώση, καθαρή επικοινωνία και προσωπική προσέγγιση.",
-      text: "Το Project Cyprus βοηθά όσους αναζητούν ακίνητο στην Κύπρο να περάσουν όλη τη διαδικασία με σαφήνεια και σιγουριά — από την επιλογή τοποθεσίας και την επιλογή προτάσεων μέχρι τον συντονισμό με δικηγόρους, κατασκευαστές και υπηρεσίες μετά την αγορά.",
+      text: "Το Project Cyprus βοηθά όσους αναζητούν ακίνητο στην Κύπρο να περάσουν όλη τη διαδικασία με σαφήνεια και σιγουριά.",
+      emphasis: "Από την επιλογή τοποθεσίας και την επιλογή προτάσεων μέχρι τον συντονισμό με δικηγόρους, κατασκευαστές και υπηρεσίες μετά την αγορά.",
       imageAlt: "Κομψό εσωτερικό διαμερίσματος",
       imageCardText: "Τοπική γνώση, αξιόπιστες επαφές και επικοινωνία που σας δίνει αίσθηση ελέγχου.",
       primaryCta: "Ας γνωριστούμε",
       secondaryCta: "Στείλτε μήνυμα στο WhatsApp",
+      agent: {
+        heading: "Σχετικά με εμένα",
+        imageAlt: "Małgorzata Pietkiewicz",
+        body: [
+          "Ονομάζομαι Małgorzata Pietkiewicz και ζω στη γραφική Πάφο της Κύπρου. Συνεργάζομαι με ένα αξιόπιστο κτηματομεσιτικό γραφείο με πάνω από 25 χρόνια εμπειρίας στην τοπική αγορά, βοηθώντας πελάτες να βρουν το ονειρεμένο τους σπίτι, διαμέρισμα ή επένδυση στο νησί.",
+          "Η Κύπρος με εντυπωσίασε με το κλίμα, τον πολιτισμό και τα μοναδικά της τοπία από τις πρώτες κιόλας στιγμές της παραμονής μου. Εδώ ανακάλυψα το πάθος μου για τα ακίνητα και την ικανοποίηση που προσφέρει η βοήθεια προς άλλους ανθρώπους να βρουν έναν χώρο που μπορούν να αποκαλούν σπίτι τους.",
+          "Αντιμετωπίζω κάθε πελάτη ξεχωριστά, επιλέγοντας προσεκτικά ακίνητα σύμφωνα με τις ανάγκες, τις προσδοκίες και τον τρόπο ζωής του. Στόχος μου είναι όλη η διαδικασία αγοράς να πραγματοποιείται σε κλίμα εμπιστοσύνης, άνεσης και πλήρους υποστήριξης σε κάθε στάδιο.",
+          "Σας προσκαλώ θερμά να επικοινωνήσετε μαζί μου. Θα χαρώ να σας βοηθήσω να πραγματοποιήσετε το όνειρό σας για τη δική σας ακίνητη περιουσία στην ηλιόλουστη Κύπρο.",
+        ],
+      },
     },
     credibility: [
       {
@@ -1265,9 +1304,9 @@ function HeroSection({ copy }: { copy: SiteCopy }) {
         fill
         priority
         sizes="100vw"
-        className="object-cover"
+        className="object-cover object-center md:object-[center_46%]"
       />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,3,3,0.95),rgba(3,3,3,0.7)_42%,rgba(3,3,3,0.3)),linear-gradient(0deg,rgba(3,3,3,0.98),rgba(3,3,3,0.08)_44%,rgba(3,3,3,0.45))]" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,3,3,0.78),rgba(3,3,3,0.46)_42%,rgba(3,3,3,0.08)_72%),linear-gradient(0deg,rgba(3,3,3,0.86),rgba(3,3,3,0.08)_48%,rgba(3,3,3,0.12))]" />
       <div className="relative mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-end px-5 pb-10 pt-44 md:px-8 md:pb-12 md:pt-52">
         <div className="grid items-end gap-10 lg:grid-cols-[1fr_0.78fr]">
           <motion.div
@@ -1451,22 +1490,22 @@ function FeaturedProperties({ copy }: { copy: SiteCopy }) {
   return (
     <section id="properties" className="scroll-mt-36 bg-[#050505] px-5 py-24 md:scroll-mt-40 md:px-8 md:py-32">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-12 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(320px,440px)] lg:items-start">
-          <div>
-            <FadeIn className="flex h-full max-w-4xl flex-col justify-between gap-8">
+        <div className="mb-16 grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(320px,440px)] lg:items-start">
+          <div className="h-full">
+            <FadeIn className="flex max-w-4xl flex-col lg:min-h-[747px]">
               <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#D4AF37] md:text-base">
                 {copy.properties.eyebrow}
               </p>
-              <h2 className="mt-4 font-serif text-4xl leading-[1.08] tracking-tight text-[#FFF8E1] sm:text-5xl md:text-[3.25rem]">
+              <h2 className="mt-8 font-serif text-4xl leading-[1.08] tracking-tight text-[#FFF8E1] sm:text-5xl md:text-[3.25rem]">
                 {copy.properties.title}
               </h2>
-              <div className="max-w-3xl space-y-5 rounded-[1.5rem] border border-[#D4AF37]/14 bg-[#101010]/58 p-6">
-                <div className="space-y-4 text-base leading-8 text-[#D7C9A0]/78 md:text-lg">
+              <div className="mt-12 max-w-3xl">
+                <div className="space-y-7 text-base leading-8 text-[#D7C9A0]/78 md:text-lg">
                   {copy.properties.text.split("\n").map((paragraph) => (
                     <p key={paragraph}>{paragraph}</p>
                   ))}
                 </div>
-                <p className="border-l border-[#C9A227] pl-5 font-serif text-xl leading-snug text-[#F5E8C7] md:text-2xl">
+                <p className="mt-12 border-l border-[#C9A227] pl-6 font-serif text-xl leading-snug text-[#F5E8C7] md:text-2xl">
                   {copy.properties.emphasis}
                 </p>
               </div>
@@ -1501,25 +1540,28 @@ function WhyCyprus({ copy }: { copy: SiteCopy }) {
   return (
     <section id="why" className="scroll-mt-36 overflow-hidden bg-[#030303] px-5 py-24 text-[#FFF8E1] md:scroll-mt-40 md:px-8 md:py-32">
       <div className="mx-auto grid max-w-7xl items-start gap-14 lg:grid-cols-[0.85fr_1fr]">
-        <div className="flex h-full flex-col justify-between gap-10">
+        <div className="flex h-full flex-col justify-between gap-14">
           <div>
-            <SectionHeading
-              eyebrow={copy.why.eyebrow}
-              title={copy.why.title}
-              text={copy.why.text}
-              light
-            />
-            <FadeIn delay={0.06} className="mt-8">
-              <p className="max-w-3xl border-l border-[#C9A227] pl-5 font-serif text-xl leading-snug text-[#F5E8C7] md:text-2xl">
+            <FadeIn className="max-w-4xl">
+              <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#D4AF37] md:text-base">
+                {copy.why.eyebrow}
+              </p>
+              <h2 className="mt-7 font-serif text-4xl leading-[1.08] tracking-tight text-[#FFF8E1] sm:text-5xl md:text-[3.25rem]">
+                {copy.why.title}
+              </h2>
+              <p className="mt-9 text-lg leading-8 text-[#FFF8E1]/68">
+                {copy.why.text}
+              </p>
+              <p className="mt-12 max-w-3xl border-l border-[#C9A227] pl-6 font-serif text-xl leading-snug text-[#F5E8C7] md:text-2xl">
                 {copy.why.locationText}
               </p>
             </FadeIn>
           </div>
-          <FadeIn className="grid gap-3 sm:grid-cols-2">
+          <FadeIn className="grid gap-5 sm:grid-cols-2">
             {copy.why.cards.map((item) => (
               <div
                 key={item}
-                className="rounded-[1.35rem] border border-white/10 bg-white/[0.06] p-4"
+                className="rounded-[1.35rem] border border-white/10 bg-white/[0.06] p-5"
               >
                 <CheckCircle2 className="mb-4 h-5 w-5 text-[#D4AF37]" />
                 <p className="text-sm font-medium leading-6 text-[#FFF8E1]/82">{item}</p>
@@ -1538,18 +1580,30 @@ function WhyCyprus({ copy }: { copy: SiteCopy }) {
               aspectClassName="aspect-[9/16]"
               className="w-full"
             />
-            <div className="absolute bottom-6 left-6 right-6 rounded-[1.6rem] border border-white/14 bg-[#030303]/55 p-6 backdrop-blur-xl">
-              <p className="text-xs uppercase tracking-[0.24em] text-[#D4AF37]">
-                {copy.why.locationEyebrow}
-              </p>
-              <p className="mt-3 text-2xl font-semibold">{copy.why.locationTitle}</p>
-              <p className="mt-2 text-sm leading-6 text-[#FFF8E1]/68">
-                {copy.why.locationText}
-              </p>
-            </div>
           </div>
         </FadeIn>
       </div>
+      <FadeIn delay={0.18} className="mx-auto mt-16 max-w-7xl">
+        <a
+          href="#contact"
+          className="group flex flex-col gap-4 rounded-[1.75rem] border border-[#D4AF37]/20 bg-[#101010]/78 p-5 shadow-[0_24px_90px_rgba(0,0,0,0.28)] transition hover:-translate-y-1 hover:border-[#D4AF37]/42 hover:bg-[#141414] sm:flex-row sm:items-center sm:justify-between md:p-6"
+        >
+          <span>
+            <span className="block text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
+              {copy.why.locationEyebrow}
+            </span>
+            <span className="mt-2 block font-serif text-2xl leading-tight text-[#FFF8E1] md:text-3xl">
+              {copy.why.locationTitle}
+            </span>
+            <span className="mt-2 block max-w-3xl text-sm leading-6 text-[#D7C9A0]/76 md:text-base">
+              {copy.why.locationText}
+            </span>
+          </span>
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#D4AF37]/24 bg-[#030303] text-[#D4AF37] transition group-hover:bg-[#D4AF37] group-hover:text-[#030303]">
+            <ArrowRight className="h-4 w-4" />
+          </span>
+        </a>
+      </FadeIn>
     </section>
   );
 }
@@ -1791,38 +1845,68 @@ function ProcessTimeline({ copy }: { copy: SiteCopy }) {
 function AboutSection({ copy }: { copy: SiteCopy }) {
   return (
     <section id="about" className="scroll-mt-36 bg-[#050505] px-5 pb-24 md:scroll-mt-40 md:px-8 md:pb-32">
-      <div className="mx-auto grid max-w-7xl items-start gap-12 rounded-[2rem] border border-[#D4AF37]/14 bg-[#101010] p-4 shadow-[0_30px_100px_rgba(0,0,0,0.32)] lg:grid-cols-[0.95fr_1fr] lg:p-6">
-        <FadeIn>
-          <PremiumVideoCard
-            previewSrc={brandAssets.videos.about.preview}
-            fullSrc={brandAssets.videos.about.full}
-            labels={copy.video}
-            aspectClassName="aspect-[9/16]"
-            className="mx-auto w-full max-w-[440px]"
-          />
-          <div className="mt-4 rounded-[1.4rem] border border-[#D4AF37]/16 bg-[#030303]/62 p-5 text-[#FFF8E1]">
-            <p className="text-sm leading-6">{copy.about.imageCardText}</p>
-          </div>
-        </FadeIn>
+      <div className="mx-auto max-w-7xl rounded-[2rem] border border-[#D4AF37]/14 bg-[#101010] p-5 shadow-[0_30px_100px_rgba(0,0,0,0.32)] lg:p-8">
+        <div className="grid items-start gap-14 lg:grid-cols-[0.95fr_1fr]">
+          <FadeIn>
+            <PremiumVideoCard
+              previewSrc={brandAssets.videos.about.preview}
+              fullSrc={brandAssets.videos.about.full}
+              labels={copy.video}
+              aspectClassName="aspect-[9/16]"
+              className="mx-auto w-full max-w-[440px]"
+            />
+            <div className="mt-4 rounded-[1.4rem] border border-[#D4AF37]/16 bg-[#030303]/62 p-5 text-[#FFF8E1]">
+              <p className="text-sm leading-6">{copy.about.imageCardText}</p>
+            </div>
+          </FadeIn>
 
-        <FadeIn delay={0.12} className="flex h-full flex-col justify-between gap-8 px-2 pt-1 pb-8 md:px-8 md:pt-2">
-          <div>
-          <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#D4AF37] md:text-base">
-            {copy.about.eyebrow}
-          </p>
-          <h2 className="mt-4 font-serif text-4xl leading-[1.08] tracking-tight text-[#FFF8E1] sm:text-5xl md:text-[3.25rem]">
-            {copy.about.title}
-          </h2>
-          <p className="mt-6 text-lg leading-8 text-[#D7C9A0]/76">{copy.about.text}</p>
-          </div>
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <PrimaryButton href="#contact" dark>
-              {copy.about.primaryCta}
-            </PrimaryButton>
-            <SecondaryButton href={whatsappHref}>
-              <MessageCircle className="h-4 w-4" />
-              {copy.about.secondaryCta}
-            </SecondaryButton>
+          <FadeIn delay={0.12} className="flex h-full flex-col justify-between gap-12 px-2 pb-8 md:px-8">
+            <div>
+              <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#D4AF37] md:text-base">
+                {copy.about.eyebrow}
+              </p>
+              <h2 className="mt-12 font-serif text-4xl leading-[1.08] tracking-tight text-[#FFF8E1] sm:text-5xl md:text-[3.25rem]">
+                {copy.about.title}
+              </h2>
+              <p className="mt-14 text-lg leading-8 text-[#D7C9A0]/76">{copy.about.text}</p>
+              <p className="mt-14 max-w-3xl border-l border-[#C9A227] pl-6 font-serif text-xl leading-snug text-[#F5E8C7] md:text-2xl">
+                {copy.about.emphasis}
+              </p>
+            </div>
+            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+              <PrimaryButton href="#contact" dark>
+                {copy.about.primaryCta}
+              </PrimaryButton>
+              <SecondaryButton href={whatsappHref}>
+                <MessageCircle className="h-4 w-4" />
+                {copy.about.secondaryCta}
+              </SecondaryButton>
+            </div>
+          </FadeIn>
+        </div>
+
+        <FadeIn delay={0.18} className="mt-14 border-t border-[#D4AF37]/14 pt-14">
+          <div className="grid gap-10 rounded-[1.75rem] border border-white/10 bg-[#030303]/44 p-5 md:grid-cols-[260px_1fr] md:p-7 lg:grid-cols-[320px_1fr] lg:gap-12">
+            <div className="relative overflow-hidden rounded-[1.5rem] border border-[#D4AF37]/18 bg-[#030303] shadow-[0_24px_90px_rgba(0,0,0,0.32)]">
+              <Image
+                src={agentPortrait}
+                alt={copy.about.agent.imageAlt}
+                width={700}
+                height={900}
+                sizes="(min-width: 1024px) 320px, (min-width: 768px) 260px, 100vw"
+                className="aspect-[4/5] h-full w-full object-cover object-center"
+              />
+            </div>
+            <div className="flex flex-col justify-center">
+              <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#D4AF37] md:text-base">
+                {copy.about.agent.heading}
+              </p>
+              <div className="mt-10 space-y-7 text-sm leading-7 text-[#D7C9A0]/78 md:text-base md:leading-8">
+                {copy.about.agent.body.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
+            </div>
           </div>
         </FadeIn>
       </div>

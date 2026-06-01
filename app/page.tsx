@@ -105,6 +105,8 @@ type FormCopy = {
 };
 
 type VideoCopy = {
+  mutedLabel: string;
+  unmutedLabel: string;
   muteAriaLabel: string;
   unmuteAriaLabel: string;
 };
@@ -215,7 +217,7 @@ const cyprusPhone = "+357 94 497547";
 const cyprusPhoneHref = "tel:+35794497547";
 const polishPhone = "+48 601 922 193";
 const polishPhoneHref = "tel:+48601922193";
-const whatsappHref = "https://wa.me/35794497547";
+const whatsappHref = "https://wa.me/48601922193";
 const facebookHref = "https://www.facebook.com/profile.php?id=61577908631612";
 const instagramHref = "https://www.instagram.com/projectcyprus_/";
 
@@ -249,6 +251,8 @@ const content = {
     currentLanguageLabel: "Aktualny język",
     switchLanguageLabel: "Przełącz język na",
     video: {
+      mutedLabel: "Kliknij, aby obejrzeć z dźwiękiem",
+      unmutedLabel: "Odtwarzanie z dźwiękiem",
       muteAriaLabel: "Wycisz wideo",
       unmuteAriaLabel: "Odtwórz wideo z dźwiękiem",
     },
@@ -490,6 +494,8 @@ const content = {
     currentLanguageLabel: "Current language",
     switchLanguageLabel: "Switch language to",
     video: {
+      mutedLabel: "Click to watch with sound",
+      unmutedLabel: "Playing with sound",
       muteAriaLabel: "Mute video",
       unmuteAriaLabel: "Play video with sound",
     },
@@ -731,6 +737,8 @@ const content = {
     currentLanguageLabel: "Τρέχουσα γλώσσα",
     switchLanguageLabel: "Αλλαγή γλώσσας σε",
     video: {
+      mutedLabel: "Κάντε κλικ για προβολή με ήχο",
+      unmutedLabel: "Αναπαραγωγή με ήχο",
       muteAriaLabel: "Σίγαση βίντεο",
       unmuteAriaLabel: "Αναπαραγωγή βίντεο με ήχο",
     },
@@ -1317,7 +1325,8 @@ function IntroSection({ copy }: { copy: SiteCopy }) {
           <div className="absolute -left-6 -top-6 hidden h-36 w-36 rounded-[2rem] border border-[#C9A227]/25 bg-[#D4AF37]/30 md:block" />
           <div className="relative">
             <PremiumVideoCard
-              src={brandAssets.videos.whyCyprus}
+              previewSrc={brandAssets.videos.whyCyprus.preview}
+              fullSrc={brandAssets.videos.whyCyprus.full}
               labels={copy.video}
               aspectClassName="aspect-[9/16]"
               className="mx-auto w-full max-w-[360px]"
@@ -1407,7 +1416,8 @@ function FeaturedProperties({ copy }: { copy: SiteCopy }) {
           </div>
           <FadeIn delay={0.12} className="w-full lg:justify-self-end">
             <PremiumVideoCard
-              src={brandAssets.videos.featuredListings}
+              previewSrc={brandAssets.videos.featuredListings.preview}
+              fullSrc={brandAssets.videos.featuredListings.full}
               labels={copy.video}
               aspectClassName="aspect-[9/16]"
               className="mx-auto w-full max-w-[320px]"
@@ -1482,7 +1492,8 @@ function WhyCyprus({ copy }: { copy: SiteCopy }) {
 }
 
 function PremiumVideoCard({
-  src,
+  previewSrc,
+  fullSrc,
   labels,
   poster,
   className = "",
@@ -1491,7 +1502,8 @@ function PremiumVideoCard({
   objectFitClassName = "object-cover",
   objectPositionClassName = "object-center",
 }: {
-  src: string;
+  previewSrc: string;
+  fullSrc: string;
   labels: VideoCopy;
   poster?: string;
   className?: string;
@@ -1503,6 +1515,23 @@ function PremiumVideoCard({
   const videoRef = React.useRef<HTMLVideoElement>(null);
   const wrapperRef = React.useRef<HTMLDivElement>(null);
   const [soundEnabled, setSoundEnabled] = React.useState(false);
+  const [activeSrc, setActiveSrc] = React.useState(previewSrc);
+
+  React.useEffect(() => {
+    const video = videoRef.current;
+
+    setActiveSrc(previewSrc);
+    setSoundEnabled(false);
+
+    if (!video) {
+      return;
+    }
+
+    video.muted = true;
+    video.src = previewSrc;
+    video.load();
+    void video.play().catch(() => undefined);
+  }, [previewSrc]);
 
   const muteVideo = React.useCallback(() => {
     const video = videoRef.current;
@@ -1523,18 +1552,48 @@ function PremiumVideoCard({
       return;
     }
 
-    const seekToStart = () => {
-      video.currentTime = 0;
+    const nextSrc = fullSrc || previewSrc;
+    const shouldSwitchSource = activeSrc !== nextSrc;
+
+    const playFromStart = () => {
+      try {
+        video.currentTime = 0;
+      } catch {
+        // Some browsers wait for metadata before allowing currentTime changes.
+      }
+
+      video.muted = false;
+      video.volume = 1;
+      setSoundEnabled(true);
+      void video.play().catch(() => undefined);
+
+      window.setTimeout(() => {
+        try {
+          video.currentTime = 0;
+        } catch {
+          // Keep playback uninterrupted if the browser rejects the second seek.
+        }
+      }, 0);
     };
 
     video.pause();
-    seekToStart();
-    video.muted = false;
-    video.volume = 1;
-    setSoundEnabled(true);
-    void video.play().catch(() => undefined);
-    window.setTimeout(seekToStart, 0);
-  }, []);
+
+    if (shouldSwitchSource) {
+      setActiveSrc(nextSrc);
+      video.src = nextSrc;
+      video.load();
+
+      if (video.readyState >= 1) {
+        playFromStart();
+        return;
+      }
+
+      video.addEventListener("loadedmetadata", playFromStart, { once: true });
+      return;
+    }
+
+    playFromStart();
+  }, [activeSrc, fullSrc, previewSrc]);
 
   React.useEffect(() => {
     if (!soundEnabled) {
@@ -1562,20 +1621,35 @@ function PremiumVideoCard({
     <div
       ref={wrapperRef}
       onClick={restartWithSound}
-      className={`group relative isolate overflow-hidden rounded-[2rem] bg-[#030303] shadow-[0_28px_90px_rgba(0,0,0,0.38),0_0_44px_rgba(212,175,55,0.08)] outline-none ring-1 ring-inset ring-[#D4AF37]/24 transition hover:-translate-y-1 hover:ring-[#D4AF37]/42 focus-visible:ring-4 focus-visible:ring-[#D4AF37]/22 ${aspectClassName} ${className}`}
+      onKeyDown={(event) => {
+        if (event.key !== "Enter" && event.key !== " ") {
+          return;
+        }
+
+        event.preventDefault();
+        restartWithSound();
+      }}
+      tabIndex={0}
+      role="button"
+      aria-label={soundEnabled ? labels.unmutedLabel : labels.mutedLabel}
+      className={`group relative isolate cursor-pointer overflow-hidden rounded-[2rem] bg-[#030303] shadow-[0_28px_90px_rgba(0,0,0,0.38),0_0_44px_rgba(212,175,55,0.08)] outline-none ring-1 ring-inset ring-[#D4AF37]/24 transition hover:-translate-y-1 hover:ring-[#D4AF37]/42 focus-visible:ring-4 focus-visible:ring-[#D4AF37]/22 ${aspectClassName} ${className}`}
     >
       <video
         ref={videoRef}
-        src={src}
+        src={activeSrc}
         poster={poster}
         autoPlay
         muted
         loop
         playsInline
+        preload="metadata"
         aria-hidden="true"
         className={`absolute inset-0 block h-full w-full max-w-none rounded-none ${objectFitClassName} ${objectPositionClassName} ${videoClassName}`}
       />
       <div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[linear-gradient(180deg,rgba(3,3,3,0.04),rgba(3,3,3,0.12)_62%,rgba(3,3,3,0.58))]" />
+      <span className="pointer-events-none absolute bottom-4 left-4 right-16 rounded-full border border-[#D4AF37]/28 bg-[#030303]/72 px-4 py-3 text-center text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[#FFF8E1] shadow-lg backdrop-blur-xl transition duration-300 sm:text-xs">
+        {soundEnabled ? labels.unmutedLabel : labels.mutedLabel}
+      </span>
       <button
         type="button"
         aria-label={soundEnabled ? labels.muteAriaLabel : labels.unmuteAriaLabel}
@@ -1587,7 +1661,7 @@ function PremiumVideoCard({
           }
           restartWithSound();
         }}
-        className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full border border-[#D4AF37]/30 bg-[#030303]/78 text-[#D4AF37] shadow-lg backdrop-blur-xl transition hover:-translate-y-0.5 hover:bg-[#D4AF37] hover:text-[#030303]"
+        className="absolute bottom-4 right-4 flex h-11 w-11 items-center justify-center rounded-full border border-[#D4AF37]/30 bg-[#030303]/78 text-[#D4AF37] shadow-lg backdrop-blur-xl transition hover:-translate-y-0.5 hover:bg-[#D4AF37] hover:text-[#030303]"
       >
         {soundEnabled ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
       </button>
@@ -1599,7 +1673,8 @@ function ProcessVideoCard({ labels }: { labels: VideoCopy }) {
   return (
     <FadeIn delay={0.12} className="w-full lg:justify-self-end">
       <PremiumVideoCard
-        src={brandAssets.videos.buyingProcess}
+        previewSrc={brandAssets.videos.buyingProcess.preview}
+        fullSrc={brandAssets.videos.buyingProcess.full}
         labels={labels}
         className="mx-auto w-full max-w-[310px] md:max-w-[350px] lg:max-w-[380px]"
       />
@@ -1656,7 +1731,8 @@ function AboutSection({ copy }: { copy: SiteCopy }) {
       <div className="mx-auto grid max-w-7xl items-center gap-12 rounded-[2rem] border border-[#D4AF37]/14 bg-[#101010] p-4 shadow-[0_30px_100px_rgba(0,0,0,0.32)] lg:grid-cols-[0.86fr_1fr] lg:p-6">
         <FadeIn>
           <PremiumVideoCard
-            src={brandAssets.videos.about}
+            previewSrc={brandAssets.videos.about.preview}
+            fullSrc={brandAssets.videos.about.full}
             labels={copy.video}
             aspectClassName="aspect-[9/16]"
             className="mx-auto w-full max-w-[360px]"
@@ -1900,23 +1976,11 @@ function ContactDetails({ copy, compact = false }: { copy: SiteCopy; compact?: b
             {copy.contact.whatsappLabel}
           </p>
           <p className="mt-1 text-sm font-semibold text-[#FFF8E1] group-hover:text-[#D4AF37]">
-            {cyprusPhone}
+            {polishPhone}
           </p>
         </a>
       </div>
-      <div className="grid gap-3 sm:grid-cols-2">
-        <a
-          href={cyprusPhoneHref}
-          className="group rounded-[1.35rem] border border-white/12 bg-white/8 p-4 transition hover:bg-white/12"
-        >
-          <Phone className="h-4 w-4 text-[#D4AF37]" />
-          <p className="mt-3 text-xs uppercase tracking-[0.22em] text-[#FFF8E1]/48">
-            {copy.contact.phoneLabel}
-          </p>
-          <p className="mt-1 text-sm font-semibold text-[#FFF8E1] group-hover:text-[#D4AF37]">
-            {cyprusPhone}
-          </p>
-        </a>
+      <div className="grid gap-3">
         <a
           href={polishPhoneHref}
           className="group rounded-[1.35rem] border border-white/12 bg-white/8 p-4 transition hover:bg-white/12"
@@ -1970,7 +2034,8 @@ function CTASection({ copy }: { copy: SiteCopy }) {
               </div>
             </div>
             <PremiumVideoCard
-              src={brandAssets.videos.contact}
+              previewSrc={brandAssets.videos.contact.preview}
+              fullSrc={brandAssets.videos.contact.full}
               labels={copy.video}
               aspectClassName="aspect-[9/16]"
               className="mx-auto max-h-[520px] w-full max-w-[260px] xl:mx-0"
@@ -2019,7 +2084,7 @@ function Footer({ copy }: { copy: SiteCopy }) {
           <div className="mt-4 grid gap-3 text-sm text-[#FFF8E1]/62">
             <p className="font-semibold text-[#FFF8E1]">{agentName}</p>
             <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="hover:text-[#FFF8E1]">
-              WhatsApp · {cyprusPhone}
+              WhatsApp · {polishPhone}
             </a>
             <a href={`mailto:${contactEmail}`} className="hover:text-[#FFF8E1]">
               {contactEmail}

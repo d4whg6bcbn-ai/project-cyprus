@@ -7,24 +7,24 @@ export const brandAssets = {
   ogImage: "/images/project-cyprus-og.jpg",
   videos: {
     about: {
-      preview: "https://lbsbfkut3o8m43am.public.blob.vercel-storage.com/about-preview.mp4",
-      full: "https://lbsbfkut3o8m43am.public.blob.vercel-storage.com/about.mp4",
+      preview: "/videos/about-preview.mp4",
+      full: "/videos/about-preview.mp4",
     },
     buyingProcess: {
-      preview: "https://lbsbfkut3o8m43am.public.blob.vercel-storage.com/buying-process-preview.mp4",
-      full: "https://lbsbfkut3o8m43am.public.blob.vercel-storage.com/buying-process.mp4",
+      preview: "/videos/buying-process-preview.mp4",
+      full: "/videos/buying-process-preview.mp4",
     },
     contact: {
-      preview: "https://lbsbfkut3o8m43am.public.blob.vercel-storage.com/contact-preview.mp4",
-      full: "https://lbsbfkut3o8m43am.public.blob.vercel-storage.com/contact.mp4",
+      preview: "/videos/contact-preview.mp4",
+      full: "/videos/contact-preview.mp4",
     },
     featuredListings: {
-      preview: "https://lbsbfkut3o8m43am.public.blob.vercel-storage.com/example-offer-2-preview.mp4",
-      full: "https://lbsbfkut3o8m43am.public.blob.vercel-storage.com/example-offer-2.mp4",
+      preview: "/videos/example-offer-2-preview.mp4",
+      full: "/videos/example-offer-2-preview.mp4",
     },
     whyCyprus: {
-      preview: "https://lbsbfkut3o8m43am.public.blob.vercel-storage.com/why-cyprus-preview.mp4",
-      full: "https://lbsbfkut3o8m43am.public.blob.vercel-storage.com/why-cyprus.mp4",
+      preview: "/videos/why-cyprus-preview.mp4",
+      full: "/videos/why-cyprus-preview.mp4",
     },
   },
 } as const;

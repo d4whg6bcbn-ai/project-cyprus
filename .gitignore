@@ -40,8 +40,11 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Local website videos are hosted on Vercel Blob, not committed to Git
+# Ignore large original/local video files
 public/videos/*.mp4
 public/videos/*.mov
 public/videos/*.m4v
 public/videos/*.webm
+
+# Allow smaller website preview videos
+!public/videos/*-preview.mp4

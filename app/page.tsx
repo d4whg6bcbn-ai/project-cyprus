@@ -112,6 +112,12 @@ type VideoCopy = {
   unmuteAriaLabel: string;
 };
 
+type Testimonial = {
+  name: string;
+  preview: string;
+  full: string;
+};
+
 type SiteCopy = {
   metaLang: string;
   headerSubtitle: string;
@@ -188,8 +194,10 @@ type SiteCopy = {
   testimonials: {
     eyebrow: string;
     title: string;
-    text: string;
-    quotes: string[];
+    clientLabel: string;
+    readMore: string;
+    showLess: string;
+    items: Testimonial[];
   };
   cta: {
     imageAlt: string;
@@ -199,6 +207,7 @@ type SiteCopy = {
     primaryCta: string;
     secondaryCta: string;
     contactTitle: string;
+    detailsTitle: string;
   };
   form: FormCopy;
   contact: {
@@ -227,7 +236,7 @@ const cyprusPhone = "+357 94 497547";
 const cyprusPhoneHref = "tel:+35794497547";
 const polishPhone = "+48 601 922 193";
 const polishPhoneHref = "tel:+48601922193";
-const whatsappHref = "https://wa.me/48601922193";
+const whatsappHref = "https://wa.me/35794497547";
 const facebookHref = "https://www.facebook.com/profile.php?id=61577908631612";
 const instagramHref = "https://www.instagram.com/projectcyprus_/";
 
@@ -437,11 +446,25 @@ const content = {
     testimonials: {
       eyebrow: "Opinie",
       title: "Co cenią nasi klienci?",
-      text: "Sekcja przygotowana pod prawdziwe opinie klientów. Na razie pokazuje najważniejsze wartości procesu.",
-      quotes: [
-        "Jasna komunikacja, spokojny proces i konkretne rekomendacje zamiast przypadkowych ofert.",
-        "Wsparcie od pierwszej rozmowy aż po decyzję zakupową.",
-        "Podejście dopasowane do celu: drugi dom, inwestycja lub przeprowadzka.",
+      clientLabel: "Klient Project Cyprus",
+      readMore: "Czytaj więcej",
+      showLess: "Zwiń",
+      items: [
+        {
+          name: "Kołcz Monika",
+          preview: "Z ręką na sercu polecamy Project Cyprus i niezastąpioną Panią Małgosię. Z tak profesjonalnym i szybkim podejściem jeszcze się nie spotkaliśmy.",
+          full: "Z ręką na sercu polecamy Project Cyprus i niezastąpioną Panią Małgosię. Z tak profesjonalnym i szybkim podejściem jeszcze się nie spotkaliśmy. Po rozmowie Pani Małgosia w ciągu 24 godzin przygotowała dla nas listę idealnych nieruchomości. Były to dokładnie te, które odpowiadają naszym oczekiwaniom.\n\nNie tracąc czasu, już następnego dnia byliśmy w kancelarii, by podpisać umowę rezerwacyjną. Jej wsparcie było nieocenione również po podpisaniu — Pani Małgosia nieustannie monitorowała postępy, upewniając się, że wszystko idzie zgodnie z planem, aż do samego końca. To był czysty profesjonalizm połączony z niespotykaną troską o klienta. Dziękujemy i polecamy z całego serca.",
+        },
+        {
+          name: "Kasia Kurek",
+          preview: "Wspaniała współpraca. Małgorzata przedstawiła nas lokalnym deweloperom, którzy zaprezentowali swoje oferty.",
+          full: "Wspaniała współpraca. Małgorzata przedstawiła nas lokalnym deweloperom, którzy zaprezentowali swoje oferty. Pokazano nam lokalizacje i projekty, a po godzinie oglądania oraz rozmowie z Małgorzatą zdecydowaliśmy się na zakup apartamentu.\n\nJuż następnego dnia odbyliśmy niezobowiązujące spotkanie z prawnikiem, który sprawdził projekt. Organizacja była naprawdę doskonała. Zdecydowanie polecam i na pewno wrócimy do Project Cyprus.",
+        },
+        {
+          name: "Anna i Piotr",
+          preview: "Od pierwszego kontaktu czuliśmy, że jesteśmy w dobrych rękach. Małgorzata dokładnie wysłuchała naszych potrzeb.",
+          full: "Od pierwszego kontaktu czuliśmy, że jesteśmy w dobrych rękach. Małgorzata bardzo dokładnie wysłuchała naszych potrzeb, wyjaśniła różnice między lokalizacjami i pokazała nam tylko takie nieruchomości, które realnie pasowały do naszego budżetu oraz planów.\n\nNajbardziej doceniliśmy spokojną komunikację, szybkie odpowiedzi i pomoc na każdym etapie — od wyboru apartamentu, przez kontakt z deweloperem, aż po formalności. Cały proces był dużo prostszy, niż się spodziewaliśmy. Polecamy Project Cyprus każdemu, kto chce kupić nieruchomość na Cyprze bez stresu.",
+        },
       ],
     },
     cta: {
@@ -452,6 +475,7 @@ const content = {
       primaryCta: "Umów bezpłatną konsultację",
       secondaryCta: "Napisz na WhatsApp",
       contactTitle: "Porozmawiaj z doradcą",
+      detailsTitle: "Dane kontaktowe",
     },
     form: {
       title: "Formularz konsultacji",
@@ -704,11 +728,25 @@ const content = {
     testimonials: {
       eyebrow: "Testimonials",
       title: "What do our clients value?",
-      text: "This section is prepared for real client testimonials. For now, it highlights the core values of the process.",
-      quotes: [
-        "Clear communication, a calm process, and concrete recommendations instead of random listings.",
-        "Support from the first conversation all the way to the purchase decision.",
-        "An approach tailored to the goal: second home, investment, or relocation.",
+      clientLabel: "Project Cyprus client",
+      readMore: "Read more",
+      showLess: "Show less",
+      items: [
+        {
+          name: "Kołcz Monika",
+          preview: "We wholeheartedly recommend Project Cyprus and the irreplaceable Małgosia. We had never experienced such a professional and fast approach before.",
+          full: "We wholeheartedly recommend Project Cyprus and the irreplaceable Małgosia. We had never experienced such a professional and fast approach before. After our conversation, within 24 hours Małgosia prepared a list of ideal properties for us. They were exactly the ones that matched our expectations.\n\nWithout wasting any time, the very next day we were at the lawyer’s office to sign the reservation agreement. Her support was invaluable even after signing — Małgosia constantly monitored the progress, making sure everything was going according to plan until the very end. It was pure professionalism combined with exceptional care for the client. Thank you, and we recommend her from the bottom of our hearts.",
+        },
+        {
+          name: "Kasia Kurek",
+          preview: "A wonderful collaboration. Małgorzata introduced us to local developers, who presented their offers and locations.",
+          full: "A wonderful collaboration. Małgorzata introduced us to local developers, who presented their offers. They showed us the locations and their projects. Honestly, after an hour of viewing the projects and receiving Małgorzata’s advice, we decided to buy the apartment.\n\nThe very next day, we had a no-obligation meeting with a lawyer who reviewed the project. Truly excellent organisation. I highly recommend it. We will definitely return to Project Cyprus.",
+        },
+        {
+          name: "Anna and Piotr",
+          preview: "From the very first contact, we felt that we were in good hands. Małgorzata listened carefully to our needs.",
+          full: "From the very first contact, we felt that we were in good hands. Małgorzata listened carefully to our needs, explained the differences between locations and showed us only properties that genuinely matched our budget and plans.\n\nWhat we appreciated most was the calm communication, quick replies and support at every stage — from choosing the apartment, through contact with the developer, to the formalities. The whole process was much simpler than we expected. We recommend Project Cyprus to anyone who wants to buy a property in Cyprus without stress.",
+        },
       ],
     },
     cta: {
@@ -719,6 +757,7 @@ const content = {
       primaryCta: "Book a free consultation",
       secondaryCta: "Message us on WhatsApp",
       contactTitle: "Speak with an advisor",
+      detailsTitle: "Contact details",
     },
     form: {
       title: "Consultation form",
@@ -974,11 +1013,25 @@ const content = {
     testimonials: {
       eyebrow: "Μαρτυρίες",
       title: "Τι εκτιμούν οι πελάτες μας;",
-      text: "Η ενότητα είναι έτοιμη για πραγματικές μαρτυρίες πελατών. Προς το παρόν παρουσιάζει τις βασικές αξίες της διαδικασίας.",
-      quotes: [
-        "Καθαρή επικοινωνία, ήρεμη διαδικασία και συγκεκριμένες προτάσεις αντί για τυχαίες καταχωρήσεις.",
-        "Υποστήριξη από την πρώτη συζήτηση μέχρι την αγοραστική απόφαση.",
-        "Προσέγγιση προσαρμοσμένη στον στόχο: δεύτερη κατοικία, επένδυση ή μετεγκατάσταση.",
+      clientLabel: "Πελάτης Project Cyprus",
+      readMore: "Διαβάστε περισσότερα",
+      showLess: "Εμφάνιση λιγότερων",
+      items: [
+        {
+          name: "Kołcz Monika",
+          preview: "Συστήνουμε ανεπιφύλακτα το Project Cyprus και την ανεκτίμητη Małgosia. Δεν είχαμε ξανασυναντήσει τόσο επαγγελματική και γρήγορη προσέγγιση.",
+          full: "Συστήνουμε ανεπιφύλακτα το Project Cyprus και την ανεκτίμητη Małgosia. Δεν είχαμε ξανασυναντήσει τόσο επαγγελματική και γρήγορη προσέγγιση. Μετά τη συζήτησή μας, μέσα σε 24 ώρες η Małgosia ετοίμασε για εμάς μια λίστα με ιδανικά ακίνητα. Ήταν ακριβώς αυτά που ανταποκρίνονταν στις προσδοκίες μας.\n\nΧωρίς να χάσουμε χρόνο, την επόμενη κιόλας ημέρα βρεθήκαμε στο δικηγορικό γραφείο για να υπογράψουμε τη συμφωνία κράτησης. Η υποστήριξή της ήταν ανεκτίμητη ακόμη και μετά την υπογραφή — η Małgosia παρακολουθούσε συνεχώς την πρόοδο, διασφαλίζοντας ότι όλα προχωρούσαν σύμφωνα με το πλάνο μέχρι το τέλος. Ήταν καθαρός επαγγελματισμός σε συνδυασμό με εξαιρετική φροντίδα για τον πελάτη. Ευχαριστούμε και τη συστήνουμε με όλη μας την καρδιά.",
+        },
+        {
+          name: "Kasia Kurek",
+          preview: "Μια υπέροχη συνεργασία. Η Małgorzata μας σύστησε σε τοπικούς developers, οι οποίοι παρουσίασαν τις προτάσεις τους.",
+          full: "Μια υπέροχη συνεργασία. Η Małgorzata μας σύστησε σε τοπικούς developers, οι οποίοι παρουσίασαν τις προτάσεις τους. Μας έδειξαν τις τοποθεσίες και τα έργα τους. Ειλικρινά, μετά από μία ώρα προβολής των έργων και αφού λάβαμε τις συμβουλές της Małgorzata, αποφασίσαμε να αγοράσουμε το διαμέρισμα.\n\nΤην αμέσως επόμενη ημέρα είχαμε μια μη δεσμευτική συνάντηση με δικηγόρο, ο οποίος εξέτασε το έργο. Η οργάνωση ήταν πραγματικά εξαιρετική. Το συστήνω ανεπιφύλακτα. Σίγουρα θα επιστρέψουμε στο Project Cyprus.",
+        },
+        {
+          name: "Anna και Piotr",
+          preview: "Από την πρώτη επικοινωνία νιώσαμε ότι βρισκόμαστε σε καλά χέρια. Η Małgorzata άκουσε προσεκτικά τις ανάγκες μας.",
+          full: "Από την πρώτη επικοινωνία νιώσαμε ότι βρισκόμαστε σε καλά χέρια. Η Małgorzata άκουσε προσεκτικά τις ανάγκες μας, μας εξήγησε τις διαφορές μεταξύ των περιοχών και μας έδειξε μόνο ακίνητα που ταίριαζαν πραγματικά στον προϋπολογισμό και τα σχέδιά μας.\n\nΑυτό που εκτιμήσαμε περισσότερο ήταν η ήρεμη επικοινωνία, οι γρήγορες απαντήσεις και η υποστήριξη σε κάθε στάδιο — από την επιλογή του διαμερίσματος, την επικοινωνία με τον developer, μέχρι τις διαδικασίες. Όλη η διαδικασία ήταν πολύ πιο απλή απ’ όσο περιμέναμε. Συστήνουμε το Project Cyprus σε όποιον θέλει να αγοράσει ακίνητο στην Κύπρο χωρίς άγχος.",
+        },
       ],
     },
     cta: {
@@ -989,6 +1042,7 @@ const content = {
       primaryCta: "Κλείστε δωρεάν συμβουλευτική",
       secondaryCta: "Στείλτε μήνυμα στο WhatsApp",
       contactTitle: "Μιλήστε με σύμβουλο",
+      detailsTitle: "Στοιχεία επικοινωνίας",
     },
     form: {
       title: "Φόρμα συμβουλευτικής",
@@ -1935,6 +1989,61 @@ function CredibilitySection({ copy }: { copy: SiteCopy }) {
   );
 }
 
+function TestimonialCard({
+  testimonial,
+  clientLabel,
+  readMore,
+  showLess,
+  index,
+}: {
+  testimonial: Testimonial;
+  clientLabel: string;
+  readMore: string;
+  showLess: string;
+  index: number;
+}) {
+  const [expanded, setExpanded] = React.useState(false);
+  const text = expanded ? testimonial.full : testimonial.preview;
+
+  return (
+    <FadeIn delay={index * 0.08}>
+      <article className="flex h-full min-h-[320px] flex-col rounded-[1.75rem] border border-white/10 bg-white/[0.06] p-6 shadow-[0_24px_90px_rgba(0,0,0,0.22)] transition hover:-translate-y-1 hover:border-[#D4AF37]/28 hover:bg-white/[0.08] md:p-7">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#D4AF37]/82">
+              {clientLabel}
+            </p>
+            <h3 className="mt-3 text-xl font-semibold text-[#FFF8E1]">{testimonial.name}</h3>
+          </div>
+          <p className="font-serif text-5xl leading-none text-[#D4AF37]">“</p>
+        </div>
+
+        <div className="mt-6 flex-1 text-base leading-7 text-[#FFF8E1]/76">
+          {expanded ? (
+            <div className="space-y-4">
+              {text.split("\n\n").map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          ) : (
+            <p>{text}</p>
+          )}
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setExpanded((value) => !value)}
+          aria-expanded={expanded}
+          className="mt-6 inline-flex w-fit items-center gap-2 rounded-full border border-[#D4AF37]/24 bg-[#030303]/46 px-4 py-2 text-sm font-semibold text-[#D4AF37] transition hover:bg-[#D4AF37] hover:text-[#030303]"
+        >
+          {expanded ? showLess : readMore}
+          <ChevronRight className={`h-4 w-4 transition ${expanded ? "-rotate-90" : "rotate-90"}`} />
+        </button>
+      </article>
+    </FadeIn>
+  );
+}
+
 function TestimonialsSection({ copy }: { copy: SiteCopy }) {
   return (
     <section className="bg-[#101010] px-5 py-24 text-[#FFF8E1] md:px-8 md:py-32">
@@ -1942,18 +2051,19 @@ function TestimonialsSection({ copy }: { copy: SiteCopy }) {
         <SectionHeading
           eyebrow={copy.testimonials.eyebrow}
           title={copy.testimonials.title}
-          text={copy.testimonials.text}
           align="center"
           light
         />
         <div className="mt-14 grid gap-5 md:grid-cols-3">
-          {copy.testimonials.quotes.map((quote, index) => (
-            <FadeIn key={quote} delay={index * 0.08}>
-              <div className="h-full rounded-[1.75rem] border border-white/10 bg-white/[0.06] p-7">
-                <p className="font-serif text-6xl leading-none text-[#D4AF37]">“</p>
-                <p className="mt-4 text-lg leading-8 text-[#FFF8E1]/78">{quote}</p>
-              </div>
-            </FadeIn>
+          {copy.testimonials.items.map((testimonial, index) => (
+            <TestimonialCard
+              key={testimonial.name}
+              testimonial={testimonial}
+              clientLabel={copy.testimonials.clientLabel}
+              readMore={copy.testimonials.readMore}
+              showLess={copy.testimonials.showLess}
+              index={index}
+            />
           ))}
         </div>
       </div>
@@ -2069,15 +2179,13 @@ function ConsultationForm({ copy }: { copy: SiteCopy }) {
       <p className="text-sm font-semibold text-[#D4AF37]">{copy.form.title}</p>
       <p className="mt-2 text-sm leading-6 text-[#FFF8E1]/62">{copy.form.text}</p>
 
-      <div className="mt-6 grid gap-4">
+      <div className="mt-8 grid gap-5 lg:grid-cols-2">
         <SelectFieldView id="purchase-purpose" field={fields.purpose} />
         <SelectFieldView id="budget" field={fields.budget} />
         <SelectFieldView id="visit-cyprus" field={fields.visit} />
         <SelectFieldView id="market-type" field={fields.market} />
-        <div className="grid gap-4 sm:grid-cols-2">
-          <TextFieldView id="full-name" field={fields.name} />
-          <TextFieldView id="email" field={fields.email} type="email" />
-        </div>
+        <TextFieldView id="full-name" field={fields.name} />
+        <TextFieldView id="email" field={fields.email} type="email" />
         <TextFieldView id="phone" field={fields.phone} type="tel" />
       </div>
 
@@ -2138,7 +2246,7 @@ function ContactDetails({ copy, compact = false }: { copy: SiteCopy; compact?: b
             {copy.contact.whatsappLabel}
           </p>
           <p className={valueClass}>
-            {polishPhone}
+            {cyprusPhone}
           </p>
         </a>
       </div>
@@ -2176,48 +2284,50 @@ function CTASection({ copy }: { copy: SiteCopy }) {
   return (
     <section id="contact" className="relative scroll-mt-36 overflow-hidden bg-[#030303] px-5 py-24 text-[#FFF8E1] md:scroll-mt-40 md:px-8 md:py-32">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(212,175,55,0.12),transparent_30rem),radial-gradient(circle_at_88%_72%,rgba(224,196,108,0.08),transparent_26rem)]" />
-      <div className="relative mx-auto grid max-w-7xl gap-8 rounded-[2.2rem] border border-[#D4AF37]/16 bg-[#101010]/72 p-5 shadow-[0_34px_110px_rgba(0,0,0,0.38)] backdrop-blur-xl lg:grid-cols-[1.05fr_0.95fr] lg:p-7">
-        <FadeIn className="flex flex-col justify-between gap-8">
-          <div className="rounded-[2rem] border border-[#D4AF37]/12 bg-[#030303]/28 p-5">
-            <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#D4AF37] md:text-base">
-              {copy.cta.eyebrow}
-            </p>
-            <h2 className="mt-4 max-w-4xl font-serif text-4xl leading-[1.08] tracking-tight sm:text-5xl md:text-[3.25rem]">
-              {copy.cta.title}
-            </h2>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-[#FFF8E1]/72">
-              {copy.cta.text}
-            </p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <PrimaryButton href={`mailto:${contactEmail}`}>
-                {copy.cta.primaryCta}
-              </PrimaryButton>
-              <SecondaryButton href={whatsappHref} light>
-                <MessageCircle className="h-4 w-4" />
-                {copy.cta.secondaryCta}
-              </SecondaryButton>
-            </div>
-          </div>
-
-          <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_284px] xl:items-center">
-            <div className="rounded-[2rem] border border-[#D4AF37]/16 bg-[#030303]/56 p-4">
-              <p className="text-sm font-semibold text-[#D4AF37]">{copy.cta.contactTitle}</p>
-              <ContactDetails copy={copy} compact />
-              <div className="mt-4">
-                <SocialLinks copy={copy} />
+      <div className="relative mx-auto max-w-7xl rounded-[2.2rem] border border-[#D4AF37]/16 bg-[#101010]/72 p-5 shadow-[0_34px_110px_rgba(0,0,0,0.38)] backdrop-blur-xl lg:p-8">
+        <FadeIn>
+          <div className="rounded-[2rem] border border-[#D4AF37]/12 bg-[#030303]/28 p-5 md:p-7">
+            <div className="max-w-4xl">
+              <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#D4AF37] md:text-base">
+                {copy.cta.eyebrow}
+              </p>
+              <h2 className="mt-4 font-serif text-4xl leading-[1.08] tracking-tight sm:text-5xl md:text-[3.25rem]">
+                {copy.cta.title}
+              </h2>
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-[#FFF8E1]/72">
+                {copy.cta.text}
+              </p>
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                <PrimaryButton href={`mailto:${contactEmail}`}>
+                  {copy.cta.primaryCta}
+                </PrimaryButton>
+                <SecondaryButton href={whatsappHref} light>
+                  <MessageCircle className="h-4 w-4" />
+                  {copy.cta.secondaryCta}
+                </SecondaryButton>
               </div>
             </div>
-            <PremiumVideoCard
-              previewSrc={brandAssets.videos.contact.preview}
-              fullSrc={brandAssets.videos.contact.full}
-              labels={copy.video}
-              aspectClassName="aspect-[9/16]"
-              className="mx-auto max-h-[520px] w-full max-w-[284px] xl:mx-0"
-            />
+
+            <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
+              <div className="rounded-[2rem] border border-[#D4AF37]/16 bg-[#030303]/56 p-5 md:p-6">
+                <p className="text-sm font-semibold text-[#D4AF37]">{copy.cta.detailsTitle}</p>
+                <ContactDetails copy={copy} />
+                <div className="mt-6">
+                  <SocialLinks copy={copy} />
+                </div>
+              </div>
+              <PremiumVideoCard
+                previewSrc={brandAssets.videos.contact.preview}
+                fullSrc={brandAssets.videos.contact.full}
+                labels={copy.video}
+                aspectClassName="aspect-[9/16]"
+                className="mx-auto max-h-[640px] w-full max-w-[360px] lg:mx-0 lg:ml-auto"
+              />
+            </div>
           </div>
         </FadeIn>
 
-        <FadeIn delay={0.12} className="self-start">
+        <FadeIn delay={0.12} className="mt-8">
           <ConsultationForm copy={copy} />
         </FadeIn>
       </div>
@@ -2258,7 +2368,7 @@ function Footer({ copy }: { copy: SiteCopy }) {
           <div className="mt-4 grid gap-3 text-sm text-[#FFF8E1]/62">
             <p className="font-semibold text-[#FFF8E1]">{agentName}</p>
             <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="hover:text-[#FFF8E1]">
-              WhatsApp · {polishPhone}
+              WhatsApp · {cyprusPhone}
             </a>
             <a href={`mailto:${contactEmail}`} className="hover:text-[#FFF8E1]">
               {contactEmail}

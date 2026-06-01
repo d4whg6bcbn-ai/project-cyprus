@@ -10,16 +10,21 @@ import {
   ChevronRight,
   Euro,
   KeyRound,
+  Mail,
   MapPin,
   Menu,
   MessageCircle,
+  Phone,
   ShieldCheck,
   Sparkles,
   Star,
+  Volume2,
+  VolumeX,
   X,
 } from "lucide-react";
+import { brandAssets } from "@/lib/brand";
 
-type Language = "pl" | "en";
+type Language = "pl" | "en" | "el";
 
 type NavItem = {
   label: string;
@@ -50,9 +55,58 @@ type Stat = {
   icon?: Icon;
 };
 
+function FacebookIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={className} fill="currentColor">
+      <path d="M14.2 8.2V6.7c0-.7.5-.9.9-.9h2.2V2h-3.1c-3.4 0-4.2 2.5-4.2 4.1v2.1H7.3V12H10v10h4.2V12h2.8l.4-3.8h-3.2Z" />
+    </svg>
+  );
+}
+
+function InstagramIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={className} fill="none">
+      <rect width="16" height="16" x="4" y="4" rx="4.5" stroke="currentColor" strokeWidth="1.8" />
+      <circle cx="12" cy="12" r="3.4" stroke="currentColor" strokeWidth="1.8" />
+      <circle cx="16.8" cy="7.2" r="1" fill="currentColor" />
+    </svg>
+  );
+}
+
 type ProcessStep = {
   title: string;
   text: string;
+};
+
+type SelectField = {
+  label: string;
+  placeholder: string;
+  options: string[];
+};
+
+type TextField = {
+  label: string;
+  placeholder: string;
+};
+
+type FormCopy = {
+  title: string;
+  text: string;
+  submit: string;
+  fields: {
+    purpose: SelectField;
+    budget: SelectField;
+    visit: SelectField;
+    market: SelectField;
+    name: TextField;
+    email: TextField;
+    phone: TextField;
+  };
+};
+
+type VideoCopy = {
+  muteAriaLabel: string;
+  unmuteAriaLabel: string;
 };
 
 type SiteCopy = {
@@ -65,6 +119,7 @@ type SiteCopy = {
   mobileMenuClose: string;
   currentLanguageLabel: string;
   switchLanguageLabel: string;
+  video: VideoCopy;
   hero: {
     imageAlt: string;
     eyebrow: string;
@@ -133,8 +188,15 @@ type SiteCopy = {
     text: string;
     primaryCta: string;
     secondaryCta: string;
-    quickStartTitle: string;
-    quickStartItems: string[];
+    contactTitle: string;
+  };
+  form: FormCopy;
+  contact: {
+    agentLabel: string;
+    emailLabel: string;
+    phoneLabel: string;
+    whatsappLabel: string;
+    socialLabel: string;
   };
   footer: {
     description: string;
@@ -147,19 +209,20 @@ type SiteCopy = {
   };
 };
 
-const whatsappHref = "#contact"; // TODO: Replace with a real WhatsApp wa.me link when the number is configured.
-const contactEmail = "kontakt@project-cyprus.pl"; // TODO: Replace with the confirmed contact email before launch.
+const agentName = "Małgorzata Pietkiewicz";
+const contactEmail = "margaret@projectcyprus.com";
+const cyprusPhone = "+357 94 497547";
+const cyprusPhoneHref = "tel:+35794497547";
+const polishPhone = "+48 601 922 193";
+const polishPhoneHref = "tel:+48601922193";
+const whatsappHref = "https://wa.me/35794497547";
+const facebookHref = "https://www.facebook.com/profile.php?id=61577908631612";
+const instagramHref = "https://www.instagram.com/projectcyprus_/";
 
 const heroImage =
   "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2400&q=85";
-const introImage =
-  "https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1400&q=85";
 const whyImage =
   "https://images.unsplash.com/photo-1572120360610-d971b9d7767c?auto=format&fit=crop&w=1400&q=85";
-const aboutImage =
-  "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1400&q=85";
-const ctaImage =
-  "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=85";
 
 const propertyImages = [
   "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=85",
@@ -171,7 +234,7 @@ const propertyImages = [
 const content = {
   pl: {
     metaLang: "pl",
-    headerSubtitle: "Real estate advisory",
+    headerSubtitle: "Real Estate Advisory",
     navItems: [
       { label: "Nieruchomości", href: "#properties" },
       { label: "Proces zakupu", href: "#process" },
@@ -180,11 +243,15 @@ const content = {
       { label: "Kontakt", href: "#contact" },
     ],
     consultationCta: "Umów konsultację",
-    languageLabels: { pl: "PL", en: "EN" },
+    languageLabels: { pl: "PL", en: "EN", el: "GR" },
     mobileMenuOpen: "Otwórz menu",
     mobileMenuClose: "Zamknij menu",
     currentLanguageLabel: "Aktualny język",
     switchLanguageLabel: "Przełącz język na",
+    video: {
+      muteAriaLabel: "Wycisz wideo",
+      unmuteAriaLabel: "Odtwórz wideo z dźwiękiem",
+    },
     hero: {
       imageAlt: "Wybrzeże Cypru o zachodzie słońca",
       eyebrow: "Polskojęzyczne wsparcie na Cyprze",
@@ -348,22 +415,67 @@ const content = {
       text: "Przygotujemy dopasowane propozycje i wyjaśnimy cały proces zakupu krok po kroku.",
       primaryCta: "Umów bezpłatną konsultację",
       secondaryCta: "Napisz na WhatsApp",
-      quickStartTitle: "Szybki start rozmowy",
-      quickStartItems: ["Cel zakupu", "Preferowana lokalizacja", "Budżet", "Termin decyzji"],
+      contactTitle: "Porozmawiaj z doradcą",
+    },
+    form: {
+      title: "Formularz konsultacji",
+      text: "Wybierz odpowiedzi, a Małgorzata Pietkiewicz przygotuje dla Ciebie właściwy kierunek rozmowy.",
+      submit: "Wyślij zapytanie",
+      fields: {
+        purpose: {
+          label: "Cel zakupu",
+          placeholder: "Wybierz cel zakupu",
+          options: ["Inwestycja", "Relokacja"],
+        },
+        budget: {
+          label: "Budżet",
+          placeholder: "Wybierz budżet",
+          options: ["Do 250 000 EUR", "250 000–500 000 EUR", "Powyżej 500 000 EUR"],
+        },
+        visit: {
+          label: "Czy chciałbyś przylecieć na Cypr obejrzeć wybrane apartamenty lub domy na żywo?",
+          placeholder: "Wybierz odpowiedź",
+          options: ["Tak, chcę", "Na razie nie"],
+        },
+        market: {
+          label: "Czy interesuje Cię rynek wtórny, pierwotny czy oba?",
+          placeholder: "Wybierz rynek",
+          options: ["Rynek wtórny", "Rynek pierwotny", "Oba"],
+        },
+        name: {
+          label: "Imię i nazwisko",
+          placeholder: "Wpisz imię i nazwisko",
+        },
+        email: {
+          label: "Email",
+          placeholder: "Wpisz adres email",
+        },
+        phone: {
+          label: "Telefon",
+          placeholder: "Wpisz numer telefonu",
+        },
+      },
+    },
+    contact: {
+      agentLabel: "Agent",
+      emailLabel: "Email",
+      phoneLabel: "Telefon",
+      whatsappLabel: "WhatsApp",
+      socialLabel: "Media społecznościowe",
     },
     footer: {
       description: "Premiumowe wsparcie dla osób szukających apartamentu, domu lub willi na południowym Cyprze.",
       navTitle: "Nawigacja",
       contactTitle: "Kontakt",
       languageTitle: "Język",
-      languageText: "Polski · English",
+      languageText: "Polski · English · Ελληνικά",
       copyright: "© 2026 Project Cyprus. Nieruchomości na Cyprze.",
       locationLine: "Pafos · Limassol · Larnaca · Ayia Napa · Protaras",
     },
   },
   en: {
     metaLang: "en",
-    headerSubtitle: "Real estate advisory",
+    headerSubtitle: "Real Estate Advisory",
     navItems: [
       { label: "Properties", href: "#properties" },
       { label: "Buying process", href: "#process" },
@@ -372,11 +484,15 @@ const content = {
       { label: "Contact", href: "#contact" },
     ],
     consultationCta: "Book a consultation",
-    languageLabels: { pl: "PL", en: "EN" },
+    languageLabels: { pl: "PL", en: "EN", el: "GR" },
     mobileMenuOpen: "Open menu",
     mobileMenuClose: "Close menu",
     currentLanguageLabel: "Current language",
     switchLanguageLabel: "Switch language to",
+    video: {
+      muteAriaLabel: "Mute video",
+      unmuteAriaLabel: "Play video with sound",
+    },
     hero: {
       imageAlt: "Cyprus coastline at sunset",
       eyebrow: "English-speaking support in Cyprus",
@@ -540,17 +656,303 @@ const content = {
       text: "We will prepare matched proposals and explain the whole buying process step by step.",
       primaryCta: "Book a free consultation",
       secondaryCta: "Message us on WhatsApp",
-      quickStartTitle: "Start the conversation",
-      quickStartItems: ["Purchase goal", "Preferred location", "Budget", "Decision timeline"],
+      contactTitle: "Speak with an advisor",
+    },
+    form: {
+      title: "Consultation form",
+      text: "Choose your answers and Małgorzata Pietkiewicz will prepare the right direction for the conversation.",
+      submit: "Send enquiry",
+      fields: {
+        purpose: {
+          label: "Purchase purpose",
+          placeholder: "Choose purchase purpose",
+          options: ["Investment", "Relocation"],
+        },
+        budget: {
+          label: "Budget",
+          placeholder: "Choose budget",
+          options: ["Up to 250 000 EUR", "250 000–500 000 EUR", "Above 500 000 EUR"],
+        },
+        visit: {
+          label: "Would you like to fly to Cyprus to view selected apartments or houses in person?",
+          placeholder: "Choose an answer",
+          options: ["Yes, I would", "Not yet"],
+        },
+        market: {
+          label: "Are you interested in resale properties, new-build properties, or both?",
+          placeholder: "Choose market type",
+          options: ["Resale market", "New-build market", "Both"],
+        },
+        name: {
+          label: "Full name",
+          placeholder: "Enter your full name",
+        },
+        email: {
+          label: "Email",
+          placeholder: "Enter your email address",
+        },
+        phone: {
+          label: "Phone",
+          placeholder: "Enter your phone number",
+        },
+      },
+    },
+    contact: {
+      agentLabel: "Agent",
+      emailLabel: "Email",
+      phoneLabel: "Phone",
+      whatsappLabel: "WhatsApp",
+      socialLabel: "Social media",
     },
     footer: {
       description: "Premium support for people looking for an apartment, house, or villa in southern Cyprus.",
       navTitle: "Navigation",
       contactTitle: "Contact",
       languageTitle: "Language",
-      languageText: "English · Polski",
+      languageText: "English · Polski · Ελληνικά",
       copyright: "© 2026 Project Cyprus. Property in Cyprus.",
       locationLine: "Paphos · Limassol · Larnaca · Ayia Napa · Protaras",
+    },
+  },
+  el: {
+    metaLang: "el",
+    headerSubtitle: "Real Estate Advisory",
+    navItems: [
+      { label: "Ακίνητα", href: "#properties" },
+      { label: "Διαδικασία αγοράς", href: "#process" },
+      { label: "Γιατί Κύπρος", href: "#why" },
+      { label: "Σχετικά με εμάς", href: "#about" },
+      { label: "Επικοινωνία", href: "#contact" },
+    ],
+    consultationCta: "Κλείστε συμβουλευτική",
+    languageLabels: { pl: "PL", en: "EN", el: "GR" },
+    mobileMenuOpen: "Άνοιγμα μενού",
+    mobileMenuClose: "Κλείσιμο μενού",
+    currentLanguageLabel: "Τρέχουσα γλώσσα",
+    switchLanguageLabel: "Αλλαγή γλώσσας σε",
+    video: {
+      muteAriaLabel: "Σίγαση βίντεο",
+      unmuteAriaLabel: "Αναπαραγωγή βίντεο με ήχο",
+    },
+    hero: {
+      imageAlt: "Ακτογραμμή της Κύπρου στο ηλιοβασίλεμα",
+      eyebrow: "Υποστήριξη στην Κύπρο στα ελληνικά, αγγλικά και πολωνικά",
+      title: "Βρείτε ακίνητο στην Κύπρο με απόλυτη ηρεμία.",
+      text: "Σας βοηθάμε να επιλέξετε ελεγμένα διαμερίσματα, βίλες και επενδυτικά ακίνητα στις καλύτερες τοποθεσίες της νότιας Κύπρου — από την πρώτη συζήτηση μέχρι την παράδοση των κλειδιών.",
+      primaryCta: "Κλείστε δωρεάν συμβουλευτική",
+      secondaryCta: "Δείτε ακίνητα",
+      locationStrip: "Πάφος · Λεμεσός · Λάρνακα · Αγία Νάπα · Πρωταράς",
+      scrollCue: "Κύλιση",
+    },
+    heroStats: [
+      { value: "15+", label: "χρόνια εμπειρίας", icon: Star },
+      { value: "PL / EN", label: "εξυπηρέτηση", icon: MessageCircle },
+      { value: "0%", label: "προμήθεια αγοραστή", icon: Euro },
+      { value: "Πάφος", label: "και νότια Κύπρος", icon: MapPin },
+    ],
+    promises: [
+      {
+        title: "Ελεγμένοι κατασκευαστές",
+        text: "Ελέγχουμε έργα, τοποθεσίες και συνεργάτες πριν τα παρουσιάσουμε στους πελάτες.",
+        icon: Building2,
+      },
+      {
+        title: "Χωρίς προμήθεια αγοραστή",
+        text: "Εργαζόμαστε με διαφάνεια και επιλεγμένες προσφορές δεν επιβαρύνουν τον αγοραστή με προμήθεια.",
+        icon: Euro,
+      },
+      {
+        title: "Νομική και διαδικαστική υποστήριξη",
+        text: "Βοηθάμε στην οργάνωση εγγράφων, κρατήσεων και κάθε σταδίου της αγοράς.",
+        icon: ShieldCheck,
+      },
+      {
+        title: "Βοήθεια μετά την αγορά",
+        text: "Η παράδοση των κλειδιών δεν είναι το τέλος. Σας βοηθάμε με πρακτικά θέματα επιτόπου.",
+        icon: KeyRound,
+      },
+    ],
+    intro: {
+      eyebrow: "Τρόπος ζωής και επένδυση",
+      title: "Κάθε σωστή απόφαση αρχίζει από το κατάλληλο μέρος.",
+      text: "Η Κύπρος μπορεί να είναι δεύτερη κατοικία, ήρεμη επένδυση ή η αρχή ενός νέου τρόπου ζωής. Ο ρόλος μας είναι να οργανώσουμε τις επιλογές, να μειώσουμε το ρίσκο και να σας δείξουμε μόνο ακίνητα που πραγματικά έχουν νόημα.",
+      quote: "Δεν αγοράζετε απλώς μια διεύθυνση. Επιλέγετε τρόπο ζωής, ασφάλεια και μέλλον.",
+      imageAlt: "Κομψή εξοχική κατοικία στην Κύπρο",
+      cardEyebrow: "Project Cyprus",
+      cardText: "Η ηρεμία στην απόφαση αρχίζει με σωστή επιλογή.",
+    },
+    properties: {
+      eyebrow: "Επιλεγμένες προτάσεις",
+      title: "Επιλεγμένα ακίνητα που αξίζουν την προσοχή σας",
+      text: "Προσεκτικά επιλεγμένα διαμερίσματα, κατοικίες και βίλες σε τοποθεσίες που συνδυάζουν επενδυτική προοπτική με ποιότητα ζωής.",
+      allCta: "Δείτε όλες τις προσφορές",
+      detailsCta: "Ρωτήστε",
+      items: [
+        {
+          title: "Διαμέρισμα με θέα στη θάλασσα",
+          location: "Πάφος, Universal",
+          price: "από €245,000",
+          beds: "2 υπνοδωμάτια",
+          type: "Διαμέρισμα",
+          status: "Χωρίς προμήθεια",
+          image: propertyImages[0],
+        },
+        {
+          title: "Σύγχρονη βίλα με πισίνα",
+          location: "Τάλα, Πάφος",
+          price: "από €590,000",
+          beds: "3 υπνοδωμάτια",
+          type: "Βίλα",
+          status: "Ειδική προσφορά",
+          image: propertyImages[1],
+        },
+        {
+          title: "Κατοικία κοντά στην παραλία και τα εστιατόρια",
+          location: "Coral Bay",
+          price: "από €420,000",
+          beds: "3 υπνοδωμάτια",
+          type: "Κατοικία",
+          status: "Νέα καταχώρηση",
+          image: propertyImages[2],
+        },
+      ],
+    },
+    why: {
+      eyebrow: "Γιατί Κύπρος",
+      title: "Ήλιος, ασφάλεια και μια αγορά που προσελκύει επενδυτές.",
+      text: "Η Κύπρος προσφέρει κάτι περισσότερο από όμορφη θέα. Συνδυάζει ποιότητα ζωής, σταθερή ζήτηση για ενοικίαση και πιο ήρεμο καθημερινό ρυθμό.",
+      cards: [
+        "Πάνω από 300 ηλιόλουστες ημέρες τον χρόνο",
+        "Σταθερή αγορά ενοικίασης",
+        "Ασφαλές περιβάλλον για οικογένειες",
+        "Ελκυστικός τρόπος ζωής",
+        "Καλές συνδέσεις με την Ευρώπη",
+        "Αυξανόμενο ενδιαφέρον επενδυτών",
+      ],
+      imageAlt: "Σύγχρονη μεσογειακή βίλα",
+      locationEyebrow: "Τοποθεσίες",
+      locationTitle: "Πάφος · Λεμεσός · Λάρνακα",
+      locationText: "Ταιριάζουμε την περιοχή με τον στόχο σας: δεύτερη κατοικία, εισόδημα από ενοίκιο, επένδυση ή μετεγκατάσταση.",
+    },
+    process: {
+      eyebrow: "Διαδικασία αγοράς",
+      title: "Μια ξεκάθαρη διαδρομή από την πρώτη ιδέα μέχρι την παράδοση των κλειδιών.",
+      text: "Κάθε στάδιο έχει αποφάσεις, έγγραφα και ερωτήσεις. Ο ρόλος μας είναι να σας καθοδηγήσουμε ήρεμα και ξεκάθαρα.",
+      steps: [
+        {
+          title: "Δωρεάν συμβουλευτική",
+          text: "Συζητάμε τον σκοπό αγοράς, τον τρόπο ζωής, τον προϋπολογισμό και τις προτιμώμενες τοποθεσίες.",
+        },
+        {
+          title: "Επιλογή τοποθεσίας και προϋπολογισμού",
+          text: "Οργανώνουμε τις επιλογές ώστε η επένδυση να ταιριάζει στο σχέδιό σας, όχι μόνο στις φωτογραφίες.",
+        },
+        {
+          title: "Επιλογή ελεγμένων προτάσεων",
+          text: "Παρουσιάζουμε επιλεγμένα ακίνητα με σαφή αιτιολόγηση και πραγματική προοπτική.",
+        },
+        {
+          title: "Παρουσίαση online ή από κοντά",
+          text: "Οργανώνουμε προβολές, συγκρίνουμε έργα και απαντάμε σε συγκεκριμένες ερωτήσεις.",
+        },
+        {
+          title: "Κράτηση και νομική υποστήριξη",
+          text: "Βοηθάμε με τα έγγραφα, την επικοινωνία με δικηγόρο και τη διαδικασία κράτησης.",
+        },
+        {
+          title: "Παράδοση κλειδιών και βοήθεια μετά την αγορά",
+          text: "Σας υποστηρίζουμε στην παράδοση και στις πρακτικές αποφάσεις που ακολουθούν.",
+        },
+      ],
+    },
+    about: {
+      eyebrow: "Σχετικά με το Project Cyprus",
+      title: "Τοπική γνώση, καθαρή επικοινωνία και προσωπική προσέγγιση.",
+      text: "Το Project Cyprus βοηθά όσους αναζητούν ακίνητο στην Κύπρο να περάσουν όλη τη διαδικασία με σαφήνεια και σιγουριά — από την επιλογή τοποθεσίας και την επιλογή προτάσεων μέχρι τον συντονισμό με δικηγόρους, κατασκευαστές και υπηρεσίες μετά την αγορά.",
+      imageAlt: "Κομψό εσωτερικό διαμερίσματος",
+      imageCardText: "Τοπική γνώση, αξιόπιστες επαφές και επικοινωνία που σας δίνει αίσθηση ελέγχου.",
+      primaryCta: "Ας γνωριστούμε",
+      secondaryCta: "Στείλτε μήνυμα στο WhatsApp",
+    },
+    credibility: [
+      { value: "15+", label: "χρόνια εμπειρίας" },
+      { value: "PL / EN", label: "επικοινωνία" },
+      { value: "0%", label: "προμήθεια αγοραστή" },
+      { value: "Νότια", label: "Κύπρος ως επίκεντρο" },
+    ],
+    testimonials: {
+      eyebrow: "Μαρτυρίες",
+      title: "Τι εκτιμούν οι πελάτες μας;",
+      text: "Η ενότητα είναι έτοιμη για πραγματικές μαρτυρίες πελατών. Προς το παρόν παρουσιάζει τις βασικές αξίες της διαδικασίας.",
+      quotes: [
+        "Καθαρή επικοινωνία, ήρεμη διαδικασία και συγκεκριμένες προτάσεις αντί για τυχαίες καταχωρήσεις.",
+        "Υποστήριξη από την πρώτη συζήτηση μέχρι την αγοραστική απόφαση.",
+        "Προσέγγιση προσαρμοσμένη στον στόχο: δεύτερη κατοικία, επένδυση ή μετεγκατάσταση.",
+      ],
+    },
+    cta: {
+      imageAlt: "Σύγχρονη βίλα στην Κύπρο",
+      eyebrow: "Δωρεάν συμβουλευτική",
+      title: "Πείτε μας τι αναζητάτε στην Κύπρο.",
+      text: "Θα ετοιμάσουμε προσαρμοσμένες προτάσεις και θα εξηγήσουμε όλη τη διαδικασία αγοράς βήμα προς βήμα.",
+      primaryCta: "Κλείστε δωρεάν συμβουλευτική",
+      secondaryCta: "Στείλτε μήνυμα στο WhatsApp",
+      contactTitle: "Μιλήστε με σύμβουλο",
+    },
+    form: {
+      title: "Φόρμα συμβουλευτικής",
+      text: "Επιλέξτε τις απαντήσεις σας και η Małgorzata Pietkiewicz θα προετοιμάσει τη σωστή κατεύθυνση για τη συζήτηση.",
+      submit: "Αποστολή αιτήματος",
+      fields: {
+        purpose: {
+          label: "Σκοπός αγοράς",
+          placeholder: "Επιλέξτε σκοπό αγοράς",
+          options: ["Επένδυση", "Μετεγκατάσταση"],
+        },
+        budget: {
+          label: "Προϋπολογισμός",
+          placeholder: "Επιλέξτε προϋπολογισμό",
+          options: ["Έως 250 000 EUR", "250 000–500 000 EUR", "Πάνω από 500 000 EUR"],
+        },
+        visit: {
+          label: "Θα θέλατε να ταξιδέψετε στην Κύπρο για να δείτε επιλεγμένα διαμερίσματα ή κατοικίες από κοντά;",
+          placeholder: "Επιλέξτε απάντηση",
+          options: ["Ναι, θα ήθελα", "Όχι ακόμα"],
+        },
+        market: {
+          label: "Σας ενδιαφέρουν ακίνητα μεταπώλησης, νεόδμητα ακίνητα ή και τα δύο;",
+          placeholder: "Επιλέξτε αγορά",
+          options: ["Ακίνητα μεταπώλησης", "Νεόδμητα ακίνητα", "Και τα δύο"],
+        },
+        name: {
+          label: "Ονοματεπώνυμο",
+          placeholder: "Πληκτρολογήστε ονοματεπώνυμο",
+        },
+        email: {
+          label: "Email",
+          placeholder: "Πληκτρολογήστε email",
+        },
+        phone: {
+          label: "Τηλέφωνο",
+          placeholder: "Πληκτρολογήστε τηλέφωνο",
+        },
+      },
+    },
+    contact: {
+      agentLabel: "Σύμβουλος",
+      emailLabel: "Email",
+      phoneLabel: "Τηλέφωνο",
+      whatsappLabel: "WhatsApp",
+      socialLabel: "Κοινωνικά δίκτυα",
+    },
+    footer: {
+      description: "Premium υποστήριξη για όσους αναζητούν διαμέρισμα, κατοικία ή βίλα στη νότια Κύπρο.",
+      navTitle: "Πλοήγηση",
+      contactTitle: "Επικοινωνία",
+      languageTitle: "Γλώσσα",
+      languageText: "Ελληνικά · English · Polski",
+      copyright: "© 2026 Project Cyprus. Ακίνητα στην Κύπρο.",
+      locationLine: "Πάφος · Λεμεσός · Λάρνακα · Αγία Νάπα · Πρωταράς",
     },
   },
 } satisfies Record<Language, SiteCopy>;
@@ -587,8 +989,8 @@ function LanguageSwitcher({
   copy: SiteCopy;
 }) {
   return (
-    <div className="flex rounded-full border border-white/15 bg-white/8 p-1 text-[0.72rem] font-semibold uppercase text-[#fffaf2]/70 shadow-inner shadow-black/20 backdrop-blur">
-      {(["pl", "en"] as const).map((item) => {
+    <div className="flex rounded-full border border-[#D4AF37]/25 bg-[#030303]/70 p-1 text-[0.72rem] font-semibold uppercase text-[#F5E8C7]/70 shadow-inner shadow-black/40 backdrop-blur">
+      {(["pl", "en", "el"] as const).map((item) => {
         const active = item === language;
         return (
           <button
@@ -599,8 +1001,8 @@ function LanguageSwitcher({
             aria-label={`${active ? copy.currentLanguageLabel : copy.switchLanguageLabel}: ${copy.languageLabels[item]}`}
             className={`rounded-full px-3 py-2 transition ${
               active
-                ? "bg-[#d8c4a3] text-[#07131f] shadow-sm"
-                : "hover:text-[#fffaf2]"
+                ? "bg-[#D4AF37] text-[#030303] shadow-[0_8px_22px_rgba(212,175,55,0.22)]"
+                : "hover:text-[#FFF8E1]"
             }`}
           >
             {copy.languageLabels[item]}
@@ -625,8 +1027,8 @@ function PrimaryButton({
       href={href}
       className={`group inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 text-sm font-semibold transition ${
         dark
-          ? "bg-[#07131f] text-[#fffaf2] hover:bg-[#0b1623]"
-          : "bg-[#d8c4a3] text-[#07131f] shadow-[0_20px_55px_rgba(216,196,163,0.25)] hover:bg-[#e4d0ad]"
+          ? "border border-[#D4AF37]/25 bg-[#030303] text-[#FFF8E1] hover:border-[#D4AF37]/45 hover:bg-[#101010]"
+          : "bg-[#D4AF37] text-[#030303] shadow-[0_20px_55px_rgba(212,175,55,0.25)] hover:bg-[#E0C46C]"
       }`}
     >
       {children}
@@ -649,8 +1051,8 @@ function SecondaryButton({
       href={href}
       className={`inline-flex min-h-12 items-center justify-center gap-2 rounded-full border px-6 text-sm font-semibold transition ${
         light
-          ? "border-white/25 bg-white/10 text-[#fffaf2] backdrop-blur hover:bg-white/15"
-          : "border-[#07131f]/15 bg-[#07131f]/5 text-[#07131f] hover:bg-[#07131f]/10"
+          ? "border-[#D4AF37]/30 bg-[#030303]/45 text-[#FFF8E1] backdrop-blur hover:border-[#D4AF37]/50 hover:bg-[#D4AF37]/10"
+          : "border-[#D4AF37]/25 bg-[#030303]/60 text-[#FFF8E1] hover:border-[#D4AF37]/45 hover:bg-[#D4AF37]/10"
       }`}
     >
       {children}
@@ -671,27 +1073,27 @@ function FloatingHeader({
 
   return (
     <header className="fixed left-0 right-0 top-0 z-50 px-4 pt-4 md:px-6 md:pt-6">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-[2rem] border border-white/15 bg-[#07131f]/72 px-4 py-3 text-[#fffaf2] shadow-[0_22px_70px_rgba(0,0,0,0.28)] backdrop-blur-2xl md:rounded-full md:px-5">
-        <a href="#" className="flex items-center gap-3">
-          <span className="flex h-11 w-11 items-center justify-center rounded-full border border-[#d8c4a3]/30 bg-[#fffaf2]/10 text-sm font-semibold">
-            PC
-          </span>
-          <span>
-            <span className="block text-sm font-semibold tracking-wide md:text-base">
-              Project Cyprus
-            </span>
-            <span className="block text-[0.68rem] uppercase tracking-[0.22em] text-[#d8c4a3]/80">
-              {copy.headerSubtitle}
-            </span>
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-[2rem] border border-[#D4AF37]/20 bg-[#030303]/76 px-4 py-3 text-[#FFF8E1] shadow-[0_22px_80px_rgba(0,0,0,0.46)] backdrop-blur-2xl md:rounded-full md:px-5">
+        <a href="#" className="flex items-center gap-3" aria-label="Project Cyprus">
+          <Image
+            src={brandAssets.logoTransparent}
+            alt="Project Cyprus"
+            width={500}
+            height={500}
+            priority
+            className="h-12 w-12 rounded-full object-contain ring-1 ring-[#D4AF37]/22 md:h-14 md:w-14"
+          />
+          <span className="hidden text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#D4AF37]/80 sm:block">
+            {copy.headerSubtitle}
           </span>
         </a>
 
-        <nav className="hidden items-center gap-1 rounded-full border border-white/10 bg-white/5 p-1 lg:flex">
+        <nav className="hidden items-center gap-1 rounded-full border border-[#D4AF37]/15 bg-[#101010]/55 p-1 lg:flex">
           {copy.navItems.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="rounded-full px-4 py-2 text-sm text-[#fffaf2]/78 transition hover:bg-white/10 hover:text-[#fffaf2]"
+              className="rounded-full px-4 py-2 text-sm text-[#F5E8C7]/78 transition hover:bg-[#D4AF37]/10 hover:text-[#E0C46C]"
             >
               {item.label}
             </a>
@@ -702,7 +1104,7 @@ function FloatingHeader({
           <LanguageSwitcher language={language} onChange={onLanguageChange} copy={copy} />
           <a
             href="#contact"
-            className="rounded-full bg-[#d8c4a3] px-5 py-3 text-sm font-semibold text-[#07131f] transition hover:bg-[#e4d0ad]"
+            className="rounded-full bg-[#D4AF37] px-5 py-3 text-sm font-semibold text-[#030303] shadow-[0_14px_34px_rgba(212,175,55,0.22)] transition hover:bg-[#E0C46C]"
           >
             {copy.consultationCta}
           </a>
@@ -713,7 +1115,7 @@ function FloatingHeader({
           aria-label={open ? copy.mobileMenuClose : copy.mobileMenuOpen}
           aria-expanded={open}
           onClick={() => setOpen((value) => !value)}
-          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/8 md:hidden"
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-[#D4AF37]/25 bg-[#101010]/60 text-[#FFF8E1] md:hidden"
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
@@ -723,15 +1125,27 @@ function FloatingHeader({
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mx-auto mt-3 max-w-7xl overflow-hidden rounded-[1.75rem] border border-white/12 bg-[#07131f]/95 p-4 text-[#fffaf2] shadow-2xl backdrop-blur-2xl md:hidden"
+          className="mx-auto mt-3 max-w-7xl overflow-hidden rounded-[1.75rem] border border-[#D4AF37]/20 bg-[#030303]/96 p-4 text-[#FFF8E1] shadow-2xl backdrop-blur-2xl md:hidden"
         >
+          <div className="mb-4 flex items-center gap-3 border-b border-[#D4AF37]/12 pb-4">
+            <Image
+              src={brandAssets.logoTransparent}
+              alt="Project Cyprus"
+              width={500}
+              height={500}
+              className="h-12 w-12 rounded-full object-contain ring-1 ring-[#D4AF37]/20"
+            />
+            <span className="text-xs font-semibold uppercase tracking-[0.22em] text-[#D4AF37]/80">
+              {copy.headerSubtitle}
+            </span>
+          </div>
           <nav className="grid gap-1">
             {copy.navItems.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className="rounded-2xl px-4 py-3 text-sm font-medium text-[#fffaf2]/82 hover:bg-white/8"
+                className="rounded-2xl px-4 py-3 text-sm font-medium text-[#F5E8C7]/82 hover:bg-[#D4AF37]/10 hover:text-[#E0C46C]"
               >
                 {item.label}
               </a>
@@ -740,6 +1154,7 @@ function FloatingHeader({
           <div className="mt-4 flex flex-col gap-3 border-t border-white/10 pt-4">
             <LanguageSwitcher language={language} onChange={onLanguageChange} copy={copy} />
             <PrimaryButton href="#contact">{copy.consultationCta}</PrimaryButton>
+            <SocialLinks copy={copy} />
           </div>
         </motion.div>
       )}
@@ -765,23 +1180,19 @@ function SectionHeading({
       className={`mx-auto ${align === "center" ? "max-w-3xl text-center" : "max-w-4xl"}`}
     >
       <p
-        className={`text-xs font-semibold uppercase tracking-[0.28em] ${
-          light ? "text-[#d8c4a3]" : "text-[#7f8f68]"
-        }`}
+        className="text-xs font-semibold uppercase tracking-[0.28em] text-[#D4AF37]"
       >
         {eyebrow}
       </p>
       <h2
-        className={`mt-4 font-serif text-4xl leading-[1.05] tracking-tight md:text-6xl ${
-          light ? "text-[#fffaf2]" : "text-[#07131f]"
-        }`}
+        className="mt-4 font-serif text-4xl leading-[1.05] tracking-tight text-[#FFF8E1] md:text-6xl"
       >
         {title}
       </h2>
       {text && (
         <p
           className={`mt-5 text-base leading-8 md:text-lg ${
-            light ? "text-[#fffaf2]/68" : "text-[#283949]/72"
+            light ? "text-[#FFF8E1]/68" : "text-[#D7C9A0]/76"
           }`}
         >
           {text}
@@ -793,7 +1204,7 @@ function SectionHeading({
 
 function HeroSection({ copy }: { copy: SiteCopy }) {
   return (
-    <section className="relative min-h-[100svh] overflow-hidden bg-[#07131f] text-[#fffaf2]">
+    <section className="relative min-h-[100svh] overflow-hidden bg-[#030303] text-[#FFF8E1]">
       <Image
         src={heroImage}
         alt={copy.hero.imageAlt}
@@ -802,7 +1213,7 @@ function HeroSection({ copy }: { copy: SiteCopy }) {
         sizes="100vw"
         className="object-cover"
       />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(7,19,31,0.93),rgba(7,19,31,0.68)_42%,rgba(7,19,31,0.28)),linear-gradient(0deg,rgba(7,19,31,0.96),rgba(7,19,31,0.08)_44%,rgba(7,19,31,0.4))]" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,3,3,0.95),rgba(3,3,3,0.7)_42%,rgba(3,3,3,0.3)),linear-gradient(0deg,rgba(3,3,3,0.98),rgba(3,3,3,0.08)_44%,rgba(3,3,3,0.45))]" />
       <div className="relative mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-end px-5 pb-10 pt-32 md:px-8 md:pb-12 md:pt-40">
         <div className="grid items-end gap-10 lg:grid-cols-[1fr_0.78fr]">
           <motion.div
@@ -811,14 +1222,14 @@ function HeroSection({ copy }: { copy: SiteCopy }) {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="max-w-4xl"
           >
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/16 bg-white/10 px-4 py-2 text-sm text-[#fffaf2]/86 shadow-lg backdrop-blur-xl">
-              <Sparkles className="h-4 w-4 text-[#d8c4a3]" />
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/16 bg-white/10 px-4 py-2 text-sm text-[#FFF8E1]/86 shadow-lg backdrop-blur-xl">
+              <Sparkles className="h-4 w-4 text-[#D4AF37]" />
               {copy.hero.eyebrow}
             </div>
             <h1 className="font-serif text-5xl leading-[0.96] tracking-tight md:text-7xl lg:text-8xl">
               {copy.hero.title}
             </h1>
-            <p className="mt-7 max-w-2xl text-base leading-8 text-[#fffaf2]/76 md:text-xl">
+            <p className="mt-7 max-w-2xl text-base leading-8 text-[#FFF8E1]/76 md:text-xl">
               {copy.hero.text}
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -842,18 +1253,18 @@ function HeroSection({ copy }: { copy: SiteCopy }) {
                   key={stat.label}
                   className="rounded-[1.5rem] border border-white/14 bg-white/10 p-4 shadow-[0_20px_70px_rgba(0,0,0,0.22)] backdrop-blur-xl"
                 >
-                  {Icon && <Icon className="mb-5 h-5 w-5 text-[#d8c4a3]" />}
+                  {Icon && <Icon className="mb-5 h-5 w-5 text-[#D4AF37]" />}
                   <p className="text-2xl font-semibold tracking-tight">{stat.value}</p>
-                  <p className="mt-1 text-sm leading-5 text-[#fffaf2]/68">{stat.label}</p>
+                  <p className="mt-1 text-sm leading-5 text-[#FFF8E1]/68">{stat.label}</p>
                 </div>
               );
             })}
           </motion.div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-4 border-t border-white/12 pt-6 text-sm uppercase tracking-[0.22em] text-[#fffaf2]/62 md:flex-row md:items-center md:justify-between">
+        <div className="mt-12 flex flex-col gap-4 border-t border-white/12 pt-6 text-sm uppercase tracking-[0.22em] text-[#FFF8E1]/62 md:flex-row md:items-center md:justify-between">
           <span>{copy.hero.locationStrip}</span>
-          <a href="#promise" className="inline-flex items-center gap-2 text-[#d8c4a3]">
+          <a href="#promise" className="inline-flex items-center gap-2 text-[#D4AF37]">
             {copy.hero.scrollCue} <ChevronRight className="h-4 w-4 rotate-90" />
           </a>
         </div>
@@ -864,16 +1275,16 @@ function HeroSection({ copy }: { copy: SiteCopy }) {
 
 function TrustStrip({ copy }: { copy: SiteCopy }) {
   return (
-    <section id="promise" className="bg-[#07131f] px-5 py-6 md:px-8">
+    <section id="promise" className="bg-[#030303] px-5 py-6 md:px-8">
       <div className="mx-auto grid max-w-7xl gap-4 md:grid-cols-2 xl:grid-cols-4">
         {copy.promises.map((item, index) => {
           const Icon = item.icon;
           return (
             <FadeIn key={item.title} delay={index * 0.06}>
-              <div className="h-full rounded-[1.75rem] border border-white/10 bg-[#0b1623] p-6 shadow-[0_22px_80px_rgba(0,0,0,0.22)]">
-                <Icon className="h-6 w-6 text-[#d8c4a3]" />
-                <h3 className="mt-6 text-lg font-semibold text-[#fffaf2]">{item.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-[#fffaf2]/62">{item.text}</p>
+              <div className="h-full rounded-[1.75rem] border border-white/10 bg-[#101010] p-6 shadow-[0_22px_80px_rgba(0,0,0,0.22)]">
+                <Icon className="h-6 w-6 text-[#D4AF37]" />
+                <h3 className="mt-6 text-lg font-semibold text-[#FFF8E1]">{item.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-[#FFF8E1]/62">{item.text}</p>
               </div>
             </FadeIn>
           );
@@ -885,42 +1296,37 @@ function TrustStrip({ copy }: { copy: SiteCopy }) {
 
 function IntroSection({ copy }: { copy: SiteCopy }) {
   return (
-    <section className="bg-[#f4efe7] px-5 py-24 md:px-8 md:py-32">
+    <section className="bg-[#050505] px-5 py-24 md:px-8 md:py-32">
       <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1fr_0.8fr]">
         <FadeIn>
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7f8f68]">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#D4AF37]">
             {copy.intro.eyebrow}
           </p>
-          <h2 className="mt-5 max-w-4xl font-serif text-5xl leading-[1.02] tracking-tight text-[#07131f] md:text-7xl">
+          <h2 className="mt-5 max-w-4xl font-serif text-5xl leading-[1.02] tracking-tight text-[#FFF8E1] md:text-7xl">
             {copy.intro.title}
           </h2>
-          <p className="mt-7 max-w-2xl text-lg leading-9 text-[#283949]/76">
+          <p className="mt-7 max-w-2xl text-lg leading-9 text-[#D7C9A0]/76">
             {copy.intro.text}
           </p>
-          <blockquote className="mt-10 max-w-3xl border-l border-[#b9975b] pl-6 font-serif text-2xl leading-snug text-[#07131f] md:text-3xl">
+          <blockquote className="mt-10 max-w-3xl border-l border-[#C9A227] pl-6 font-serif text-2xl leading-snug text-[#F5E8C7] md:text-3xl">
             {copy.intro.quote}
           </blockquote>
         </FadeIn>
 
         <FadeIn delay={0.12} className="relative">
-          <div className="absolute -left-6 -top-6 hidden h-36 w-36 rounded-[2rem] border border-[#b9975b]/25 bg-[#d8c4a3]/30 md:block" />
-          <div className="relative overflow-hidden rounded-[2rem] bg-[#07131f] shadow-[0_28px_90px_rgba(7,19,31,0.22)]">
-            <Image
-              src={introImage}
-              alt={copy.intro.imageAlt}
-              width={900}
-              height={1100}
-              sizes="(min-width: 1024px) 38vw, 100vw"
-              className="h-[520px] w-full object-cover"
+          <div className="absolute -left-6 -top-6 hidden h-36 w-36 rounded-[2rem] border border-[#C9A227]/25 bg-[#D4AF37]/30 md:block" />
+          <div className="relative">
+            <PremiumVideoCard
+              src={brandAssets.videos.whyCyprus}
+              labels={copy.video}
+              aspectClassName="aspect-[9/16]"
+              className="mx-auto w-full max-w-[360px]"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#07131f]/72 via-transparent to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-6">
-              <div className="rounded-[1.5rem] border border-white/14 bg-white/12 p-5 text-[#fffaf2] backdrop-blur-xl">
-                <p className="text-xs uppercase tracking-[0.24em] text-[#d8c4a3]">
-                  {copy.intro.cardEyebrow}
-                </p>
-                <p className="mt-2 text-lg font-semibold">{copy.intro.cardText}</p>
-              </div>
+            <div className="mt-4 rounded-[1.5rem] border border-[#D4AF37]/16 bg-[#101010]/80 p-5 text-[#FFF8E1]">
+              <p className="text-xs uppercase tracking-[0.24em] text-[#D4AF37]">
+                {copy.intro.cardEyebrow}
+              </p>
+              <p className="mt-2 text-lg font-semibold">{copy.intro.cardText}</p>
             </div>
           </div>
         </FadeIn>
@@ -940,7 +1346,7 @@ function PropertyCard({
 }) {
   return (
     <FadeIn delay={index * 0.08}>
-      <article className="group relative flex min-h-[520px] overflow-hidden rounded-[2rem] bg-[#07131f] shadow-[0_24px_90px_rgba(7,19,31,0.18)] transition duration-500 hover:-translate-y-2">
+      <article className="group relative flex min-h-[520px] overflow-hidden rounded-[2rem] bg-[#030303] shadow-[0_24px_90px_rgba(0,0,0,0.26)] transition duration-500 hover:-translate-y-2">
         <Image
           src={property.image}
           alt={property.title}
@@ -948,14 +1354,14 @@ function PropertyCard({
           sizes="(min-width: 1024px) 33vw, 100vw"
           className="object-cover transition duration-700 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,19,31,0.08),rgba(7,19,31,0.92))]" />
-        <div className="relative z-10 flex w-full flex-col justify-between p-5 text-[#fffaf2]">
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,3,3,0.08),rgba(3,3,3,0.94))]" />
+        <div className="relative z-10 flex w-full flex-col justify-between p-5 text-[#FFF8E1]">
           <div className="flex items-start justify-between gap-3">
             <span className="inline-flex items-center gap-2 rounded-full border border-white/16 bg-white/12 px-3 py-2 text-xs font-semibold backdrop-blur-xl">
-              <MapPin className="h-3.5 w-3.5 text-[#d8c4a3]" />
+              <MapPin className="h-3.5 w-3.5 text-[#D4AF37]" />
               {property.location}
             </span>
-            <span className="rounded-full bg-[#d8c4a3] px-3 py-2 text-xs font-semibold text-[#07131f]">
+            <span className="rounded-full bg-[#D4AF37] px-3 py-2 text-xs font-semibold text-[#030303]">
               {property.status}
             </span>
           </div>
@@ -964,8 +1370,8 @@ function PropertyCard({
             <h3 className="font-serif text-3xl leading-tight">{property.title}</h3>
             <div className="mt-5 flex items-end justify-between gap-4 border-t border-white/14 pt-5">
               <div>
-                <p className="text-2xl font-semibold text-[#d8c4a3]">{property.price}</p>
-                <p className="mt-1 text-sm text-[#fffaf2]/70">
+                <p className="text-2xl font-semibold text-[#D4AF37]">{property.price}</p>
+                <p className="mt-1 text-sm text-[#FFF8E1]/70">
                   {property.type} · {property.beds}
                 </p>
               </div>
@@ -986,16 +1392,26 @@ function PropertyCard({
 
 function FeaturedProperties({ copy }: { copy: SiteCopy }) {
   return (
-    <section id="properties" className="bg-[#f4efe7] px-5 py-24 md:px-8 md:py-32">
+    <section id="properties" className="bg-[#050505] px-5 py-24 md:px-8 md:py-32">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-12 grid gap-8 lg:grid-cols-[0.9fr_0.45fr] lg:items-end">
-          <SectionHeading
-            eyebrow={copy.properties.eyebrow}
-            title={copy.properties.title}
-            text={copy.properties.text}
-          />
-          <FadeIn className="lg:justify-self-end">
-            <SecondaryButton href="#contact">{copy.properties.allCta}</SecondaryButton>
+        <div className="mb-12 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(280px,380px)] lg:items-end">
+          <div>
+            <SectionHeading
+              eyebrow={copy.properties.eyebrow}
+              title={copy.properties.title}
+              text={copy.properties.text}
+            />
+            <FadeIn className="mt-8">
+              <SecondaryButton href="#contact">{copy.properties.allCta}</SecondaryButton>
+            </FadeIn>
+          </div>
+          <FadeIn delay={0.12} className="w-full lg:justify-self-end">
+            <PremiumVideoCard
+              src={brandAssets.videos.featuredListings}
+              labels={copy.video}
+              aspectClassName="aspect-[9/16]"
+              className="mx-auto w-full max-w-[320px]"
+            />
           </FadeIn>
         </div>
         <div className="grid gap-6 lg:grid-cols-3">
@@ -1015,7 +1431,7 @@ function FeaturedProperties({ copy }: { copy: SiteCopy }) {
 
 function WhyCyprus({ copy }: { copy: SiteCopy }) {
   return (
-    <section id="why" className="overflow-hidden bg-[#07131f] px-5 py-24 text-[#fffaf2] md:px-8 md:py-32">
+    <section id="why" className="overflow-hidden bg-[#030303] px-5 py-24 text-[#FFF8E1] md:px-8 md:py-32">
       <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[0.85fr_1fr]">
         <div>
           <SectionHeading
@@ -1030,15 +1446,15 @@ function WhyCyprus({ copy }: { copy: SiteCopy }) {
                 key={item}
                 className="rounded-[1.35rem] border border-white/10 bg-white/[0.06] p-4"
               >
-                <CheckCircle2 className="mb-4 h-5 w-5 text-[#d8c4a3]" />
-                <p className="text-sm font-medium leading-6 text-[#fffaf2]/82">{item}</p>
+                <CheckCircle2 className="mb-4 h-5 w-5 text-[#D4AF37]" />
+                <p className="text-sm font-medium leading-6 text-[#FFF8E1]/82">{item}</p>
               </div>
             ))}
           </FadeIn>
         </div>
 
         <FadeIn delay={0.14} className="relative">
-          <div className="absolute -right-8 -top-8 h-52 w-52 rounded-full bg-[#7f8f68]/20 blur-3xl" />
+          <div className="absolute -right-8 -top-8 h-52 w-52 rounded-full bg-[#D4AF37]/20 blur-3xl" />
           <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/8 shadow-[0_26px_100px_rgba(0,0,0,0.35)]">
             <Image
               src={whyImage}
@@ -1048,13 +1464,13 @@ function WhyCyprus({ copy }: { copy: SiteCopy }) {
               sizes="(min-width: 1024px) 48vw, 100vw"
               className="h-[620px] w-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#07131f]/86 via-[#07131f]/10 to-transparent" />
-            <div className="absolute bottom-6 left-6 right-6 rounded-[1.6rem] border border-white/14 bg-[#07131f]/55 p-6 backdrop-blur-xl">
-              <p className="text-xs uppercase tracking-[0.24em] text-[#d8c4a3]">
+            <div className="absolute inset-0 bg-gradient-to-t from-[#030303]/86 via-[#030303]/10 to-transparent" />
+            <div className="absolute bottom-6 left-6 right-6 rounded-[1.6rem] border border-white/14 bg-[#030303]/55 p-6 backdrop-blur-xl">
+              <p className="text-xs uppercase tracking-[0.24em] text-[#D4AF37]">
                 {copy.why.locationEyebrow}
               </p>
               <p className="mt-3 text-2xl font-semibold">{copy.why.locationTitle}</p>
-              <p className="mt-2 text-sm leading-6 text-[#fffaf2]/68">
+              <p className="mt-2 text-sm leading-6 text-[#FFF8E1]/68">
                 {copy.why.locationText}
               </p>
             </div>
@@ -1065,31 +1481,166 @@ function WhyCyprus({ copy }: { copy: SiteCopy }) {
   );
 }
 
+function PremiumVideoCard({
+  src,
+  labels,
+  poster,
+  className = "",
+  aspectClassName = "aspect-[9/16]",
+  videoClassName = "",
+  objectFitClassName = "object-cover",
+  objectPositionClassName = "object-center",
+}: {
+  src: string;
+  labels: VideoCopy;
+  poster?: string;
+  className?: string;
+  aspectClassName?: string;
+  videoClassName?: string;
+  objectFitClassName?: string;
+  objectPositionClassName?: string;
+}) {
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+  const wrapperRef = React.useRef<HTMLDivElement>(null);
+  const [soundEnabled, setSoundEnabled] = React.useState(false);
+
+  const muteVideo = React.useCallback(() => {
+    const video = videoRef.current;
+
+    if (!video) {
+      return;
+    }
+
+    video.muted = true;
+    setSoundEnabled(false);
+    void video.play().catch(() => undefined);
+  }, []);
+
+  const restartWithSound = React.useCallback(() => {
+    const video = videoRef.current;
+
+    if (!video) {
+      return;
+    }
+
+    const seekToStart = () => {
+      video.currentTime = 0;
+    };
+
+    video.pause();
+    seekToStart();
+    video.muted = false;
+    video.volume = 1;
+    setSoundEnabled(true);
+    void video.play().catch(() => undefined);
+    window.setTimeout(seekToStart, 0);
+  }, []);
+
+  React.useEffect(() => {
+    if (!soundEnabled) {
+      return;
+    }
+
+    const handlePointerDown = (event: PointerEvent) => {
+      const wrapper = wrapperRef.current;
+
+      if (!wrapper || wrapper.contains(event.target as Node)) {
+        return;
+      }
+
+      muteVideo();
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown);
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+    };
+  }, [muteVideo, soundEnabled]);
+
+  return (
+    <div
+      ref={wrapperRef}
+      onClick={restartWithSound}
+      className={`group relative isolate overflow-hidden rounded-[2rem] bg-[#030303] shadow-[0_28px_90px_rgba(0,0,0,0.38),0_0_44px_rgba(212,175,55,0.08)] outline-none ring-1 ring-inset ring-[#D4AF37]/24 transition hover:-translate-y-1 hover:ring-[#D4AF37]/42 focus-visible:ring-4 focus-visible:ring-[#D4AF37]/22 ${aspectClassName} ${className}`}
+    >
+      <video
+        ref={videoRef}
+        src={src}
+        poster={poster}
+        autoPlay
+        muted
+        loop
+        playsInline
+        aria-hidden="true"
+        className={`absolute inset-0 block h-full w-full max-w-none rounded-none ${objectFitClassName} ${objectPositionClassName} ${videoClassName}`}
+      />
+      <div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[linear-gradient(180deg,rgba(3,3,3,0.04),rgba(3,3,3,0.12)_62%,rgba(3,3,3,0.58))]" />
+      <button
+        type="button"
+        aria-label={soundEnabled ? labels.muteAriaLabel : labels.unmuteAriaLabel}
+        onClick={(event) => {
+          event.stopPropagation();
+          if (soundEnabled) {
+            muteVideo();
+            return;
+          }
+          restartWithSound();
+        }}
+        className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full border border-[#D4AF37]/30 bg-[#030303]/78 text-[#D4AF37] shadow-lg backdrop-blur-xl transition hover:-translate-y-0.5 hover:bg-[#D4AF37] hover:text-[#030303]"
+      >
+        {soundEnabled ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
+      </button>
+    </div>
+  );
+}
+
+function ProcessVideoCard({ labels }: { labels: VideoCopy }) {
+  return (
+    <FadeIn delay={0.12} className="w-full lg:justify-self-end">
+      <PremiumVideoCard
+        src={brandAssets.videos.buyingProcess}
+        labels={labels}
+        className="mx-auto w-full max-w-[310px] md:max-w-[350px] lg:max-w-[380px]"
+      />
+    </FadeIn>
+  );
+}
+
 function ProcessTimeline({ copy }: { copy: SiteCopy }) {
   return (
-    <section id="process" className="relative overflow-hidden bg-[#f4efe7] px-5 py-24 md:px-8 md:py-32">
-      <div className="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-[#07131f]/8 to-transparent" />
+    <section id="process" className="relative overflow-hidden bg-[#050505] px-5 py-24 md:px-8 md:py-32">
+      <div className="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-[#030303]/8 to-transparent" />
       <div className="relative mx-auto max-w-7xl">
-        <SectionHeading
-          eyebrow={copy.process.eyebrow}
-          title={copy.process.title}
-          text={copy.process.text}
-          align="center"
-        />
-        <div className="mt-14 grid gap-4 lg:grid-cols-3">
+        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(280px,380px)]">
+          <FadeIn>
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#D4AF37]">
+              {copy.process.eyebrow}
+            </p>
+            <h2 className="mt-4 max-w-4xl font-serif text-4xl leading-[1.05] tracking-tight text-[#FFF8E1] md:text-6xl">
+              {copy.process.title}
+            </h2>
+            <p className="mt-5 max-w-2xl text-base leading-8 text-[#D7C9A0]/76 md:text-lg">
+              {copy.process.text}
+            </p>
+          </FadeIn>
+          <ProcessVideoCard labels={copy.video} />
+        </div>
+
+        <div className="mt-16 grid gap-4 lg:grid-cols-3">
           {copy.process.steps.map((step, index) => (
             <FadeIn key={step.title} delay={index * 0.05}>
-              <div className="group h-full rounded-[1.75rem] border border-[#07131f]/10 bg-white/70 p-6 shadow-[0_20px_70px_rgba(7,19,31,0.08)] backdrop-blur transition hover:-translate-y-1 hover:bg-white">
+              <div className="group h-full rounded-[1.75rem] border border-[#D4AF37]/14 bg-[#101010]/78 p-6 shadow-[0_20px_70px_rgba(0,0,0,0.22)] backdrop-blur transition hover:-translate-y-1 hover:border-[#D4AF37]/35 hover:bg-[#141414]">
                 <div className="flex items-center justify-between">
-                  <span className="font-serif text-5xl text-[#b9975b]">
+                  <span className="font-serif text-5xl text-[#C9A227]">
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#07131f] text-[#d8c4a3] transition group-hover:rotate-6">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-full border border-[#D4AF37]/20 bg-[#030303] text-[#D4AF37] transition group-hover:rotate-6">
                     <ArrowRight className="h-4 w-4" />
                   </span>
                 </div>
-                <h3 className="mt-8 text-xl font-semibold text-[#07131f]">{step.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-[#283949]/70">{step.text}</p>
+                <h3 className="mt-8 text-xl font-semibold text-[#FFF8E1]">{step.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-[#D7C9A0]/74">{step.text}</p>
               </div>
             </FadeIn>
           ))}
@@ -1101,31 +1652,28 @@ function ProcessTimeline({ copy }: { copy: SiteCopy }) {
 
 function AboutSection({ copy }: { copy: SiteCopy }) {
   return (
-    <section id="about" className="bg-[#f4efe7] px-5 pb-24 md:px-8 md:pb-32">
-      <div className="mx-auto grid max-w-7xl items-center gap-12 rounded-[2rem] border border-[#07131f]/10 bg-[#fffaf2] p-4 shadow-[0_30px_100px_rgba(7,19,31,0.1)] lg:grid-cols-[0.86fr_1fr] lg:p-6">
-        <FadeIn className="relative overflow-hidden rounded-[1.6rem]">
-          <Image
-            src={aboutImage}
-            alt={copy.about.imageAlt}
-            width={950}
-            height={1100}
-            sizes="(min-width: 1024px) 45vw, 100vw"
-            className="h-[520px] w-full object-cover"
+    <section id="about" className="bg-[#050505] px-5 pb-24 md:px-8 md:pb-32">
+      <div className="mx-auto grid max-w-7xl items-center gap-12 rounded-[2rem] border border-[#D4AF37]/14 bg-[#101010] p-4 shadow-[0_30px_100px_rgba(0,0,0,0.32)] lg:grid-cols-[0.86fr_1fr] lg:p-6">
+        <FadeIn>
+          <PremiumVideoCard
+            src={brandAssets.videos.about}
+            labels={copy.video}
+            aspectClassName="aspect-[9/16]"
+            className="mx-auto w-full max-w-[360px]"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#07131f]/70 to-transparent" />
-          <div className="absolute bottom-5 left-5 right-5 rounded-[1.4rem] border border-white/14 bg-white/12 p-5 text-[#fffaf2] backdrop-blur-xl">
+          <div className="mt-4 rounded-[1.4rem] border border-[#D4AF37]/16 bg-[#030303]/62 p-5 text-[#FFF8E1]">
             <p className="text-sm leading-6">{copy.about.imageCardText}</p>
           </div>
         </FadeIn>
 
         <FadeIn delay={0.12} className="px-2 py-8 md:px-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7f8f68]">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#D4AF37]">
             {copy.about.eyebrow}
           </p>
-          <h2 className="mt-5 font-serif text-4xl leading-[1.08] tracking-tight text-[#07131f] md:text-6xl">
+          <h2 className="mt-5 font-serif text-4xl leading-[1.08] tracking-tight text-[#FFF8E1] md:text-6xl">
             {copy.about.title}
           </h2>
-          <p className="mt-7 text-lg leading-9 text-[#283949]/74">{copy.about.text}</p>
+          <p className="mt-7 text-lg leading-9 text-[#D7C9A0]/76">{copy.about.text}</p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <PrimaryButton href="#contact" dark>
               {copy.about.primaryCta}
@@ -1143,15 +1691,15 @@ function AboutSection({ copy }: { copy: SiteCopy }) {
 
 function CredibilitySection({ copy }: { copy: SiteCopy }) {
   return (
-    <section className="bg-[#07131f] px-5 py-20 text-[#fffaf2] md:px-8">
+    <section className="bg-[#030303] px-5 py-20 text-[#FFF8E1] md:px-8">
       <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-4">
         {copy.credibility.map((item, index) => (
           <FadeIn key={item.label} delay={index * 0.05}>
             <div className="border-l border-white/12 pl-6">
-              <p className="font-serif text-5xl tracking-tight text-[#d8c4a3] md:text-6xl">
+              <p className="font-serif text-5xl tracking-tight text-[#D4AF37] md:text-6xl">
                 {item.value}
               </p>
-              <p className="mt-3 text-sm uppercase tracking-[0.2em] text-[#fffaf2]/60">
+              <p className="mt-3 text-sm uppercase tracking-[0.2em] text-[#FFF8E1]/60">
                 {item.label}
               </p>
             </div>
@@ -1164,7 +1712,7 @@ function CredibilitySection({ copy }: { copy: SiteCopy }) {
 
 function TestimonialsSection({ copy }: { copy: SiteCopy }) {
   return (
-    <section className="bg-[#0b1623] px-5 py-24 text-[#fffaf2] md:px-8 md:py-32">
+    <section className="bg-[#101010] px-5 py-24 text-[#FFF8E1] md:px-8 md:py-32">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           eyebrow={copy.testimonials.eyebrow}
@@ -1177,8 +1725,8 @@ function TestimonialsSection({ copy }: { copy: SiteCopy }) {
           {copy.testimonials.quotes.map((quote, index) => (
             <FadeIn key={quote} delay={index * 0.08}>
               <div className="h-full rounded-[1.75rem] border border-white/10 bg-white/[0.06] p-7">
-                <p className="font-serif text-6xl leading-none text-[#d8c4a3]">“</p>
-                <p className="mt-4 text-lg leading-8 text-[#fffaf2]/78">{quote}</p>
+                <p className="font-serif text-6xl leading-none text-[#D4AF37]">“</p>
+                <p className="mt-4 text-lg leading-8 text-[#FFF8E1]/78">{quote}</p>
               </div>
             </FadeIn>
           ))}
@@ -1188,55 +1736,250 @@ function TestimonialsSection({ copy }: { copy: SiteCopy }) {
   );
 }
 
+function SocialLinks({ copy }: { copy: SiteCopy }) {
+  const links = [
+    { label: "Facebook", href: facebookHref, icon: FacebookIcon },
+    { label: "Instagram", href: instagramHref, icon: InstagramIcon },
+  ];
+
+  return (
+    <div>
+      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#D4AF37]/80">
+        {copy.contact.socialLabel}
+      </p>
+      <div className="mt-3 flex items-center gap-2">
+        {links.map((link) => {
+          const Icon = link.icon;
+          return (
+            <a
+              key={link.href}
+              href={link.href}
+              aria-label={link.label}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-white/14 bg-white/10 text-[#FFF8E1] transition hover:-translate-y-0.5 hover:bg-[#D4AF37] hover:text-[#030303]"
+            >
+              <Icon className="h-4 w-4" />
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function SelectFieldView({
+  id,
+  field,
+}: {
+  id: string;
+  field: SelectField;
+}) {
+  return (
+    <label htmlFor={id} className="block">
+      <span className="text-sm font-semibold text-[#FFF8E1]/84">{field.label}</span>
+      <span className="relative mt-2 block">
+        <select
+          id={id}
+          name={id}
+          required
+          defaultValue=""
+          className="h-14 w-full appearance-none rounded-2xl border border-white/12 bg-[#030303]/58 px-4 pr-11 text-sm text-[#FFF8E1] outline-none transition focus:border-[#D4AF37]/70 focus:ring-4 focus:ring-[#D4AF37]/10"
+        >
+          <option value="" disabled>
+            {field.placeholder}
+          </option>
+          {field.options.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+        <ChevronRight className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 translate-y-[-50%] rotate-90 text-[#D4AF37]" />
+      </span>
+    </label>
+  );
+}
+
+function TextFieldView({
+  id,
+  field,
+  type = "text",
+}: {
+  id: string;
+  field: TextField;
+  type?: "text" | "email" | "tel";
+}) {
+  return (
+    <label htmlFor={id} className="block">
+      <span className="text-sm font-semibold text-[#FFF8E1]/84">{field.label}</span>
+      <input
+        id={id}
+        name={id}
+        type={type}
+        required
+        placeholder={field.placeholder}
+        className="mt-2 h-14 w-full rounded-2xl border border-white/12 bg-[#030303]/58 px-4 text-sm text-[#FFF8E1] outline-none transition placeholder:text-[#FFF8E1]/34 focus:border-[#D4AF37]/70 focus:ring-4 focus:ring-[#D4AF37]/10"
+      />
+    </label>
+  );
+}
+
+function ConsultationForm({ copy }: { copy: SiteCopy }) {
+  const fields = copy.form.fields;
+
+  return (
+    <form
+      action={`mailto:${contactEmail}`}
+      method="post"
+      className="rounded-[2rem] border border-[#D4AF37]/18 bg-[#030303]/68 p-5 shadow-[0_24px_90px_rgba(0,0,0,0.36)] backdrop-blur-xl md:p-6"
+    >
+      <Image
+        src={brandAssets.logoTransparent}
+        alt="Project Cyprus"
+        width={500}
+        height={500}
+        className="mb-5 h-16 w-16 rounded-full object-contain ring-1 ring-[#D4AF37]/20"
+      />
+      <p className="text-sm font-semibold text-[#D4AF37]">{copy.form.title}</p>
+      <p className="mt-2 text-sm leading-6 text-[#FFF8E1]/62">{copy.form.text}</p>
+
+      <div className="mt-6 grid gap-4">
+        <SelectFieldView id="purchase-purpose" field={fields.purpose} />
+        <SelectFieldView id="budget" field={fields.budget} />
+        <SelectFieldView id="visit-cyprus" field={fields.visit} />
+        <SelectFieldView id="market-type" field={fields.market} />
+        <div className="grid gap-4 sm:grid-cols-2">
+          <TextFieldView id="full-name" field={fields.name} />
+          <TextFieldView id="email" field={fields.email} type="email" />
+        </div>
+        <TextFieldView id="phone" field={fields.phone} type="tel" />
+      </div>
+
+      <button
+        type="submit"
+        className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D4AF37] px-6 text-sm font-semibold text-[#030303] transition hover:bg-[#E0C46C]"
+      >
+        {copy.form.submit}
+        <ArrowRight className="h-4 w-4" />
+      </button>
+    </form>
+  );
+}
+
+function ContactDetails({ copy, compact = false }: { copy: SiteCopy; compact?: boolean }) {
+  return (
+    <div className={`grid gap-4 ${compact ? "" : "mt-6"}`}>
+      <div className="rounded-[1.35rem] border border-white/12 bg-white/8 p-4">
+        <p className="text-xs uppercase tracking-[0.22em] text-[#D4AF37]/80">
+          {copy.contact.agentLabel}
+        </p>
+        <p className="mt-2 font-semibold text-[#FFF8E1]">{agentName}</p>
+      </div>
+      <div className="grid gap-3 sm:grid-cols-2">
+        <a
+          href={`mailto:${contactEmail}`}
+          className="group rounded-[1.35rem] border border-white/12 bg-white/8 p-4 transition hover:bg-white/12"
+        >
+          <Mail className="h-4 w-4 text-[#D4AF37]" />
+          <p className="mt-3 text-xs uppercase tracking-[0.22em] text-[#FFF8E1]/48">
+            {copy.contact.emailLabel}
+          </p>
+          <p className="mt-1 break-all text-sm font-semibold text-[#FFF8E1] group-hover:text-[#D4AF37]">
+            {contactEmail}
+          </p>
+        </a>
+        <a
+          href={whatsappHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group rounded-[1.35rem] border border-white/12 bg-white/8 p-4 transition hover:bg-white/12"
+        >
+          <MessageCircle className="h-4 w-4 text-[#D4AF37]" />
+          <p className="mt-3 text-xs uppercase tracking-[0.22em] text-[#FFF8E1]/48">
+            {copy.contact.whatsappLabel}
+          </p>
+          <p className="mt-1 text-sm font-semibold text-[#FFF8E1] group-hover:text-[#D4AF37]">
+            {cyprusPhone}
+          </p>
+        </a>
+      </div>
+      <div className="grid gap-3 sm:grid-cols-2">
+        <a
+          href={cyprusPhoneHref}
+          className="group rounded-[1.35rem] border border-white/12 bg-white/8 p-4 transition hover:bg-white/12"
+        >
+          <Phone className="h-4 w-4 text-[#D4AF37]" />
+          <p className="mt-3 text-xs uppercase tracking-[0.22em] text-[#FFF8E1]/48">
+            {copy.contact.phoneLabel}
+          </p>
+          <p className="mt-1 text-sm font-semibold text-[#FFF8E1] group-hover:text-[#D4AF37]">
+            {cyprusPhone}
+          </p>
+        </a>
+        <a
+          href={polishPhoneHref}
+          className="group rounded-[1.35rem] border border-white/12 bg-white/8 p-4 transition hover:bg-white/12"
+        >
+          <Phone className="h-4 w-4 text-[#D4AF37]" />
+          <p className="mt-3 text-xs uppercase tracking-[0.22em] text-[#FFF8E1]/48">
+            {copy.contact.phoneLabel}
+          </p>
+          <p className="mt-1 text-sm font-semibold text-[#FFF8E1] group-hover:text-[#D4AF37]">
+            {polishPhone}
+          </p>
+        </a>
+      </div>
+    </div>
+  );
+}
+
 function CTASection({ copy }: { copy: SiteCopy }) {
   return (
-    <section id="contact" className="relative overflow-hidden bg-[#07131f] px-5 py-24 text-[#fffaf2] md:px-8 md:py-32">
-      <Image
-        src={ctaImage}
-        alt={copy.cta.imageAlt}
-        fill
-        sizes="100vw"
-        className="object-cover opacity-45"
-      />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(7,19,31,0.96),rgba(7,19,31,0.72),rgba(7,19,31,0.45))]" />
-      <div className="relative mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1fr_0.58fr] lg:items-end">
-        <FadeIn>
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#d8c4a3]">
-            {copy.cta.eyebrow}
-          </p>
-          <h2 className="mt-5 max-w-4xl font-serif text-5xl leading-[1] tracking-tight md:text-7xl">
-            {copy.cta.title}
-          </h2>
-          <p className="mt-7 max-w-2xl text-lg leading-8 text-[#fffaf2]/72">
-            {copy.cta.text}
-          </p>
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <PrimaryButton href={`mailto:${contactEmail}`}>
-              {copy.cta.primaryCta}
-            </PrimaryButton>
-            <SecondaryButton href={whatsappHref} light>
-              <MessageCircle className="h-4 w-4" />
-              {copy.cta.secondaryCta}
-            </SecondaryButton>
+    <section id="contact" className="relative overflow-hidden bg-[#030303] px-5 py-24 text-[#FFF8E1] md:px-8 md:py-32">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(212,175,55,0.12),transparent_30rem),radial-gradient(circle_at_88%_72%,rgba(224,196,108,0.08),transparent_26rem)]" />
+      <div className="relative mx-auto grid max-w-7xl gap-8 rounded-[2.2rem] border border-[#D4AF37]/16 bg-[#101010]/72 p-5 shadow-[0_34px_110px_rgba(0,0,0,0.38)] backdrop-blur-xl lg:grid-cols-[1.05fr_0.95fr] lg:p-7">
+        <FadeIn className="flex flex-col justify-between gap-8">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#D4AF37]">
+              {copy.cta.eyebrow}
+            </p>
+            <h2 className="mt-5 max-w-4xl font-serif text-5xl leading-[1] tracking-tight md:text-7xl">
+              {copy.cta.title}
+            </h2>
+            <p className="mt-7 max-w-2xl text-lg leading-8 text-[#FFF8E1]/72">
+              {copy.cta.text}
+            </p>
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <PrimaryButton href={`mailto:${contactEmail}`}>
+                {copy.cta.primaryCta}
+              </PrimaryButton>
+              <SecondaryButton href={whatsappHref} light>
+                <MessageCircle className="h-4 w-4" />
+                {copy.cta.secondaryCta}
+              </SecondaryButton>
+            </div>
+          </div>
+
+          <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_260px] xl:items-end">
+            <div className="rounded-[2rem] border border-[#D4AF37]/16 bg-[#030303]/56 p-5">
+              <p className="text-sm font-semibold text-[#D4AF37]">{copy.cta.contactTitle}</p>
+              <ContactDetails copy={copy} compact />
+              <div className="mt-5">
+                <SocialLinks copy={copy} />
+              </div>
+            </div>
+            <PremiumVideoCard
+              src={brandAssets.videos.contact}
+              labels={copy.video}
+              aspectClassName="aspect-[9/16]"
+              className="mx-auto max-h-[520px] w-full max-w-[260px] xl:mx-0"
+            />
           </div>
         </FadeIn>
 
-        <FadeIn delay={0.12}>
-          <div className="rounded-[2rem] border border-white/14 bg-white/10 p-6 shadow-[0_24px_80px_rgba(0,0,0,0.25)] backdrop-blur-xl">
-            <p className="text-sm font-semibold text-[#d8c4a3]">
-              {copy.cta.quickStartTitle}
-            </p>
-            <div className="mt-5 grid gap-3 text-sm text-[#fffaf2]/72">
-              {copy.cta.quickStartItems.map((item) => (
-                <div
-                  key={item}
-                  className="rounded-2xl border border-white/10 bg-[#07131f]/35 px-4 py-3"
-                >
-                  {item}
-                </div>
-              ))}
-            </div>
-          </div>
+        <FadeIn delay={0.12} className="self-start">
+          <ConsultationForm copy={copy} />
         </FadeIn>
       </div>
     </section>
@@ -1245,46 +1988,62 @@ function CTASection({ copy }: { copy: SiteCopy }) {
 
 function Footer({ copy }: { copy: SiteCopy }) {
   return (
-    <footer className="bg-[#050d15] px-5 py-12 text-[#fffaf2] md:px-8">
-      <div className="mx-auto grid max-w-7xl gap-10 border-t border-white/10 pt-10 lg:grid-cols-[1fr_0.65fr_0.65fr_0.65fr]">
+    <footer className="bg-[#030303] px-5 py-12 text-[#FFF8E1] md:px-8">
+      <div className="mx-auto grid max-w-7xl gap-10 border-t border-[#D4AF37]/18 pt-10 lg:grid-cols-[1fr_0.65fr_0.65fr_0.65fr]">
         <div>
-          <p className="text-2xl font-semibold">Project Cyprus</p>
-          <p className="mt-4 max-w-sm text-sm leading-7 text-[#fffaf2]/58">
+          <Image
+            src={brandAssets.logoTransparent}
+            alt="Project Cyprus"
+            width={500}
+            height={500}
+            className="h-auto w-44 rounded-full object-contain ring-1 ring-[#D4AF37]/16 md:w-52"
+          />
+          <p className="mt-4 max-w-sm text-sm leading-7 text-[#FFF8E1]/58">
             {copy.footer.description}
           </p>
         </div>
         <div>
-          <p className="text-sm font-semibold text-[#d8c4a3]">{copy.footer.navTitle}</p>
-          <div className="mt-4 grid gap-3 text-sm text-[#fffaf2]/62">
+          <p className="text-sm font-semibold text-[#D4AF37]">{copy.footer.navTitle}</p>
+          <div className="mt-4 grid gap-3 text-sm text-[#FFF8E1]/62">
             {copy.navItems.map((item) => (
-              <a key={item.href} href={item.href} className="hover:text-[#fffaf2]">
+              <a key={item.href} href={item.href} className="hover:text-[#FFF8E1]">
                 {item.label}
               </a>
             ))}
           </div>
         </div>
         <div>
-          <p className="text-sm font-semibold text-[#d8c4a3]">
+          <p className="text-sm font-semibold text-[#D4AF37]">
             {copy.footer.contactTitle}
           </p>
-          <div className="mt-4 grid gap-3 text-sm text-[#fffaf2]/62">
-            <a href={whatsappHref} className="hover:text-[#fffaf2]">
-              WhatsApp
+          <div className="mt-4 grid gap-3 text-sm text-[#FFF8E1]/62">
+            <p className="font-semibold text-[#FFF8E1]">{agentName}</p>
+            <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="hover:text-[#FFF8E1]">
+              WhatsApp · {cyprusPhone}
             </a>
-            <a href={`mailto:${contactEmail}`} className="hover:text-[#fffaf2]">
+            <a href={`mailto:${contactEmail}`} className="hover:text-[#FFF8E1]">
               {contactEmail}
+            </a>
+            <a href={cyprusPhoneHref} className="hover:text-[#FFF8E1]">
+              {cyprusPhone}
+            </a>
+            <a href={polishPhoneHref} className="hover:text-[#FFF8E1]">
+              {polishPhone}
             </a>
             <span>Pafos, Cyprus</span>
           </div>
         </div>
         <div>
-          <p className="text-sm font-semibold text-[#d8c4a3]">
+          <p className="text-sm font-semibold text-[#D4AF37]">
             {copy.footer.languageTitle}
           </p>
-          <p className="mt-4 text-sm text-[#fffaf2]/62">{copy.footer.languageText}</p>
+          <p className="mt-4 text-sm text-[#FFF8E1]/62">{copy.footer.languageText}</p>
+          <div className="mt-6">
+            <SocialLinks copy={copy} />
+          </div>
         </div>
       </div>
-      <div className="mx-auto mt-10 flex max-w-7xl flex-col justify-between gap-3 border-t border-white/10 pt-6 text-xs text-[#fffaf2]/42 md:flex-row">
+      <div className="mx-auto mt-10 flex max-w-7xl flex-col justify-between gap-3 border-t border-white/10 pt-6 text-xs text-[#FFF8E1]/42 md:flex-row">
         <p>{copy.footer.copyright}</p>
         <p>{copy.footer.locationLine}</p>
       </div>
@@ -1301,7 +2060,7 @@ export default function ProjectCyprusHomepage() {
   }, [copy.metaLang]);
 
   return (
-    <main className="min-h-screen bg-[#07131f] text-[#07131f]">
+    <main className="min-h-screen bg-[#030303] text-[#FFF8E1]">
       <FloatingHeader
         language={language}
         onLanguageChange={setLanguage}

@@ -23,6 +23,7 @@
 # misc
 .DS_Store
 *.pem
+public/videos/*.mp4
 
 # debug
 npm-debug.log*
@@ -39,3 +40,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+public/videos/*.mp4
+public/videos/*.mov
+
+public/videos/*.m4v
+
+public/videos/*.webm
+# Local website videos are hosted on Vercel Blob, not committed to Git
+public/videos/*.mp4
+public/videos/*.mov
+public/videos/*.m4v
+public/videos/*.webm

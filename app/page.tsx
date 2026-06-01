@@ -236,7 +236,7 @@ const cyprusPhone = "+357 94 497547";
 const cyprusPhoneHref = "tel:+35794497547";
 const polishPhone = "+48 601 922 193";
 const polishPhoneHref = "tel:+48601922193";
-const whatsappHref = "https://wa.me/35794497547";
+const whatsappHref = "https://wa.me/48601922193";
 const facebookHref = "https://www.facebook.com/profile.php?id=61577908631612";
 const instagramHref = "https://www.instagram.com/projectcyprus_/";
 
@@ -2246,7 +2246,7 @@ function ContactDetails({ copy, compact = false }: { copy: SiteCopy; compact?: b
             {copy.contact.whatsappLabel}
           </p>
           <p className={valueClass}>
-            {cyprusPhone}
+            {polishPhone}
           </p>
         </a>
       </div>
@@ -2368,7 +2368,7 @@ function Footer({ copy }: { copy: SiteCopy }) {
           <div className="mt-4 grid gap-3 text-sm text-[#FFF8E1]/62">
             <p className="font-semibold text-[#FFF8E1]">{agentName}</p>
             <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="hover:text-[#FFF8E1]">
-              WhatsApp · {cyprusPhone}
+              WhatsApp · {polishPhone}
             </a>
             <a href={`mailto:${contactEmail}`} className="hover:text-[#FFF8E1]">
               {contactEmail}

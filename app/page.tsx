@@ -1944,24 +1944,37 @@ function ConsultationForm({ copy }: { copy: SiteCopy }) {
 }
 
 function ContactDetails({ copy, compact = false }: { copy: SiteCopy; compact?: boolean }) {
+  const cardClass = compact
+    ? "group rounded-[1.15rem] border border-white/12 bg-white/8 p-3.5 transition hover:bg-white/12"
+    : "group rounded-[1.35rem] border border-white/12 bg-white/8 p-4 transition hover:bg-white/12";
+  const labelClass = compact
+    ? "mt-2 text-[0.68rem] uppercase tracking-[0.18em] text-[#FFF8E1]/48"
+    : "mt-3 text-xs uppercase tracking-[0.22em] text-[#FFF8E1]/48";
+  const valueClass = compact
+    ? "mt-1 text-sm font-semibold text-[#FFF8E1] group-hover:text-[#D4AF37]"
+    : "mt-1 text-sm font-semibold text-[#FFF8E1] group-hover:text-[#D4AF37]";
+  const iconClass = compact ? "h-3.5 w-3.5 text-[#D4AF37]" : "h-4 w-4 text-[#D4AF37]";
+
   return (
-    <div className={`grid gap-4 ${compact ? "" : "mt-6"}`}>
-      <div className="rounded-[1.35rem] border border-white/12 bg-white/8 p-4">
+    <div className={`grid ${compact ? "gap-2.5" : "gap-4 mt-6"}`}>
+      <div className={compact ? "rounded-[1.15rem] border border-white/12 bg-white/8 p-3.5" : "rounded-[1.35rem] border border-white/12 bg-white/8 p-4"}>
         <p className="text-xs uppercase tracking-[0.22em] text-[#D4AF37]/80">
           {copy.contact.agentLabel}
         </p>
-        <p className="mt-2 font-semibold text-[#FFF8E1]">{agentName}</p>
+        <p className={compact ? "mt-1.5 text-sm font-semibold text-[#FFF8E1]" : "mt-2 font-semibold text-[#FFF8E1]"}>
+          {agentName}
+        </p>
       </div>
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className={`grid ${compact ? "gap-2.5" : "gap-3"}`}>
         <a
           href={`mailto:${contactEmail}`}
-          className="group rounded-[1.35rem] border border-white/12 bg-white/8 p-4 transition hover:bg-white/12"
+          className={cardClass}
         >
-          <Mail className="h-4 w-4 text-[#D4AF37]" />
-          <p className="mt-3 text-xs uppercase tracking-[0.22em] text-[#FFF8E1]/48">
+          <Mail className={iconClass} />
+          <p className={labelClass}>
             {copy.contact.emailLabel}
           </p>
-          <p className="mt-1 break-all text-sm font-semibold text-[#FFF8E1] group-hover:text-[#D4AF37]">
+          <p className="mt-1 whitespace-nowrap text-xs font-semibold tracking-tight text-[#FFF8E1] group-hover:text-[#D4AF37] sm:text-sm">
             {contactEmail}
           </p>
         </a>
@@ -1969,27 +1982,27 @@ function ContactDetails({ copy, compact = false }: { copy: SiteCopy; compact?: b
           href={whatsappHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="group rounded-[1.35rem] border border-white/12 bg-white/8 p-4 transition hover:bg-white/12"
+          className={cardClass}
         >
-          <MessageCircle className="h-4 w-4 text-[#D4AF37]" />
-          <p className="mt-3 text-xs uppercase tracking-[0.22em] text-[#FFF8E1]/48">
+          <MessageCircle className={iconClass} />
+          <p className={labelClass}>
             {copy.contact.whatsappLabel}
           </p>
-          <p className="mt-1 text-sm font-semibold text-[#FFF8E1] group-hover:text-[#D4AF37]">
+          <p className={valueClass}>
             {polishPhone}
           </p>
         </a>
       </div>
-      <div className="grid gap-3">
+      <div className={`grid ${compact ? "gap-2.5" : "gap-3"}`}>
         <a
           href={polishPhoneHref}
-          className="group rounded-[1.35rem] border border-white/12 bg-white/8 p-4 transition hover:bg-white/12"
+          className={cardClass}
         >
-          <Phone className="h-4 w-4 text-[#D4AF37]" />
-          <p className="mt-3 text-xs uppercase tracking-[0.22em] text-[#FFF8E1]/48">
+          <Phone className={iconClass} />
+          <p className={labelClass}>
             {copy.contact.phoneLabel}
           </p>
-          <p className="mt-1 text-sm font-semibold text-[#FFF8E1] group-hover:text-[#D4AF37]">
+          <p className={valueClass}>
             {polishPhone}
           </p>
         </a>
@@ -2025,11 +2038,11 @@ function CTASection({ copy }: { copy: SiteCopy }) {
             </div>
           </div>
 
-          <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_260px] xl:items-end">
-            <div className="rounded-[2rem] border border-[#D4AF37]/16 bg-[#030303]/56 p-5">
+          <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_284px] xl:items-center">
+            <div className="rounded-[2rem] border border-[#D4AF37]/16 bg-[#030303]/56 p-4">
               <p className="text-sm font-semibold text-[#D4AF37]">{copy.cta.contactTitle}</p>
               <ContactDetails copy={copy} compact />
-              <div className="mt-5">
+              <div className="mt-4">
                 <SocialLinks copy={copy} />
               </div>
             </div>
@@ -2038,7 +2051,7 @@ function CTASection({ copy }: { copy: SiteCopy }) {
               fullSrc={brandAssets.videos.contact.full}
               labels={copy.video}
               aspectClassName="aspect-[9/16]"
-              className="mx-auto max-h-[520px] w-full max-w-[260px] xl:mx-0"
+              className="mx-auto max-h-[520px] w-full max-w-[284px] xl:mx-0"
             />
           </div>
         </FadeIn>

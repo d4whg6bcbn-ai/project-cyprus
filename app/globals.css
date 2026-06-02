@@ -49,8 +49,8 @@
 }
 
 :root {
-  --brand-black: #030303;
-  --brand-charcoal: #101010;
+  --brand-black: #12100d;
+  --brand-charcoal: #1b1a16;
   --brand-charcoal-warm: #1f1a12;
   --brand-gold: #d4af37;
   --brand-gold-deep: #c9a227;
@@ -58,17 +58,17 @@
   --brand-champagne: #f5e8c7;
   --brand-cream: #fff8e1;
   --brand-muted: #d7c9a0;
-  --background: #030303;
+  --background: #1b1812;
   --foreground: #FFF8E1;
-  --card: #101010;
+  --card: #221f18;
   --card-foreground: #FFF8E1;
-  --popover: #101010;
+  --popover: #221f18;
   --popover-foreground: #FFF8E1;
   --primary: #D4AF37;
   --primary-foreground: #030303;
-  --secondary: #1F1A12;
+  --secondary: #2a2419;
   --secondary-foreground: #FFF8E1;
-  --muted: #181818;
+  --muted: #28241c;
   --muted-foreground: #D7C9A0;
   --accent: #D4AF37;
   --accent-foreground: #030303;
@@ -133,9 +133,11 @@
   body {
     @apply bg-background text-foreground;
     background:
-      radial-gradient(circle at 18% 0%, rgb(212 175 55 / 0.11), transparent 28rem),
-      radial-gradient(circle at 88% 12%, rgb(224 196 108 / 0.08), transparent 24rem),
-      var(--brand-black);
+      radial-gradient(circle at 18% -6%, rgb(245 232 199 / 0.18), transparent 32rem),
+      radial-gradient(circle at 88% 18%, rgb(212 175 55 / 0.15), transparent 30rem),
+      radial-gradient(circle at 18% 72%, rgb(185 124 57 / 0.12), transparent 34rem),
+      linear-gradient(180deg, #2a2115 0%, #20211e 28%, #261d14 62%, #191815 100%);
+    background-attachment: fixed;
   }
   html {
     @apply font-sans;
@@ -144,5 +146,84 @@
   ::selection {
     background: #D4AF37;
     color: #030303;
+  }
+}
+
+@layer components {
+  .site-luxury-bg {
+    background:
+      radial-gradient(circle at 16% 6%, rgb(245 232 199 / 0.13), transparent 28rem),
+      radial-gradient(circle at 88% 32%, rgb(212 175 55 / 0.12), transparent 34rem),
+      radial-gradient(circle at 12% 72%, rgb(151 103 54 / 0.13), transparent 32rem),
+      linear-gradient(180deg, #282013 0%, #20211e 24%, #261d14 52%, #1b1915 76%, #151410 100%);
+  }
+
+  .section-bronze-bridge {
+    background:
+      radial-gradient(circle at 18% 0%, rgb(245 232 199 / 0.13), transparent 26rem),
+      linear-gradient(180deg, #322719 0%, #24211b 54%, #211b13 100%);
+  }
+
+  .section-champagne-glow {
+    background:
+      radial-gradient(circle at 16% 6%, rgb(245 232 199 / 0.15), transparent 31rem),
+      radial-gradient(circle at 88% 74%, rgb(212 175 55 / 0.09), transparent 28rem),
+      linear-gradient(180deg, #29251d 0%, #1f211f 58%, #251c13 100%);
+  }
+
+  .section-graphite-warm {
+    background:
+      radial-gradient(circle at 84% 12%, rgb(212 175 55 / 0.12), transparent 30rem),
+      radial-gradient(circle at 14% 72%, rgb(245 232 199 / 0.08), transparent 26rem),
+      linear-gradient(180deg, #22231f 0%, #292015 52%, #211d17 100%);
+  }
+
+  .section-deep-gold {
+    background:
+      radial-gradient(circle at 22% 18%, rgb(212 175 55 / 0.13), transparent 31rem),
+      radial-gradient(circle at 88% 80%, rgb(185 151 91 / 0.12), transparent 28rem),
+      linear-gradient(180deg, #292017 0%, #23221e 48%, #1e1a14 100%);
+  }
+
+  .section-contact-glow {
+    background:
+      radial-gradient(circle at 18% 12%, rgb(245 232 199 / 0.16), transparent 31rem),
+      radial-gradient(circle at 86% 66%, rgb(212 175 55 / 0.15), transparent 32rem),
+      linear-gradient(180deg, #2b2418 0%, #23201a 52%, #181712 100%);
+  }
+
+  .lux-panel {
+    background:
+      linear-gradient(135deg, rgb(52 43 30 / 0.84), rgb(25 25 22 / 0.76) 48%, rgb(36 29 20 / 0.82));
+    border-color: rgb(245 232 199 / 0.17);
+    box-shadow: 0 30px 100px rgb(0 0 0 / 0.28), inset 0 1px 0 rgb(255 248 225 / 0.06);
+  }
+
+  .header-onyx-panel {
+    background:
+      radial-gradient(circle at 88% 18%, rgb(212 175 55 / 0.10), transparent 22rem),
+      linear-gradient(90deg, rgb(3 3 3 / 0.98) 0%, rgb(3 3 3 / 0.98) 28%, rgb(12 11 10 / 0.95) 52%, rgb(20 17 12 / 0.92) 100%);
+    border-color: rgb(212 175 55 / 0.18);
+    box-shadow: 0 26px 90px rgb(0 0 0 / 0.42), inset 0 1px 0 rgb(245 232 199 / 0.05);
+  }
+
+  .lux-card {
+    background:
+      linear-gradient(145deg, rgb(45 38 28 / 0.82), rgb(23 24 22 / 0.72) 58%, rgb(34 28 20 / 0.82));
+    border-color: rgb(245 232 199 / 0.14);
+    box-shadow: 0 22px 76px rgb(0 0 0 / 0.23), inset 0 1px 0 rgb(255 248 225 / 0.06);
+  }
+
+  .lux-card-soft {
+    background:
+      linear-gradient(145deg, rgb(255 248 225 / 0.085), rgb(212 175 55 / 0.055) 42%, rgb(20 20 18 / 0.42));
+    border-color: rgb(245 232 199 / 0.13);
+    box-shadow: inset 0 1px 0 rgb(255 248 225 / 0.07);
+  }
+
+  .lux-field {
+    background:
+      linear-gradient(135deg, rgb(36 32 25 / 0.82), rgb(20 20 18 / 0.78));
+    border-color: rgb(245 232 199 / 0.16);
   }
 }

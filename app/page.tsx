@@ -92,8 +92,10 @@ type TextField = {
 
 type FormCopy = {
   title: string;
-  text: string;
   submit: string;
+  sending: string;
+  success: string;
+  error: string;
   fields: {
     purpose: SelectField;
     budget: SelectField;
@@ -394,7 +396,7 @@ const content = {
         },
         {
           title: "Dobór lokalizacji i budżetu",
-          text: "Porządkujemy opcje tak, aby inwestycja pasowała do planu, nie tylko do zdjęć.",
+          text: "Selekcjonujemy oferty tak, aby pasowały do Twojego celu, budżetu i realnego planu zakupu.",
         },
         {
           title: "Selekcja sprawdzonych ofert",
@@ -479,8 +481,10 @@ const content = {
     },
     form: {
       title: "Formularz konsultacji",
-      text: "Wybierz odpowiedzi, a Małgorzata Pietkiewicz przygotuje dla Ciebie właściwy kierunek rozmowy.",
       submit: "Wyślij zapytanie",
+      sending: "Wysyłanie...",
+      success: "Dziękujemy. Twoje zgłoszenie zostało wysłane. Skontaktujemy się z Tobą wkrótce.",
+      error: "Nie udało się wysłać formularza. Spróbuj ponownie lub skontaktuj się z nami bezpośrednio.",
       fields: {
         purpose: {
           label: "Cel zakupu",
@@ -679,7 +683,7 @@ const content = {
         },
         {
           title: "Location and budget planning",
-          text: "We organize options so the investment fits your plan, not just the photos.",
+          text: "We shortlist properties so they match your goal, budget and real purchase plan.",
         },
         {
           title: "Selection of verified offers",
@@ -761,8 +765,10 @@ const content = {
     },
     form: {
       title: "Consultation form",
-      text: "Choose your answers and Małgorzata Pietkiewicz will prepare the right direction for the conversation.",
       submit: "Send enquiry",
+      sending: "Sending...",
+      success: "Thank you. Your request has been sent. We will contact you shortly.",
+      error: "The form could not be sent. Please try again or contact us directly.",
       fields: {
         purpose: {
           label: "Purchase purpose",
@@ -961,7 +967,7 @@ const content = {
         },
         {
           title: "Επιλογή τοποθεσίας και προϋπολογισμού",
-          text: "Οργανώνουμε τις επιλογές ώστε η επένδυση να ταιριάζει στο σχέδιό σας, όχι μόνο στις φωτογραφίες.",
+          text: "Επιλέγουμε ακίνητα που ταιριάζουν στον στόχο, τον προϋπολογισμό και το πραγματικό σας πλάνο αγοράς.",
         },
         {
           title: "Επιλογή ελεγμένων προτάσεων",
@@ -1046,8 +1052,10 @@ const content = {
     },
     form: {
       title: "Φόρμα συμβουλευτικής",
-      text: "Επιλέξτε τις απαντήσεις σας και η Małgorzata Pietkiewicz θα προετοιμάσει τη σωστή κατεύθυνση για τη συζήτηση.",
       submit: "Αποστολή αιτήματος",
+      sending: "Αποστολή...",
+      success: "Ευχαριστούμε. Το αίτημά σας έχει σταλεί. Θα επικοινωνήσουμε μαζί σας σύντομα.",
+      error: "Δεν ήταν δυνατή η αποστολή της φόρμας. Δοκιμάστε ξανά ή επικοινωνήστε απευθείας μαζί μας.",
       fields: {
         purpose: {
           label: "Σκοπός αγοράς",
@@ -1136,7 +1144,7 @@ function LanguageSwitcher({
   copy: SiteCopy;
 }) {
   return (
-    <div className="flex rounded-full border border-[#D4AF37]/25 bg-[#030303]/70 p-1 text-[0.72rem] font-semibold uppercase text-[#F5E8C7]/70 shadow-inner shadow-black/40 backdrop-blur">
+    <div className="flex rounded-full border border-[#D4AF37]/22 bg-[#070707]/72 p-1 text-[0.72rem] font-semibold uppercase text-[#F5E8C7]/76 shadow-inner shadow-black/40 backdrop-blur">
       {(["pl", "en", "el"] as const).map((item) => {
         const active = item === language;
         return (
@@ -1174,7 +1182,7 @@ function PrimaryButton({
       href={href}
       className={`group inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 text-sm font-semibold transition ${
         dark
-          ? "border border-[#D4AF37]/25 bg-[#030303] text-[#FFF8E1] hover:border-[#D4AF37]/45 hover:bg-[#101010]"
+          ? "border border-[#D4AF37]/28 bg-[#241e15] text-[#FFF8E1] hover:border-[#D4AF37]/48 hover:bg-[#302619]"
           : "bg-[#D4AF37] text-[#030303] shadow-[0_20px_55px_rgba(212,175,55,0.25)] hover:bg-[#E0C46C]"
       }`}
     >
@@ -1198,8 +1206,8 @@ function SecondaryButton({
       href={href}
       className={`inline-flex min-h-12 items-center justify-center gap-2 rounded-full border px-6 text-sm font-semibold transition ${
         light
-          ? "border-[#D4AF37]/30 bg-[#030303]/45 text-[#FFF8E1] backdrop-blur hover:border-[#D4AF37]/50 hover:bg-[#D4AF37]/10"
-          : "border-[#D4AF37]/25 bg-[#030303]/60 text-[#FFF8E1] hover:border-[#D4AF37]/45 hover:bg-[#D4AF37]/10"
+          ? "border-[#D4AF37]/32 bg-[#241b12]/48 text-[#FFF8E1] backdrop-blur hover:border-[#D4AF37]/52 hover:bg-[#D4AF37]/12"
+          : "border-[#D4AF37]/28 bg-[#241b12]/62 text-[#FFF8E1] hover:border-[#D4AF37]/48 hover:bg-[#D4AF37]/12"
       }`}
     >
       {children}
@@ -1220,7 +1228,7 @@ function FloatingHeader({
 
   return (
     <header className="fixed left-0 right-0 top-0 z-50 px-4 pt-4 md:px-6 md:pt-6">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-[2.35rem] border border-[#D4AF37]/20 bg-[#030303]/76 px-4 py-3 text-[#FFF8E1] shadow-[0_22px_80px_rgba(0,0,0,0.46)] backdrop-blur-2xl md:rounded-full md:px-6 md:py-3.5">
+      <div className="header-onyx-panel mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-[2.35rem] border px-4 py-3 text-[#FFF8E1] backdrop-blur-2xl md:rounded-full md:px-6 md:py-3.5">
         <a href="#" className="flex shrink-0 items-center gap-4" aria-label="Project Cyprus">
           <Image
             src={brandAssets.logoTransparent}
@@ -1235,7 +1243,7 @@ function FloatingHeader({
           </span>
         </a>
 
-        <nav className="hidden items-center gap-1 rounded-full border border-[#D4AF37]/15 bg-[#101010]/55 p-1 lg:flex">
+        <nav className="hidden items-center gap-1 rounded-full border border-[#D4AF37]/16 bg-[#070707]/54 p-1 lg:flex">
           {copy.navItems.map((item) => (
             <a
               key={item.href}
@@ -1262,7 +1270,7 @@ function FloatingHeader({
           aria-label={open ? copy.mobileMenuClose : copy.mobileMenuOpen}
           aria-expanded={open}
           onClick={() => setOpen((value) => !value)}
-          className="flex h-11 w-11 items-center justify-center rounded-full border border-[#D4AF37]/25 bg-[#101010]/60 text-[#FFF8E1] md:hidden"
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-[#D4AF37]/28 bg-[#070707]/68 text-[#FFF8E1] md:hidden"
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
@@ -1272,7 +1280,7 @@ function FloatingHeader({
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mx-auto mt-3 max-w-7xl overflow-hidden rounded-[1.75rem] border border-[#D4AF37]/20 bg-[#030303]/96 p-4 text-[#FFF8E1] shadow-2xl backdrop-blur-2xl md:hidden"
+          className="header-onyx-panel mx-auto mt-3 max-w-7xl overflow-hidden rounded-[1.75rem] border p-4 text-[#FFF8E1] backdrop-blur-2xl md:hidden"
         >
           <div className="mb-4 flex items-center gap-3 border-b border-[#D4AF37]/12 pb-4">
             <Image
@@ -1351,7 +1359,7 @@ function SectionHeading({
 
 function HeroSection({ copy }: { copy: SiteCopy }) {
   return (
-    <section className="relative min-h-[100svh] overflow-hidden bg-[#030303] text-[#FFF8E1]">
+    <section className="relative min-h-[100svh] overflow-hidden bg-[#1d1710] text-[#FFF8E1]">
       <Image
         src={heroImage}
         alt={copy.hero.imageAlt}
@@ -1360,7 +1368,8 @@ function HeroSection({ copy }: { copy: SiteCopy }) {
         sizes="100vw"
         className="object-cover object-center md:object-[center_46%]"
       />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,3,3,0.78),rgba(3,3,3,0.46)_42%,rgba(3,3,3,0.08)_72%),linear-gradient(0deg,rgba(3,3,3,0.86),rgba(3,3,3,0.08)_48%,rgba(3,3,3,0.12))]" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(18,13,8,0.72),rgba(24,18,11,0.38)_42%,rgba(24,18,11,0.04)_72%),linear-gradient(0deg,rgba(37,28,16,0.76),rgba(31,23,13,0.10)_50%,rgba(18,13,8,0.16))]" />
+      <div className="absolute inset-x-0 bottom-0 h-48 bg-[linear-gradient(180deg,transparent,rgba(50,39,25,0.74)_64%,rgba(50,39,25,0.96))]" />
       <div className="relative mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-end px-5 pb-10 pt-44 md:px-8 md:pb-12 md:pt-52">
         <div className="grid items-end gap-10 lg:grid-cols-[1fr_0.78fr]">
           <motion.div
@@ -1398,7 +1407,7 @@ function HeroSection({ copy }: { copy: SiteCopy }) {
               return (
                 <div
                   key={stat.label}
-                  className="flex min-h-[9.75rem] flex-col rounded-[1.5rem] border border-white/14 bg-white/10 p-4 shadow-[0_20px_70px_rgba(0,0,0,0.22)] backdrop-blur-xl"
+                  className="lux-card-soft flex min-h-[9.75rem] flex-col rounded-[1.5rem] border p-4 backdrop-blur-xl"
                 >
                   {Icon && <Icon className="mb-4 h-5 w-5 shrink-0 text-[#D4AF37]" />}
                   <p className="text-lg font-semibold leading-tight tracking-tight md:text-xl">
@@ -1424,13 +1433,13 @@ function HeroSection({ copy }: { copy: SiteCopy }) {
 
 function TrustStrip({ copy }: { copy: SiteCopy }) {
   return (
-    <section id="promise" className="bg-[#030303] px-5 py-6 md:px-8">
+    <section id="promise" className="section-bronze-bridge px-5 py-6 md:px-8">
       <div className="mx-auto grid max-w-7xl gap-4 md:grid-cols-2 xl:grid-cols-5">
         {copy.promises.map((item, index) => {
           const Icon = item.icon;
           return (
             <FadeIn key={item.title} delay={index * 0.06}>
-              <div className="h-full rounded-[1.75rem] border border-white/10 bg-[#101010] p-5 shadow-[0_22px_80px_rgba(0,0,0,0.22)]">
+              <div className="lux-card h-full rounded-[1.75rem] border p-5">
                 <Icon className="h-6 w-6 text-[#D4AF37]" />
                 <h3 className="mt-5 text-base font-semibold leading-6 text-[#FFF8E1]">{item.title}</h3>
                 <p className="mt-3 text-sm leading-6 text-[#FFF8E1]/62">{item.text}</p>
@@ -1445,7 +1454,7 @@ function TrustStrip({ copy }: { copy: SiteCopy }) {
 
 function IntroSection({ copy }: { copy: SiteCopy }) {
   return (
-    <section className="bg-[#050505] px-5 py-24 md:px-8 md:py-32">
+    <section className="section-champagne-glow px-5 py-24 md:px-8 md:py-32">
       <div className="mx-auto grid max-w-7xl items-start gap-12 lg:grid-cols-[0.95fr_1.05fr]">
         <FadeIn className="flex h-full flex-col justify-between gap-10">
           <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#D4AF37] md:text-base">
@@ -1472,7 +1481,7 @@ function IntroSection({ copy }: { copy: SiteCopy }) {
               aspectClassName="aspect-[9/16]"
               className="mx-auto w-full max-w-[420px]"
             />
-            <div className="mt-4 rounded-[1.5rem] border border-[#D4AF37]/16 bg-[#101010]/80 p-5 text-[#FFF8E1]">
+            <div className="lux-card mt-4 rounded-[1.5rem] border p-5 text-[#FFF8E1]">
               <p className="text-xs uppercase tracking-[0.24em] text-[#D4AF37]">
                 {copy.intro.cardEyebrow}
               </p>
@@ -1496,7 +1505,7 @@ function PropertyCard({
 }) {
   return (
     <FadeIn delay={index * 0.08}>
-      <article className="group relative flex min-h-[520px] overflow-hidden rounded-[2rem] bg-[#030303] shadow-[0_24px_90px_rgba(0,0,0,0.26)] transition duration-500 hover:-translate-y-2">
+      <article className="group relative flex min-h-[520px] overflow-hidden rounded-[2rem] bg-[#221a12] shadow-[0_24px_90px_rgba(0,0,0,0.24),0_0_42px_rgba(212,175,55,0.08)] transition duration-500 hover:-translate-y-2">
         <Image
           src={property.image}
           alt={property.title}
@@ -1504,7 +1513,7 @@ function PropertyCard({
           sizes="(min-width: 1024px) 33vw, 100vw"
           className="object-cover transition duration-700 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,3,3,0.08),rgba(3,3,3,0.94))]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(31,22,12,0.04),rgba(31,22,12,0.34)_48%,rgba(18,14,10,0.92))]" />
         <div className="relative z-10 flex w-full flex-col justify-between p-5 text-[#FFF8E1]">
           <div className="flex items-start justify-between gap-3">
             <span className="inline-flex items-center gap-2 rounded-full border border-white/16 bg-white/12 px-3 py-2 text-xs font-semibold backdrop-blur-xl">
@@ -1542,7 +1551,7 @@ function PropertyCard({
 
 function FeaturedProperties({ copy }: { copy: SiteCopy }) {
   return (
-    <section id="properties" className="scroll-mt-36 bg-[#050505] px-5 py-24 md:scroll-mt-40 md:px-8 md:py-32">
+    <section id="properties" className="section-graphite-warm scroll-mt-36 px-5 py-24 md:scroll-mt-40 md:px-8 md:py-32">
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(320px,440px)] lg:items-start">
           <div className="h-full">
@@ -1592,7 +1601,7 @@ function FeaturedProperties({ copy }: { copy: SiteCopy }) {
 
 function WhyCyprus({ copy }: { copy: SiteCopy }) {
   return (
-    <section id="why" className="scroll-mt-36 overflow-hidden bg-[#030303] px-5 py-24 text-[#FFF8E1] md:scroll-mt-40 md:px-8 md:py-32">
+    <section id="why" className="section-champagne-glow scroll-mt-36 overflow-hidden px-5 py-24 text-[#FFF8E1] md:scroll-mt-40 md:px-8 md:py-32">
       <div className="mx-auto grid max-w-7xl items-start gap-14 lg:grid-cols-[0.85fr_1fr]">
         <div className="flex h-full flex-col justify-between gap-14">
           <div>
@@ -1615,7 +1624,7 @@ function WhyCyprus({ copy }: { copy: SiteCopy }) {
             {copy.why.cards.map((item) => (
               <div
                 key={item}
-                className="rounded-[1.35rem] border border-white/10 bg-white/[0.06] p-5"
+                className="lux-card-soft rounded-[1.35rem] border p-5"
               >
                 <CheckCircle2 className="mb-4 h-5 w-5 text-[#D4AF37]" />
                 <p className="text-sm font-medium leading-6 text-[#FFF8E1]/82">{item}</p>
@@ -1640,7 +1649,7 @@ function WhyCyprus({ copy }: { copy: SiteCopy }) {
       <FadeIn delay={0.18} className="mx-auto mt-16 max-w-7xl">
         <a
           href="#contact"
-          className="group flex flex-col gap-4 rounded-[1.75rem] border border-[#D4AF37]/20 bg-[#101010]/78 p-5 shadow-[0_24px_90px_rgba(0,0,0,0.28)] transition hover:-translate-y-1 hover:border-[#D4AF37]/42 hover:bg-[#141414] sm:flex-row sm:items-center sm:justify-between md:p-6"
+          className="lux-card group flex flex-col gap-4 rounded-[1.75rem] border p-5 transition hover:-translate-y-1 hover:border-[#D4AF37]/42 sm:flex-row sm:items-center sm:justify-between md:p-6"
         >
           <span>
             <span className="block text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
@@ -1653,7 +1662,7 @@ function WhyCyprus({ copy }: { copy: SiteCopy }) {
               {copy.why.locationText}
             </span>
           </span>
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#D4AF37]/24 bg-[#030303] text-[#D4AF37] transition group-hover:bg-[#D4AF37] group-hover:text-[#030303]">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#D4AF37]/28 bg-[#2a2117] text-[#D4AF37] transition group-hover:bg-[#D4AF37] group-hover:text-[#030303]">
             <ArrowRight className="h-4 w-4" />
           </span>
         </a>
@@ -1685,19 +1694,17 @@ function PremiumVideoCard({
 }) {
   const videoRef = React.useRef<HTMLVideoElement>(null);
   const wrapperRef = React.useRef<HTMLDivElement>(null);
+  const activeSrcRef = React.useRef(previewSrc);
   const [soundEnabled, setSoundEnabled] = React.useState(false);
-  const [activeSrc, setActiveSrc] = React.useState(previewSrc);
 
   React.useEffect(() => {
     const video = videoRef.current;
-
-    setActiveSrc(previewSrc);
-    setSoundEnabled(false);
 
     if (!video) {
       return;
     }
 
+    activeSrcRef.current = previewSrc;
     video.muted = true;
     video.src = previewSrc;
     video.load();
@@ -1724,7 +1731,7 @@ function PremiumVideoCard({
     }
 
     const nextSrc = fullSrc || previewSrc;
-    const shouldSwitchSource = activeSrc !== nextSrc;
+    const shouldSwitchSource = activeSrcRef.current !== nextSrc;
 
     const playFromStart = () => {
       try {
@@ -1750,7 +1757,7 @@ function PremiumVideoCard({
     video.pause();
 
     if (shouldSwitchSource) {
-      setActiveSrc(nextSrc);
+      activeSrcRef.current = nextSrc;
       video.src = nextSrc;
       video.load();
 
@@ -1764,7 +1771,7 @@ function PremiumVideoCard({
     }
 
     playFromStart();
-  }, [activeSrc, fullSrc, previewSrc]);
+  }, [fullSrc, previewSrc]);
 
   React.useEffect(() => {
     if (!soundEnabled) {
@@ -1803,11 +1810,11 @@ function PremiumVideoCard({
       tabIndex={0}
       role="button"
       aria-label={soundEnabled ? labels.unmutedLabel : labels.mutedLabel}
-      className={`group relative isolate cursor-pointer overflow-hidden rounded-[2rem] bg-[#030303] shadow-[0_28px_90px_rgba(0,0,0,0.38),0_0_44px_rgba(212,175,55,0.08)] outline-none ring-1 ring-inset ring-[#D4AF37]/24 transition hover:-translate-y-1 hover:ring-[#D4AF37]/42 focus-visible:ring-4 focus-visible:ring-[#D4AF37]/22 ${aspectClassName} ${className}`}
+      className={`group relative isolate cursor-pointer overflow-hidden rounded-[2rem] bg-[#221a12] shadow-[0_28px_90px_rgba(0,0,0,0.34),0_0_52px_rgba(212,175,55,0.12)] outline-none ring-1 ring-inset ring-[#D4AF37]/28 transition hover:-translate-y-1 hover:ring-[#D4AF37]/46 focus-visible:ring-4 focus-visible:ring-[#D4AF37]/22 ${aspectClassName} ${className}`}
     >
       <video
         ref={videoRef}
-        src={activeSrc}
+        src={previewSrc}
         poster={poster}
         autoPlay
         muted
@@ -1817,10 +1824,7 @@ function PremiumVideoCard({
         aria-hidden="true"
         className={`absolute inset-0 block h-full w-full max-w-none rounded-none ${objectFitClassName} ${objectPositionClassName} ${videoClassName}`}
       />
-      <div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[linear-gradient(180deg,rgba(3,3,3,0.04),rgba(3,3,3,0.12)_62%,rgba(3,3,3,0.58))]" />
-      <span className="pointer-events-none absolute bottom-4 left-4 right-16 rounded-full border border-[#D4AF37]/28 bg-[#030303]/72 px-4 py-3 text-center text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[#FFF8E1] shadow-lg backdrop-blur-xl transition duration-300 sm:text-xs">
-        {soundEnabled ? labels.unmutedLabel : labels.mutedLabel}
-      </span>
+      <div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[linear-gradient(180deg,rgba(31,22,12,0.03),rgba(31,22,12,0.10)_62%,rgba(18,14,10,0.54))]" />
       <button
         type="button"
         aria-label={soundEnabled ? labels.muteAriaLabel : labels.unmuteAriaLabel}
@@ -1832,7 +1836,7 @@ function PremiumVideoCard({
           }
           restartWithSound();
         }}
-        className="absolute bottom-4 right-4 flex h-11 w-11 items-center justify-center rounded-full border border-[#D4AF37]/30 bg-[#030303]/78 text-[#D4AF37] shadow-lg backdrop-blur-xl transition hover:-translate-y-0.5 hover:bg-[#D4AF37] hover:text-[#030303]"
+        className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full border border-[#D4AF37]/34 bg-[#251d13]/78 text-[#D4AF37] shadow-lg backdrop-blur-xl transition hover:-translate-y-0.5 hover:bg-[#D4AF37] hover:text-[#030303] sm:h-11 sm:w-11"
       >
         {soundEnabled ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
       </button>
@@ -1855,8 +1859,8 @@ function ProcessVideoCard({ labels }: { labels: VideoCopy }) {
 
 function ProcessTimeline({ copy }: { copy: SiteCopy }) {
   return (
-    <section id="process" className="relative scroll-mt-36 overflow-hidden bg-[#050505] px-5 py-24 md:scroll-mt-40 md:px-8 md:py-32">
-      <div className="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-[#030303]/8 to-transparent" />
+    <section id="process" className="section-deep-gold relative scroll-mt-36 overflow-hidden px-5 py-24 md:scroll-mt-40 md:px-8 md:py-32">
+      <div className="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-[#F5E8C7]/6 to-transparent" />
       <div className="relative mx-auto max-w-7xl">
         <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(360px,460px)]">
           <FadeIn>
@@ -1875,12 +1879,12 @@ function ProcessTimeline({ copy }: { copy: SiteCopy }) {
           <div className="grid gap-3 sm:grid-cols-2 lg:col-start-1 lg:row-start-2">
             {copy.process.steps.map((step, index) => (
               <FadeIn key={step.title} delay={index * 0.04}>
-                <div className="group h-full rounded-[1.35rem] border border-[#D4AF37]/14 bg-[#101010]/78 p-4 shadow-[0_20px_70px_rgba(0,0,0,0.18)] backdrop-blur transition hover:-translate-y-1 hover:border-[#D4AF37]/35 hover:bg-[#141414]">
+                <div className="lux-card group h-full rounded-[1.35rem] border p-4 backdrop-blur transition hover:-translate-y-1 hover:border-[#D4AF37]/38">
                   <div className="flex items-center justify-between">
                     <span className="font-serif text-3xl text-[#C9A227]">
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <span className="flex h-9 w-9 items-center justify-center rounded-full border border-[#D4AF37]/20 bg-[#030303] text-[#D4AF37] transition group-hover:rotate-6">
+                    <span className="flex h-9 w-9 items-center justify-center rounded-full border border-[#D4AF37]/24 bg-[#2a2117] text-[#D4AF37] transition group-hover:rotate-6">
                       <ArrowRight className="h-3.5 w-3.5" />
                     </span>
                   </div>
@@ -1898,8 +1902,8 @@ function ProcessTimeline({ copy }: { copy: SiteCopy }) {
 
 function AboutSection({ copy }: { copy: SiteCopy }) {
   return (
-    <section id="about" className="scroll-mt-36 bg-[#050505] px-5 pb-24 md:scroll-mt-40 md:px-8 md:pb-32">
-      <div className="mx-auto max-w-7xl rounded-[2rem] border border-[#D4AF37]/14 bg-[#101010] p-5 shadow-[0_30px_100px_rgba(0,0,0,0.32)] lg:p-8">
+    <section id="about" className="section-graphite-warm scroll-mt-36 px-5 pb-24 md:scroll-mt-40 md:px-8 md:pb-32">
+      <div className="lux-panel mx-auto max-w-7xl rounded-[2rem] border p-5 lg:p-8">
         <div className="grid items-start gap-14 lg:grid-cols-[0.95fr_1fr]">
           <FadeIn>
             <PremiumVideoCard
@@ -1909,7 +1913,7 @@ function AboutSection({ copy }: { copy: SiteCopy }) {
               aspectClassName="aspect-[9/16]"
               className="mx-auto w-full max-w-[440px]"
             />
-            <div className="mt-4 rounded-[1.4rem] border border-[#D4AF37]/16 bg-[#030303]/62 p-5 text-[#FFF8E1]">
+            <div className="lux-card mt-4 rounded-[1.4rem] border p-5 text-[#FFF8E1]">
               <p className="text-sm leading-6">{copy.about.imageCardText}</p>
             </div>
           </FadeIn>
@@ -1940,8 +1944,8 @@ function AboutSection({ copy }: { copy: SiteCopy }) {
         </div>
 
         <FadeIn delay={0.18} className="mt-14 border-t border-[#D4AF37]/14 pt-14">
-          <div className="grid gap-10 rounded-[1.75rem] border border-white/10 bg-[#030303]/44 p-5 md:grid-cols-[260px_1fr] md:p-7 lg:grid-cols-[320px_1fr] lg:gap-12">
-            <div className="relative overflow-hidden rounded-[1.5rem] border border-[#D4AF37]/18 bg-[#030303] shadow-[0_24px_90px_rgba(0,0,0,0.32)]">
+          <div className="lux-card grid gap-10 rounded-[1.75rem] border p-5 md:grid-cols-[260px_1fr] md:p-7 lg:grid-cols-[320px_1fr] lg:gap-14">
+            <div className="relative overflow-hidden rounded-[1.5rem] border border-[#D4AF37]/20 bg-[#241e15] shadow-[0_24px_90px_rgba(0,0,0,0.28)]">
               <Image
                 src={agentPortrait}
                 alt={copy.about.agent.imageAlt}
@@ -1951,13 +1955,22 @@ function AboutSection({ copy }: { copy: SiteCopy }) {
                 className="aspect-[4/5] h-full w-full object-cover object-center"
               />
             </div>
-            <div className="flex flex-col justify-center">
+            <div className="flex flex-col justify-center py-2 md:py-4">
               <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#D4AF37] md:text-base">
                 {copy.about.agent.heading}
               </p>
-              <div className="mt-10 space-y-7 text-sm leading-7 text-[#D7C9A0]/78 md:text-base md:leading-8">
-                {copy.about.agent.body.map((paragraph) => (
-                  <p key={paragraph}>{paragraph}</p>
+              <div className="mt-10 space-y-8 text-base leading-8 text-[#D7C9A0]/80 md:text-lg md:leading-9">
+                {copy.about.agent.body.map((paragraph, index) => (
+                  <p
+                    key={paragraph}
+                    className={
+                      index === 2
+                        ? "my-10 border-l border-[#C9A227] pl-6 font-serif text-xl leading-snug text-[#F5E8C7] md:text-2xl"
+                        : undefined
+                    }
+                  >
+                    {paragraph}
+                  </p>
                 ))}
               </div>
             </div>
@@ -1970,7 +1983,7 @@ function AboutSection({ copy }: { copy: SiteCopy }) {
 
 function CredibilitySection({ copy }: { copy: SiteCopy }) {
   return (
-    <section className="bg-[#030303] px-5 py-20 text-[#FFF8E1] md:px-8">
+    <section className="section-bronze-bridge px-5 py-20 text-[#FFF8E1] md:px-8">
       <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-4">
         {copy.credibility.map((item, index) => (
           <FadeIn key={item.label} delay={index * 0.05}>
@@ -2007,7 +2020,7 @@ function TestimonialCard({
 
   return (
     <FadeIn delay={index * 0.08}>
-      <article className="flex h-full min-h-[320px] flex-col rounded-[1.75rem] border border-white/10 bg-white/[0.06] p-6 shadow-[0_24px_90px_rgba(0,0,0,0.22)] transition hover:-translate-y-1 hover:border-[#D4AF37]/28 hover:bg-white/[0.08] md:p-7">
+      <article className="lux-card-soft flex h-full min-h-[320px] flex-col rounded-[1.75rem] border p-6 transition hover:-translate-y-1 hover:border-[#D4AF37]/30 md:p-7">
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#D4AF37]/82">
@@ -2034,7 +2047,7 @@ function TestimonialCard({
           type="button"
           onClick={() => setExpanded((value) => !value)}
           aria-expanded={expanded}
-          className="mt-6 inline-flex w-fit items-center gap-2 rounded-full border border-[#D4AF37]/24 bg-[#030303]/46 px-4 py-2 text-sm font-semibold text-[#D4AF37] transition hover:bg-[#D4AF37] hover:text-[#030303]"
+          className="mt-6 inline-flex w-fit items-center gap-2 rounded-full border border-[#D4AF37]/28 bg-[#251d13]/52 px-4 py-2 text-sm font-semibold text-[#D4AF37] transition hover:bg-[#D4AF37] hover:text-[#030303]"
         >
           {expanded ? showLess : readMore}
           <ChevronRight className={`h-4 w-4 transition ${expanded ? "-rotate-90" : "rotate-90"}`} />
@@ -2046,7 +2059,7 @@ function TestimonialCard({
 
 function TestimonialsSection({ copy }: { copy: SiteCopy }) {
   return (
-    <section className="bg-[#101010] px-5 py-24 text-[#FFF8E1] md:px-8 md:py-32">
+    <section className="section-deep-gold px-5 py-24 text-[#FFF8E1] md:px-8 md:py-32">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           eyebrow={copy.testimonials.eyebrow}
@@ -2112,14 +2125,14 @@ function SelectFieldView({
 }) {
   return (
     <label htmlFor={id} className="block">
-      <span className="text-sm font-semibold text-[#FFF8E1]/84">{field.label}</span>
-      <span className="relative mt-2 block">
+      <span className="text-base font-semibold leading-6 text-[#FFF8E1]/86">{field.label}</span>
+      <span className="relative mt-3 block">
         <select
           id={id}
           name={id}
           required
           defaultValue=""
-          className="h-14 w-full appearance-none rounded-2xl border border-white/12 bg-[#030303]/58 px-4 pr-11 text-sm text-[#FFF8E1] outline-none transition focus:border-[#D4AF37]/70 focus:ring-4 focus:ring-[#D4AF37]/10"
+          className="lux-field h-16 w-full appearance-none rounded-[1.25rem] border px-5 pr-12 text-base text-[#FFF8E1] outline-none transition focus:border-[#D4AF37]/70 focus:ring-4 focus:ring-[#D4AF37]/12"
         >
           <option value="" disabled>
             {field.placeholder}
@@ -2130,7 +2143,7 @@ function SelectFieldView({
             </option>
           ))}
         </select>
-        <ChevronRight className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 translate-y-[-50%] rotate-90 text-[#D4AF37]" />
+        <ChevronRight className="pointer-events-none absolute right-5 top-1/2 h-4 w-4 translate-y-[-50%] rotate-90 text-[#D4AF37]" />
       </span>
     </label>
   );
@@ -2147,14 +2160,14 @@ function TextFieldView({
 }) {
   return (
     <label htmlFor={id} className="block">
-      <span className="text-sm font-semibold text-[#FFF8E1]/84">{field.label}</span>
+      <span className="text-base font-semibold leading-6 text-[#FFF8E1]/86">{field.label}</span>
       <input
         id={id}
         name={id}
         type={type}
         required
         placeholder={field.placeholder}
-        className="mt-2 h-14 w-full rounded-2xl border border-white/12 bg-[#030303]/58 px-4 text-sm text-[#FFF8E1] outline-none transition placeholder:text-[#FFF8E1]/34 focus:border-[#D4AF37]/70 focus:ring-4 focus:ring-[#D4AF37]/10"
+        className="lux-field mt-3 h-16 w-full rounded-[1.25rem] border px-5 text-base text-[#FFF8E1] outline-none transition placeholder:text-[#FFF8E1]/34 focus:border-[#D4AF37]/70 focus:ring-4 focus:ring-[#D4AF37]/12"
       />
     </label>
   );
@@ -2162,24 +2175,81 @@ function TextFieldView({
 
 function ConsultationForm({ copy }: { copy: SiteCopy }) {
   const fields = copy.form.fields;
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [formStatus, setFormStatus] = React.useState<"idle" | "success" | "error">("idle");
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (isSubmitting) {
+      return;
+    }
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    setIsSubmitting(true);
+    setFormStatus("idle");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          language: copy.metaLang,
+          purchasePurpose: String(formData.get("purchase-purpose") ?? ""),
+          budget: String(formData.get("budget") ?? ""),
+          visitCyprus: String(formData.get("visit-cyprus") ?? ""),
+          marketType: String(formData.get("market-type") ?? ""),
+          fullName: String(formData.get("full-name") ?? ""),
+          email: String(formData.get("email") ?? ""),
+          phone: String(formData.get("phone") ?? ""),
+          message: String(formData.get("message") ?? ""),
+          company: String(formData.get("company") ?? ""),
+        }),
+      });
+
+      if (!response.ok) {
+        setFormStatus("error");
+        return;
+      }
+
+      form.reset();
+      setFormStatus("success");
+    } catch {
+      setFormStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <form
-      action={`mailto:${contactEmail}`}
+      action="/api/contact"
       method="post"
-      className="rounded-[2rem] border border-[#D4AF37]/18 bg-[#030303]/68 p-5 shadow-[0_24px_90px_rgba(0,0,0,0.36)] backdrop-blur-xl md:p-6"
+      onSubmit={handleSubmit}
+      className="lux-panel rounded-[2rem] border p-6 backdrop-blur-xl md:p-8"
     >
       <Image
         src={brandAssets.logoTransparent}
         alt="Project Cyprus"
         width={500}
         height={500}
-        className="mb-5 h-16 w-16 rounded-full object-contain ring-1 ring-[#D4AF37]/20"
+        className="mb-6 h-16 w-16 rounded-full object-contain ring-1 ring-[#D4AF37]/20"
       />
-      <p className="text-sm font-semibold text-[#D4AF37]">{copy.form.title}</p>
-      <p className="mt-2 text-sm leading-6 text-[#FFF8E1]/62">{copy.form.text}</p>
+      <p className="text-lg font-semibold text-[#D4AF37] md:text-xl">{copy.form.title}</p>
+      <input
+        type="text"
+        name="company"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="hidden"
+      />
 
-      <div className="mt-8 grid gap-5 lg:grid-cols-2">
+      <div className="mt-9 grid gap-6 lg:grid-cols-2">
         <SelectFieldView id="purchase-purpose" field={fields.purpose} />
         <SelectFieldView id="budget" field={fields.budget} />
         <SelectFieldView id="visit-cyprus" field={fields.visit} />
@@ -2191,19 +2261,32 @@ function ConsultationForm({ copy }: { copy: SiteCopy }) {
 
       <button
         type="submit"
-        className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#D4AF37] px-6 text-sm font-semibold text-[#030303] transition hover:bg-[#E0C46C]"
+        disabled={isSubmitting}
+        className="mt-8 inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-[#D4AF37] px-7 text-base font-semibold text-[#030303] transition hover:bg-[#E0C46C] disabled:cursor-not-allowed disabled:opacity-70"
       >
-        {copy.form.submit}
+        {isSubmitting ? copy.form.sending : copy.form.submit}
         <ArrowRight className="h-4 w-4" />
       </button>
+      {formStatus !== "idle" && (
+        <p
+          role="status"
+          className={`mt-5 rounded-[1.25rem] border px-4 py-3 text-sm leading-6 ${
+            formStatus === "success"
+              ? "border-[#D4AF37]/24 bg-[#D4AF37]/10 text-[#F5E8C7]"
+              : "border-[#D4AF37]/24 bg-[#251d13]/52 text-[#F5E8C7]"
+          }`}
+        >
+          {formStatus === "success" ? copy.form.success : copy.form.error}
+        </p>
+      )}
     </form>
   );
 }
 
 function ContactDetails({ copy, compact = false }: { copy: SiteCopy; compact?: boolean }) {
   const cardClass = compact
-    ? "group rounded-[1.15rem] border border-white/12 bg-white/8 p-3.5 transition hover:bg-white/12"
-    : "group rounded-[1.35rem] border border-white/12 bg-white/8 p-4 transition hover:bg-white/12";
+    ? "lux-card-soft group rounded-[1.15rem] border p-3.5 transition hover:border-[#D4AF37]/26"
+    : "lux-card-soft group rounded-[1.35rem] border p-4 transition hover:border-[#D4AF37]/26";
   const labelClass = compact
     ? "mt-2 text-[0.68rem] uppercase tracking-[0.18em] text-[#FFF8E1]/48"
     : "mt-3 text-xs uppercase tracking-[0.22em] text-[#FFF8E1]/48";
@@ -2214,7 +2297,7 @@ function ContactDetails({ copy, compact = false }: { copy: SiteCopy; compact?: b
 
   return (
     <div className={`grid ${compact ? "gap-2.5" : "gap-4 mt-6"}`}>
-      <div className={compact ? "rounded-[1.15rem] border border-white/12 bg-white/8 p-3.5" : "rounded-[1.35rem] border border-white/12 bg-white/8 p-4"}>
+      <div className={compact ? "lux-card-soft rounded-[1.15rem] border p-3.5" : "lux-card-soft rounded-[1.35rem] border p-4"}>
         <p className="text-xs uppercase tracking-[0.22em] text-[#D4AF37]/80">
           {copy.contact.agentLabel}
         </p>
@@ -2282,11 +2365,11 @@ function ContactDetails({ copy, compact = false }: { copy: SiteCopy; compact?: b
 
 function CTASection({ copy }: { copy: SiteCopy }) {
   return (
-    <section id="contact" className="relative scroll-mt-36 overflow-hidden bg-[#030303] px-5 py-24 text-[#FFF8E1] md:scroll-mt-40 md:px-8 md:py-32">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(212,175,55,0.12),transparent_30rem),radial-gradient(circle_at_88%_72%,rgba(224,196,108,0.08),transparent_26rem)]" />
-      <div className="relative mx-auto max-w-7xl rounded-[2.2rem] border border-[#D4AF37]/16 bg-[#101010]/72 p-5 shadow-[0_34px_110px_rgba(0,0,0,0.38)] backdrop-blur-xl lg:p-8">
+    <section id="contact" className="section-contact-glow relative scroll-mt-36 overflow-hidden px-5 py-24 text-[#FFF8E1] md:scroll-mt-40 md:px-8 md:py-32">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(245,232,199,0.10),transparent_30rem),radial-gradient(circle_at_88%_72%,rgba(224,196,108,0.10),transparent_26rem)]" />
+      <div className="lux-panel relative mx-auto max-w-7xl rounded-[2.2rem] border p-5 backdrop-blur-xl lg:p-8">
         <FadeIn>
-          <div className="rounded-[2rem] border border-[#D4AF37]/12 bg-[#030303]/28 p-5 md:p-7">
+          <div className="rounded-[2rem] border border-[#F5E8C7]/14 bg-[#2a2117]/38 p-5 md:p-7">
             <div className="max-w-4xl">
               <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#D4AF37] md:text-base">
                 {copy.cta.eyebrow}
@@ -2309,7 +2392,7 @@ function CTASection({ copy }: { copy: SiteCopy }) {
             </div>
 
             <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
-              <div className="rounded-[2rem] border border-[#D4AF37]/16 bg-[#030303]/56 p-5 md:p-6">
+              <div className="lux-card rounded-[2rem] border p-5 md:p-6">
                 <p className="text-sm font-semibold text-[#D4AF37]">{copy.cta.detailsTitle}</p>
                 <ContactDetails copy={copy} />
                 <div className="mt-6">
@@ -2337,7 +2420,7 @@ function CTASection({ copy }: { copy: SiteCopy }) {
 
 function Footer({ copy }: { copy: SiteCopy }) {
   return (
-    <footer className="bg-[#030303] px-5 py-12 text-[#FFF8E1] md:px-8">
+    <footer className="bg-[radial-gradient(circle_at_18%_0%,rgba(212,175,55,0.10),transparent_24rem),linear-gradient(180deg,#201a12,#171612)] px-5 py-12 text-[#FFF8E1] md:px-8">
       <div className="mx-auto grid max-w-7xl gap-10 border-t border-[#D4AF37]/18 pt-10 lg:grid-cols-[1fr_0.65fr_0.65fr_0.65fr]">
         <div>
           <Image
@@ -2409,7 +2492,7 @@ export default function ProjectCyprusHomepage() {
   }, [copy.metaLang]);
 
   return (
-    <main className="min-h-screen bg-[#030303] text-[#FFF8E1]">
+    <main className="site-luxury-bg min-h-screen text-[#FFF8E1]">
       <FloatingHeader
         language={language}
         onLanguageChange={setLanguage}

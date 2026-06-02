@@ -5,13 +5,16 @@ import React from "react";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
+  BedDouble,
   Building2,
   CheckCircle2,
+  ChevronLeft,
   ChevronRight,
   Euro,
   KeyRound,
   Mail,
   MapPin,
+  Maximize2,
   Menu,
   MessageCircle,
   Phone,
@@ -23,22 +26,13 @@ import {
   X,
 } from "lucide-react";
 import { brandAssets } from "@/lib/brand";
+import { getLocalizedOffers, type OfferView } from "@/lib/offers";
 
-type Language = "pl" | "en" | "el";
+type Language = "pl" | "en";
 
 type NavItem = {
   label: string;
   href: string;
-};
-
-type Property = {
-  title: string;
-  location: string;
-  price: string;
-  beds: string;
-  type: string;
-  status: string;
-  image: string;
 };
 
 type Icon = React.ComponentType<{ className?: string }>;
@@ -157,9 +151,6 @@ type SiteCopy = {
     title: string;
     text: string;
     emphasis: string;
-    allCta: string;
-    detailsCta: string;
-    items: Property[];
   };
   why: {
     eyebrow: string;
@@ -244,13 +235,38 @@ const instagramHref = "https://www.instagram.com/projectcyprus_/";
 
 const heroImage = "/images/background-head.jpeg";
 const agentPortrait = "/images/agent-portrait.jpg";
-const propertyImages = [
-  "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=85",
-  "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1400&q=85",
-  "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1400&q=85",
-];
-
 // Keep both language entries in sync whenever page content changes.
+const languageStorageKey = "project-cyprus-language";
+
+function normalizeLanguage(value: unknown): Language {
+  return value === "en" || value === "pl" ? value : "pl";
+}
+
+const offerLabels = {
+  pl: {
+    location: "Lokalizacja",
+    type: "Typ",
+    bedrooms: "Sypialnie",
+    area: "Powierzchnia",
+    price: "Cena",
+    ask: "Zapytaj o tę nieruchomość",
+    close: "Zamknij",
+    previous: "Poprzednie zdjęcie",
+    next: "Następne zdjęcie",
+  },
+  en: {
+    location: "Location",
+    type: "Type",
+    bedrooms: "Bedrooms",
+    area: "Area",
+    price: "Price",
+    ask: "Ask about this property",
+    close: "Close",
+    previous: "Previous image",
+    next: "Next image",
+  },
+} satisfies Record<Language, Record<string, string>>;
+
 const content = {
   pl: {
     metaLang: "pl",
@@ -263,7 +279,7 @@ const content = {
       { label: "Kontakt", href: "#contact" },
     ],
     consultationCta: "Umów konsultację",
-    languageLabels: { pl: "PL", en: "EN", el: "GR" },
+    languageLabels: { pl: "PL", en: "EN" },
     mobileMenuOpen: "Otwórz menu",
     mobileMenuClose: "Zamknij menu",
     currentLanguageLabel: "Aktualny język",
@@ -276,7 +292,7 @@ const content = {
     },
     hero: {
       imageAlt: "Wybrzeże Cypru o zachodzie słońca",
-      eyebrow: "Wsparcie po polsku, angielsku i grecku na Cyprze",
+      eyebrow: "Wsparcie po polsku i angielsku na Cyprze",
       title: "Znajdź nieruchomość na Cyprze z pełnym spokojem.",
       text: "Pomagamy wybrać sprawdzone apartamenty, wille i inwestycje w najlepszych lokalizacjach południowego Cypru — od pierwszej rozmowy do odbioru kluczy.",
       primaryCta: "Umów bezpłatną konsultację",
@@ -291,7 +307,7 @@ const content = {
         icon: Star,
         wide: true,
       },
-      { value: "PL / EN / GR", label: "obsługa", icon: MessageCircle },
+      { value: "PL / EN", label: "obsługa", icon: MessageCircle },
       { value: "0%", label: "prowizji od kupującego", icon: Euro },
       { value: "Pafos", label: "i południowy Cypr", icon: MapPin },
     ],
@@ -336,37 +352,6 @@ const content = {
       title: "Wybrane nieruchomości warte uwagi",
       text: "Nie ograniczamy się do ofert widocznych na stronie.\nPrezentowane nieruchomości są jedynie przykładem dostępnych możliwości.",
       emphasis: "Na podstawie Twoich oczekiwań przygotujemy indywidualnie dopasowaną ofertę spośród ponad 90% nieruchomości dostępnych na rynku pierwotnym i wtórnym.",
-      allCta: "",
-      detailsCta: "Zapytaj",
-      items: [
-        {
-          title: "Apartament z widokiem na morze",
-          location: "Pafos, Universal",
-          price: "od €245,000",
-          beds: "2 sypialnie",
-          type: "Apartament",
-          status: "Bez prowizji",
-          image: propertyImages[0],
-        },
-        {
-          title: "Nowoczesna willa z basenem",
-          location: "Tala, Pafos",
-          price: "od €590,000",
-          beds: "3 sypialnie",
-          type: "Willa",
-          status: "Oferta specjalna",
-          image: propertyImages[1],
-        },
-        {
-          title: "Dom blisko plaży i restauracji",
-          location: "Coral Bay",
-          price: "od €420,000",
-          beds: "3 sypialnie",
-          type: "Dom",
-          status: "Nowość",
-          image: propertyImages[2],
-        },
-      ],
     },
     why: {
       eyebrow: "Dlaczego Cypr",
@@ -418,7 +403,7 @@ const content = {
     },
     about: {
       eyebrow: "O Project Cyprus",
-      title: "Lokalna wiedza, komunikacja PL/EN/GR, indywidualne podejście.",
+      title: "Lokalna wiedza, komunikacja PL/EN, indywidualne podejście.",
       text: "Project Cyprus pomaga osobom szukającym nieruchomości na Cyprze przejść przez cały proces z jasnością i spokojem.",
       emphasis: "Od wyboru lokalizacji, przez selekcję ofert, po kontakt z prawnikami, deweloperami i usługami po zakupie.",
       imageAlt: "Eleganckie wnętrze apartamentu",
@@ -441,7 +426,7 @@ const content = {
         value: "Licencja",
         label: "Współpracujemy z cypryjską agencją nieruchomości",
       },
-      { value: "PL / EN / GR", label: "komunikacja" },
+      { value: "PL / EN", label: "komunikacja" },
       { value: "0%", label: "prowizji od kupującego" },
       { value: "Południe", label: "Cypr jako fokus" },
     ],
@@ -534,7 +519,7 @@ const content = {
       navTitle: "Nawigacja",
       contactTitle: "Kontakt",
       languageTitle: "Język",
-      languageText: "Polski · English · Ελληνικά",
+      languageText: "Polski · English",
       copyright: "© 2026 Project Cyprus. Nieruchomości na Cyprze.",
       locationLine: "Pafos · Limassol · Larnaca · Ayia Napa · Protaras",
     },
@@ -550,7 +535,7 @@ const content = {
       { label: "Contact", href: "#contact" },
     ],
     consultationCta: "Book a consultation",
-    languageLabels: { pl: "PL", en: "EN", el: "GR" },
+    languageLabels: { pl: "PL", en: "EN" },
     mobileMenuOpen: "Open menu",
     mobileMenuClose: "Close menu",
     currentLanguageLabel: "Current language",
@@ -563,7 +548,7 @@ const content = {
     },
     hero: {
       imageAlt: "Cyprus coastline at sunset",
-      eyebrow: "Support in Polish, English and Greek in Cyprus",
+      eyebrow: "Support in Polish and English in Cyprus",
       title: "Find your property in Cyprus with complete peace of mind.",
       text: "We help you choose verified apartments, villas, and investment properties in the best locations of southern Cyprus, from the first conversation to collecting the keys.",
       primaryCta: "Book a free consultation",
@@ -578,7 +563,7 @@ const content = {
         icon: Star,
         wide: true,
       },
-      { value: "PL / EN / GR", label: "support", icon: MessageCircle },
+      { value: "PL / EN", label: "support", icon: MessageCircle },
       { value: "0%", label: "buyer commission", icon: Euro },
       { value: "Paphos", label: "and southern Cyprus", icon: MapPin },
     ],
@@ -623,37 +608,6 @@ const content = {
       title: "Selected properties worth your attention",
       text: "We are not limited to the offers visible on the website.\nThe properties shown are only examples of available possibilities.",
       emphasis: "Based on your expectations, we will prepare an individually matched offer from over 90% of properties available on the new-build and resale markets.",
-      allCta: "",
-      detailsCta: "Ask",
-      items: [
-        {
-          title: "Sea-view apartment",
-          location: "Paphos, Universal",
-          price: "from €245,000",
-          beds: "2 bedrooms",
-          type: "Apartment",
-          status: "No commission",
-          image: propertyImages[0],
-        },
-        {
-          title: "Modern villa with a pool",
-          location: "Tala, Paphos",
-          price: "from €590,000",
-          beds: "3 bedrooms",
-          type: "Villa",
-          status: "Special offer",
-          image: propertyImages[1],
-        },
-        {
-          title: "Home close to the beach and restaurants",
-          location: "Coral Bay",
-          price: "from €420,000",
-          beds: "3 bedrooms",
-          type: "House",
-          status: "New listing",
-          image: propertyImages[2],
-        },
-      ],
     },
     why: {
       eyebrow: "Why Cyprus",
@@ -725,7 +679,7 @@ const content = {
     },
     credibility: [
       { value: "Licensed", label: "We work with a licensed Cyprus real estate agency" },
-      { value: "PL / EN / GR", label: "communication" },
+      { value: "PL / EN", label: "communication" },
       { value: "0%", label: "buyer commission" },
       { value: "South", label: "Cyprus focus" },
     ],
@@ -818,296 +772,9 @@ const content = {
       navTitle: "Navigation",
       contactTitle: "Contact",
       languageTitle: "Language",
-      languageText: "English · Polski · Ελληνικά",
+      languageText: "English · Polski",
       copyright: "© 2026 Project Cyprus. Property in Cyprus.",
       locationLine: "Paphos · Limassol · Larnaca · Ayia Napa · Protaras",
-    },
-  },
-  el: {
-    metaLang: "el",
-    headerSubtitle: "Real Estate Advisory",
-    navItems: [
-      { label: "Ακίνητα", href: "#properties" },
-      { label: "Διαδικασία αγοράς", href: "#process" },
-      { label: "Γιατί Κύπρος", href: "#why" },
-      { label: "Σχετικά με εμάς", href: "#about" },
-      { label: "Επικοινωνία", href: "#contact" },
-    ],
-    consultationCta: "Κλείστε συμβουλευτική",
-    languageLabels: { pl: "PL", en: "EN", el: "GR" },
-    mobileMenuOpen: "Άνοιγμα μενού",
-    mobileMenuClose: "Κλείσιμο μενού",
-    currentLanguageLabel: "Τρέχουσα γλώσσα",
-    switchLanguageLabel: "Αλλαγή γλώσσας σε",
-    video: {
-      mutedLabel: "Κάντε κλικ για προβολή με ήχο",
-      unmutedLabel: "Αναπαραγωγή με ήχο",
-      muteAriaLabel: "Σίγαση βίντεο",
-      unmuteAriaLabel: "Αναπαραγωγή βίντεο με ήχο",
-    },
-    hero: {
-      imageAlt: "Ακτογραμμή της Κύπρου στο ηλιοβασίλεμα",
-      eyebrow: "Υποστήριξη στην Κύπρο στα ελληνικά, αγγλικά και πολωνικά",
-      title: "Βρείτε ακίνητο στην Κύπρο με απόλυτη ηρεμία.",
-      text: "Σας βοηθάμε να επιλέξετε ελεγμένα διαμερίσματα, βίλες και επενδυτικά ακίνητα στις καλύτερες τοποθεσίες της νότιας Κύπρου — από την πρώτη συζήτηση μέχρι την παράδοση των κλειδιών.",
-      primaryCta: "Κλείστε δωρεάν συμβουλευτική",
-      secondaryCta: "Δείτε ακίνητα",
-      locationStrip: "Πάφος · Λεμεσός · Λάρνακα · Αγία Νάπα · Πρωταράς",
-      scrollCue: "Κύλιση",
-    },
-    heroStats: [
-      {
-        value: "Αδειοδοτημένο γραφείο",
-        label: "Συνεργαζόμαστε με αδειοδοτημένο κυπριακό κτηματομεσιτικό γραφείο",
-        icon: Star,
-        wide: true,
-      },
-      { value: "PL / EN / GR", label: "επικοινωνία", icon: MessageCircle },
-      { value: "0%", label: "προμήθεια αγοραστή", icon: Euro },
-      { value: "Πάφος", label: "και νότια Κύπρος", icon: MapPin },
-    ],
-    promises: [
-      {
-        title: "Πάνω από το 90% των προσφορών",
-        text: "Ακίνητα από την αγορά νεόδμητων, μεταπωλήσεων, οικοπέδων και επαγγελματικών χώρων.",
-        icon: Sparkles,
-      },
-      {
-        title: "Ελεγμένοι κατασκευαστές",
-        text: "Ελέγχουμε έργα, τοποθεσίες και συνεργάτες πριν τα παρουσιάσουμε στους πελάτες.",
-        icon: Building2,
-      },
-      {
-        title: "Χωρίς προμήθεια αγοραστή",
-        text: "Εργαζόμαστε με διαφάνεια και επιλεγμένες προσφορές δεν επιβαρύνουν τον αγοραστή με προμήθεια.",
-        icon: Euro,
-      },
-      {
-        title: "Νομική και διαδικαστική υποστήριξη",
-        text: "Βοηθάμε στην οργάνωση εγγράφων, κρατήσεων και κάθε σταδίου της αγοράς.",
-        icon: ShieldCheck,
-      },
-      {
-        title: "Βοήθεια μετά την αγορά",
-        text: "Η παράδοση των κλειδιών δεν είναι το τέλος. Σας βοηθάμε με πρακτικά θέματα επιτόπου.",
-        icon: KeyRound,
-      },
-    ],
-    intro: {
-      eyebrow: "Τρόπος ζωής και επένδυση",
-      title: "Κάθε σωστή απόφαση αρχίζει από το κατάλληλο μέρος.",
-      text: "Η Κύπρος μπορεί να είναι δεύτερη κατοικία, ήρεμη επένδυση ή η αρχή ενός νέου τρόπου ζωής. Ο ρόλος μας είναι να οργανώσουμε τις επιλογές, να μειώσουμε το ρίσκο και να σας δείξουμε μόνο ακίνητα που πραγματικά έχουν νόημα.",
-      quote: "Δεν αγοράζετε απλώς μια διεύθυνση. Επιλέγετε τρόπο ζωής, ασφάλεια και μέλλον.",
-      imageAlt: "Κομψή εξοχική κατοικία στην Κύπρο",
-      cardEyebrow: "Project Cyprus",
-      cardText: "Η ηρεμία στην απόφαση αρχίζει με σωστή επιλογή.",
-    },
-    properties: {
-      eyebrow: "Επιλεγμένες προτάσεις",
-      title: "Επιλεγμένα ακίνητα που αξίζουν την προσοχή σας",
-      text: "Δεν περιοριζόμαστε στις προσφορές που εμφανίζονται στην ιστοσελίδα.\nΤα ακίνητα που παρουσιάζονται είναι μόνο παραδείγματα των διαθέσιμων επιλογών.",
-      emphasis: "Με βάση τις ανάγκες σας, θα ετοιμάσουμε μια εξατομικευμένη πρόταση από πάνω από το 90% των ακινήτων που είναι διαθέσιμα στην αγορά νεόδμητων και μεταπωλήσεων.",
-      allCta: "",
-      detailsCta: "Ρωτήστε",
-      items: [
-        {
-          title: "Διαμέρισμα με θέα στη θάλασσα",
-          location: "Πάφος, Universal",
-          price: "από €245,000",
-          beds: "2 υπνοδωμάτια",
-          type: "Διαμέρισμα",
-          status: "Χωρίς προμήθεια",
-          image: propertyImages[0],
-        },
-        {
-          title: "Σύγχρονη βίλα με πισίνα",
-          location: "Τάλα, Πάφος",
-          price: "από €590,000",
-          beds: "3 υπνοδωμάτια",
-          type: "Βίλα",
-          status: "Ειδική προσφορά",
-          image: propertyImages[1],
-        },
-        {
-          title: "Κατοικία κοντά στην παραλία και τα εστιατόρια",
-          location: "Coral Bay",
-          price: "από €420,000",
-          beds: "3 υπνοδωμάτια",
-          type: "Κατοικία",
-          status: "Νέα καταχώρηση",
-          image: propertyImages[2],
-        },
-      ],
-    },
-    why: {
-      eyebrow: "Γιατί Κύπρος",
-      title: "Ήλιος, ασφάλεια και μια αγορά που προσελκύει επενδυτές.",
-      text: "Η Κύπρος προσφέρει κάτι περισσότερο από όμορφη θέα. Συνδυάζει ποιότητα ζωής, σταθερή ζήτηση για ενοικίαση και πιο ήρεμο καθημερινό ρυθμό.",
-      cards: [
-        "Πάνω από 300 ηλιόλουστες ημέρες τον χρόνο",
-        "Σταθερή αγορά ενοικίασης",
-        "Ασφαλές περιβάλλον για οικογένειες",
-        "Ελκυστικός τρόπος ζωής",
-        "Καλές συνδέσεις με την Ευρώπη",
-        "Αυξανόμενο ενδιαφέρον επενδυτών",
-      ],
-      imageAlt: "Σύγχρονη μεσογειακή βίλα",
-      locationEyebrow: "Τοποθεσίες",
-      locationTitle: "Πάφος · Λεμεσός · Λάρνακα",
-      locationText: "Ταιριάζουμε την περιοχή με τον στόχο σας: δεύτερη κατοικία, εισόδημα από ενοίκιο, επένδυση ή μετεγκατάσταση.",
-    },
-    process: {
-      eyebrow: "Διαδικασία αγοράς",
-      title: "Μια ξεκάθαρη διαδρομή από την πρώτη ιδέα μέχρι την παράδοση των κλειδιών.",
-      text: "Κάθε στάδιο έχει αποφάσεις, έγγραφα και ερωτήσεις. Ο ρόλος μας είναι να σας καθοδηγήσουμε ήρεμα και ξεκάθαρα.",
-      steps: [
-        {
-          title: "Δωρεάν συμβουλευτική",
-          text: "Συζητάμε τον σκοπό αγοράς, τον τρόπο ζωής, τον προϋπολογισμό και τις προτιμώμενες τοποθεσίες.",
-        },
-        {
-          title: "Επιλογή τοποθεσίας και προϋπολογισμού",
-          text: "Επιλέγουμε ακίνητα που ταιριάζουν στον στόχο, τον προϋπολογισμό και το πραγματικό σας πλάνο αγοράς.",
-        },
-        {
-          title: "Επιλογή ελεγμένων προτάσεων",
-          text: "Παρουσιάζουμε επιλεγμένα ακίνητα με σαφή αιτιολόγηση και πραγματική προοπτική.",
-        },
-        {
-          title: "Παρουσίαση online ή από κοντά",
-          text: "Οργανώνουμε προβολές, συγκρίνουμε έργα και απαντάμε σε συγκεκριμένες ερωτήσεις.",
-        },
-        {
-          title: "Κράτηση και νομική υποστήριξη",
-          text: "Βοηθάμε με τα έγγραφα, την επικοινωνία με δικηγόρο και τη διαδικασία κράτησης.",
-        },
-        {
-          title: "Παράδοση κλειδιών και βοήθεια μετά την αγορά",
-          text: "Σας υποστηρίζουμε στην παράδοση και στις πρακτικές αποφάσεις που ακολουθούν.",
-        },
-      ],
-    },
-    about: {
-      eyebrow: "Σχετικά με το Project Cyprus",
-      title: "Τοπική γνώση, καθαρή επικοινωνία και προσωπική προσέγγιση.",
-      text: "Το Project Cyprus βοηθά όσους αναζητούν ακίνητο στην Κύπρο να περάσουν όλη τη διαδικασία με σαφήνεια και σιγουριά.",
-      emphasis: "Από την επιλογή τοποθεσίας και την επιλογή προτάσεων μέχρι τον συντονισμό με δικηγόρους, κατασκευαστές και υπηρεσίες μετά την αγορά.",
-      imageAlt: "Κομψό εσωτερικό διαμερίσματος",
-      imageCardText: "Τοπική γνώση, αξιόπιστες επαφές και επικοινωνία που σας δίνει αίσθηση ελέγχου.",
-      primaryCta: "Ας γνωριστούμε",
-      secondaryCta: "Στείλτε μήνυμα στο WhatsApp",
-      agent: {
-        heading: "Σχετικά με εμένα",
-        imageAlt: "Małgorzata Pietkiewicz",
-        body: [
-          "Ονομάζομαι Małgorzata Pietkiewicz και ζω στη γραφική Πάφο της Κύπρου. Συνεργάζομαι με ένα αξιόπιστο κτηματομεσιτικό γραφείο με πάνω από 25 χρόνια εμπειρίας στην τοπική αγορά, βοηθώντας πελάτες να βρουν το ονειρεμένο τους σπίτι, διαμέρισμα ή επένδυση στο νησί.",
-          "Η Κύπρος με εντυπωσίασε με το κλίμα, τον πολιτισμό και τα μοναδικά της τοπία από τις πρώτες κιόλας στιγμές της παραμονής μου. Εδώ ανακάλυψα το πάθος μου για τα ακίνητα και την ικανοποίηση που προσφέρει η βοήθεια προς άλλους ανθρώπους να βρουν έναν χώρο που μπορούν να αποκαλούν σπίτι τους.",
-          "Αντιμετωπίζω κάθε πελάτη ξεχωριστά, επιλέγοντας προσεκτικά ακίνητα σύμφωνα με τις ανάγκες, τις προσδοκίες και τον τρόπο ζωής του. Στόχος μου είναι όλη η διαδικασία αγοράς να πραγματοποιείται σε κλίμα εμπιστοσύνης, άνεσης και πλήρους υποστήριξης σε κάθε στάδιο.",
-          "Σας προσκαλώ θερμά να επικοινωνήσετε μαζί μου. Θα χαρώ να σας βοηθήσω να πραγματοποιήσετε το όνειρό σας για τη δική σας ακίνητη περιουσία στην ηλιόλουστη Κύπρο.",
-        ],
-      },
-    },
-    credibility: [
-      {
-        value: "Άδεια",
-        label: "Συνεργαζόμαστε με αδειοδοτημένο κυπριακό κτηματομεσιτικό γραφείο",
-      },
-      { value: "PL / EN / GR", label: "επικοινωνία" },
-      { value: "0%", label: "προμήθεια αγοραστή" },
-      { value: "Νότια", label: "Κύπρος ως επίκεντρο" },
-    ],
-    testimonials: {
-      eyebrow: "Μαρτυρίες",
-      title: "Τι εκτιμούν οι πελάτες μας;",
-      clientLabel: "Πελάτης Project Cyprus",
-      readMore: "Διαβάστε περισσότερα",
-      showLess: "Εμφάνιση λιγότερων",
-      items: [
-        {
-          name: "Kołcz Monika",
-          preview: "Συστήνουμε ανεπιφύλακτα το Project Cyprus και την ανεκτίμητη Małgosia. Δεν είχαμε ξανασυναντήσει τόσο επαγγελματική και γρήγορη προσέγγιση.",
-          full: "Συστήνουμε ανεπιφύλακτα το Project Cyprus και την ανεκτίμητη Małgosia. Δεν είχαμε ξανασυναντήσει τόσο επαγγελματική και γρήγορη προσέγγιση. Μετά τη συζήτησή μας, μέσα σε 24 ώρες η Małgosia ετοίμασε για εμάς μια λίστα με ιδανικά ακίνητα. Ήταν ακριβώς αυτά που ανταποκρίνονταν στις προσδοκίες μας.\n\nΧωρίς να χάσουμε χρόνο, την επόμενη κιόλας ημέρα βρεθήκαμε στο δικηγορικό γραφείο για να υπογράψουμε τη συμφωνία κράτησης. Η υποστήριξή της ήταν ανεκτίμητη ακόμη και μετά την υπογραφή — η Małgosia παρακολουθούσε συνεχώς την πρόοδο, διασφαλίζοντας ότι όλα προχωρούσαν σύμφωνα με το πλάνο μέχρι το τέλος. Ήταν καθαρός επαγγελματισμός σε συνδυασμό με εξαιρετική φροντίδα για τον πελάτη. Ευχαριστούμε και τη συστήνουμε με όλη μας την καρδιά.",
-        },
-        {
-          name: "Kasia Kurek",
-          preview: "Μια υπέροχη συνεργασία. Η Małgorzata μας σύστησε σε τοπικούς developers, οι οποίοι παρουσίασαν τις προτάσεις τους.",
-          full: "Μια υπέροχη συνεργασία. Η Małgorzata μας σύστησε σε τοπικούς developers, οι οποίοι παρουσίασαν τις προτάσεις τους. Μας έδειξαν τις τοποθεσίες και τα έργα τους. Ειλικρινά, μετά από μία ώρα προβολής των έργων και αφού λάβαμε τις συμβουλές της Małgorzata, αποφασίσαμε να αγοράσουμε το διαμέρισμα.\n\nΤην αμέσως επόμενη ημέρα είχαμε μια μη δεσμευτική συνάντηση με δικηγόρο, ο οποίος εξέτασε το έργο. Η οργάνωση ήταν πραγματικά εξαιρετική. Το συστήνω ανεπιφύλακτα. Σίγουρα θα επιστρέψουμε στο Project Cyprus.",
-        },
-        {
-          name: "Anna και Piotr",
-          preview: "Από την πρώτη επικοινωνία νιώσαμε ότι βρισκόμαστε σε καλά χέρια. Η Małgorzata άκουσε προσεκτικά τις ανάγκες μας.",
-          full: "Από την πρώτη επικοινωνία νιώσαμε ότι βρισκόμαστε σε καλά χέρια. Η Małgorzata άκουσε προσεκτικά τις ανάγκες μας, μας εξήγησε τις διαφορές μεταξύ των περιοχών και μας έδειξε μόνο ακίνητα που ταίριαζαν πραγματικά στον προϋπολογισμό και τα σχέδιά μας.\n\nΑυτό που εκτιμήσαμε περισσότερο ήταν η ήρεμη επικοινωνία, οι γρήγορες απαντήσεις και η υποστήριξη σε κάθε στάδιο — από την επιλογή του διαμερίσματος, την επικοινωνία με τον developer, μέχρι τις διαδικασίες. Όλη η διαδικασία ήταν πολύ πιο απλή απ’ όσο περιμέναμε. Συστήνουμε το Project Cyprus σε όποιον θέλει να αγοράσει ακίνητο στην Κύπρο χωρίς άγχος.",
-        },
-      ],
-    },
-    cta: {
-      imageAlt: "Σύγχρονη βίλα στην Κύπρο",
-      eyebrow: "Δωρεάν συμβουλευτική",
-      title: "Πείτε μας τι αναζητάτε στην Κύπρο.",
-      text: "Θα ετοιμάσουμε προσαρμοσμένες προτάσεις και θα εξηγήσουμε όλη τη διαδικασία αγοράς βήμα προς βήμα.",
-      primaryCta: "Κλείστε δωρεάν συμβουλευτική",
-      secondaryCta: "Στείλτε μήνυμα στο WhatsApp",
-      contactTitle: "Μιλήστε με σύμβουλο",
-      detailsTitle: "Στοιχεία επικοινωνίας",
-    },
-    form: {
-      title: "Φόρμα συμβουλευτικής",
-      submit: "Αποστολή αιτήματος",
-      sending: "Αποστολή...",
-      success: "Ευχαριστούμε. Το αίτημά σας έχει σταλεί. Θα επικοινωνήσουμε μαζί σας σύντομα.",
-      error: "Δεν ήταν δυνατή η αποστολή της φόρμας. Δοκιμάστε ξανά ή επικοινωνήστε απευθείας μαζί μας.",
-      fields: {
-        purpose: {
-          label: "Σκοπός αγοράς",
-          placeholder: "Επιλέξτε σκοπό αγοράς",
-          options: ["Επένδυση", "Μετεγκατάσταση"],
-        },
-        budget: {
-          label: "Προϋπολογισμός",
-          placeholder: "Επιλέξτε προϋπολογισμό",
-          options: ["Έως 250 000 EUR", "250 000–500 000 EUR", "Πάνω από 500 000 EUR"],
-        },
-        visit: {
-          label: "Θα θέλατε να ταξιδέψετε στην Κύπρο για να δείτε επιλεγμένα διαμερίσματα ή κατοικίες από κοντά;",
-          placeholder: "Επιλέξτε απάντηση",
-          options: ["Ναι, θα ήθελα", "Όχι ακόμα"],
-        },
-        market: {
-          label: "Σας ενδιαφέρουν ακίνητα μεταπώλησης, νεόδμητα ακίνητα ή και τα δύο;",
-          placeholder: "Επιλέξτε αγορά",
-          options: ["Ακίνητα μεταπώλησης", "Νεόδμητα ακίνητα", "Και τα δύο"],
-        },
-        name: {
-          label: "Ονοματεπώνυμο",
-          placeholder: "Πληκτρολογήστε ονοματεπώνυμο",
-        },
-        email: {
-          label: "Email",
-          placeholder: "Πληκτρολογήστε email",
-        },
-        phone: {
-          label: "Τηλέφωνο",
-          placeholder: "Πληκτρολογήστε τηλέφωνο",
-        },
-      },
-    },
-    contact: {
-      agentLabel: "Σύμβουλος",
-      emailLabel: "Email",
-      phoneLabel: "Τηλέφωνο",
-      whatsappLabel: "WhatsApp",
-      socialLabel: "Κοινωνικά δίκτυα",
-      cyprusPhoneLabel: "Κύπρος",
-      polandPhoneLabel: "Πολωνία",
-    },
-    footer: {
-      description: "Premium υποστήριξη για όσους αναζητούν διαμέρισμα, κατοικία ή βίλα στη νότια Κύπρο.",
-      navTitle: "Πλοήγηση",
-      contactTitle: "Επικοινωνία",
-      languageTitle: "Γλώσσα",
-      languageText: "Ελληνικά · English · Polski",
-      copyright: "© 2026 Project Cyprus. Ακίνητα στην Κύπρο.",
-      locationLine: "Πάφος · Λεμεσός · Λάρνακα · Αγία Νάπα · Πρωταράς",
     },
   },
 } satisfies Record<Language, SiteCopy>;
@@ -1145,7 +812,7 @@ function LanguageSwitcher({
 }) {
   return (
     <div className="flex rounded-full border border-[#D4AF37]/22 bg-[#070707]/72 p-1 text-[0.72rem] font-semibold uppercase text-[#F5E8C7]/76 shadow-inner shadow-black/40 backdrop-blur">
-      {(["pl", "en", "el"] as const).map((item) => {
+      {(["pl", "en"] as const).map((item) => {
         const active = item === language;
         return (
           <button
@@ -1494,62 +1161,212 @@ function IntroSection({ copy }: { copy: SiteCopy }) {
   );
 }
 
-function PropertyCard({
-  property,
-  index,
-  detailsCta,
+function OfferInfoBadge({
+  icon: Icon,
+  label,
+  value,
 }: {
-  property: Property;
+  icon: Icon;
+  label: string;
+  value: string;
+}) {
+  return (
+    <span className="inline-flex min-w-0 items-center gap-2 rounded-full border border-[#F5E8C7]/16 bg-[#070707]/58 px-3 py-2 text-xs font-semibold text-[#FFF8E1] shadow-lg backdrop-blur-xl">
+      <Icon className="h-3.5 w-3.5 shrink-0 text-[#D4AF37]" />
+      <span className="sr-only">{label}: </span>
+      <span className="truncate">{value}</span>
+    </span>
+  );
+}
+
+function OfferCard({
+  offer,
+  index,
+  labels,
+  onOpen,
+}: {
+  offer: OfferView;
   index: number;
-  detailsCta: string;
+  labels: typeof offerLabels[Language];
+  onOpen: () => void;
 }) {
   return (
     <FadeIn delay={index * 0.08}>
-      <article className="group relative flex min-h-[520px] overflow-hidden rounded-[2rem] bg-[#221a12] shadow-[0_24px_90px_rgba(0,0,0,0.24),0_0_42px_rgba(212,175,55,0.08)] transition duration-500 hover:-translate-y-2">
-        <Image
-          src={property.image}
-          alt={property.title}
-          fill
-          sizes="(min-width: 1024px) 33vw, 100vw"
-          className="object-cover transition duration-700 group-hover:scale-105"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(31,22,12,0.04),rgba(31,22,12,0.34)_48%,rgba(18,14,10,0.92))]" />
-        <div className="relative z-10 flex w-full flex-col justify-between p-5 text-[#FFF8E1]">
-          <div className="flex items-start justify-between gap-3">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/16 bg-white/12 px-3 py-2 text-xs font-semibold backdrop-blur-xl">
-              <MapPin className="h-3.5 w-3.5 text-[#D4AF37]" />
-              {property.location}
+      <button
+        type="button"
+        onClick={onOpen}
+        className="group relative block w-full overflow-hidden rounded-[2rem] bg-[#221a12] text-left shadow-[0_24px_90px_rgba(0,0,0,0.24),0_0_42px_rgba(212,175,55,0.08)] outline-none ring-1 ring-[#D4AF37]/18 transition duration-500 hover:-translate-y-2 hover:ring-[#D4AF37]/38 focus-visible:ring-4 focus-visible:ring-[#D4AF37]/28"
+      >
+        <span className="relative block aspect-[4/5] min-h-[430px] overflow-hidden">
+          <Image
+            src={offer.mainImage}
+            alt={offer.title}
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className="object-cover transition duration-700 group-hover:scale-105"
+          />
+          <span className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,6,4,0.10),rgba(8,6,4,0.36)_48%,rgba(9,7,5,0.92))]" />
+          <span className="absolute left-4 right-4 top-4 flex flex-wrap gap-2">
+            <OfferInfoBadge icon={MapPin} label={labels.location} value={offer.location} />
+            <OfferInfoBadge icon={Building2} label={labels.type} value={offer.type} />
+          </span>
+          <span className="absolute bottom-0 left-0 right-0 p-5 text-[#FFF8E1]">
+            <span className="mb-4 flex flex-wrap gap-2">
+              <OfferInfoBadge icon={BedDouble} label={labels.bedrooms} value={offer.bedrooms} />
+              <OfferInfoBadge icon={Maximize2} label={labels.area} value={offer.area} />
+              <span className="inline-flex items-center gap-2 rounded-full bg-[#D4AF37] px-3 py-2 text-xs font-bold text-[#030303] shadow-[0_14px_34px_rgba(212,175,55,0.24)]">
+                <Euro className="h-3.5 w-3.5" />
+                <span className="sr-only">{labels.price}: </span>
+                {offer.price}
+              </span>
             </span>
-            <span className="rounded-full bg-[#D4AF37] px-3 py-2 text-xs font-semibold text-[#030303]">
-              {property.status}
+            <span className="block font-serif text-3xl leading-tight md:text-[2rem]">
+              {offer.title}
             </span>
-          </div>
-
-          <div>
-            <h3 className="font-serif text-3xl leading-tight">{property.title}</h3>
-            <div className="mt-5 flex items-end justify-between gap-4 border-t border-white/14 pt-5">
-              <div>
-                <p className="text-2xl font-semibold text-[#D4AF37]">{property.price}</p>
-                <p className="mt-1 text-sm text-[#FFF8E1]/70">
-                  {property.type} · {property.beds}
-                </p>
-              </div>
-              <a
-                href="#contact"
-                className="group/link inline-flex items-center gap-2 rounded-full border border-white/16 bg-white/10 px-4 py-3 text-sm font-semibold backdrop-blur-xl transition hover:bg-white/16"
-              >
-                {detailsCta}
-                <ArrowRight className="h-4 w-4 transition group-hover/link:translate-x-1" />
-              </a>
-            </div>
-          </div>
-        </div>
-      </article>
+            <span className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/16 bg-white/10 px-4 py-3 text-sm font-semibold backdrop-blur-xl transition group-hover:bg-white/16">
+              {labels.ask}
+              <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+            </span>
+          </span>
+        </span>
+      </button>
     </FadeIn>
   );
 }
 
-function FeaturedProperties({ copy }: { copy: SiteCopy }) {
+function OfferDetailsModal({
+  offer,
+  labels,
+  onClose,
+}: {
+  offer: OfferView;
+  labels: typeof offerLabels[Language];
+  onClose: () => void;
+}) {
+  const [imageIndex, setImageIndex] = React.useState(0);
+  const activeImage = offer.images[imageIndex] ?? offer.mainImage;
+  const hasMultipleImages = offer.images.length > 1;
+
+  const showPreviousImage = React.useCallback(() => {
+    setImageIndex((value) => (value === 0 ? offer.images.length - 1 : value - 1));
+  }, [offer.images.length]);
+
+  const showNextImage = React.useCallback(() => {
+    setImageIndex((value) => (value + 1) % offer.images.length);
+  }, [offer.images.length]);
+
+  React.useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onClose();
+        return;
+      }
+
+      if (event.key === "ArrowLeft" && hasMultipleImages) {
+        showPreviousImage();
+        return;
+      }
+
+      if (event.key === "ArrowRight" && hasMultipleImages) {
+        showNextImage();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [hasMultipleImages, onClose, showNextImage, showPreviousImage]);
+
+  return (
+    <div className="fixed inset-0 z-[80] overflow-y-auto bg-[#030303]/82 px-4 py-5 text-[#FFF8E1] backdrop-blur-xl md:px-6 md:py-8">
+      <div className="mx-auto grid min-h-[calc(100svh-2.5rem)] max-w-7xl items-center">
+        <div className="lux-panel relative overflow-hidden rounded-[2rem] border">
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label={labels.close}
+            className="absolute right-4 top-4 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-[#D4AF37]/28 bg-[#070707]/72 text-[#FFF8E1] shadow-lg backdrop-blur-xl transition hover:bg-[#D4AF37] hover:text-[#030303]"
+          >
+            <X className="h-5 w-5" />
+          </button>
+          <div className="grid lg:grid-cols-[minmax(0,1.1fr)_minmax(360px,0.9fr)]">
+            <div className="relative min-h-[52svh] bg-[#070707] md:min-h-[680px]">
+              <Image
+                src={activeImage}
+                alt={offer.title}
+                fill
+                sizes="(min-width: 1024px) 58vw, 100vw"
+                className="object-contain"
+              />
+              <div className="absolute bottom-4 left-4 rounded-full border border-white/16 bg-[#070707]/70 px-4 py-2 text-xs font-semibold text-[#F5E8C7] backdrop-blur-xl">
+                {imageIndex + 1} / {offer.images.length}
+              </div>
+              {hasMultipleImages && (
+                <>
+                  <button
+                    type="button"
+                    onClick={showPreviousImage}
+                    aria-label={labels.previous}
+                    className="absolute left-4 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-[#D4AF37]/30 bg-[#070707]/72 text-[#FFF8E1] shadow-lg backdrop-blur-xl transition hover:bg-[#D4AF37] hover:text-[#030303]"
+                  >
+                    <ChevronLeft className="h-5 w-5" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={showNextImage}
+                    aria-label={labels.next}
+                    className="absolute right-4 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-[#D4AF37]/30 bg-[#070707]/72 text-[#FFF8E1] shadow-lg backdrop-blur-xl transition hover:bg-[#D4AF37] hover:text-[#030303]"
+                  >
+                    <ChevronRight className="h-5 w-5" />
+                  </button>
+                </>
+              )}
+            </div>
+            <div className="max-h-[86svh] overflow-y-auto p-5 md:p-8 lg:max-h-[760px]">
+              <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
+                {labels.location}: {offer.location}
+              </p>
+              <h3 className="mt-4 font-serif text-4xl leading-tight text-[#FFF8E1] md:text-5xl">
+                {offer.title}
+              </h3>
+              <div className="mt-6 flex flex-wrap gap-2">
+                <OfferInfoBadge icon={Building2} label={labels.type} value={offer.type} />
+                <OfferInfoBadge icon={BedDouble} label={labels.bedrooms} value={offer.bedrooms} />
+                <OfferInfoBadge icon={Maximize2} label={labels.area} value={offer.area} />
+                <OfferInfoBadge icon={Euro} label={labels.price} value={offer.price} />
+              </div>
+              <div className="mt-8 space-y-5 text-base leading-8 text-[#F5E8C7]/78">
+                {offer.description.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
+              <a
+                href="#contact"
+                onClick={onClose}
+                className="mt-8 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D4AF37] px-6 text-sm font-semibold text-[#030303] shadow-[0_18px_45px_rgba(212,175,55,0.24)] transition hover:bg-[#E0C46C]"
+              >
+                {labels.ask}
+                <ArrowRight className="h-4 w-4" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FeaturedProperties({ copy, language }: { copy: SiteCopy; language: Language }) {
+  const [selectedOffer, setSelectedOffer] = React.useState<OfferView | null>(null);
+  const offers = React.useMemo(() => getLocalizedOffers(language), [language]);
+  const labels = offerLabels[language];
+
   return (
     <section id="properties" className="section-graphite-warm scroll-mt-36 px-5 py-24 md:scroll-mt-40 md:px-8 md:py-32">
       <div className="mx-auto max-w-7xl">
@@ -1584,20 +1401,29 @@ function FeaturedProperties({ copy }: { copy: SiteCopy }) {
             />
           </FadeIn>
         </div>
-        <div className="grid gap-6 lg:grid-cols-3">
-          {copy.properties.items.map((property, index) => (
-            <PropertyCard
-              key={property.title}
-              property={property}
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {offers.map((offer, index) => (
+            <OfferCard
+              key={offer.id}
+              offer={offer}
               index={index}
-              detailsCta={copy.properties.detailsCta}
+              labels={labels}
+              onOpen={() => setSelectedOffer(offer)}
             />
           ))}
         </div>
       </div>
+      {selectedOffer && (
+        <OfferDetailsModal
+          offer={selectedOffer}
+          labels={labels}
+          onClose={() => setSelectedOffer(null)}
+        />
+      )}
     </section>
   );
 }
+
 
 function WhyCyprus({ copy }: { copy: SiteCopy }) {
   return (
@@ -2487,6 +2313,31 @@ export default function ProjectCyprusHomepage() {
   const [language, setLanguage] = React.useState<Language>("pl");
   const copy = content[language];
 
+  const handleLanguageChange = React.useCallback((nextLanguage: Language) => {
+    setLanguage(nextLanguage);
+
+    try {
+      window.localStorage.setItem(languageStorageKey, nextLanguage);
+    } catch {
+      // Ignore storage errors; language switching should still work.
+    }
+  }, []);
+
+  React.useEffect(() => {
+    try {
+      const storedLanguage = window.localStorage.getItem(languageStorageKey);
+      const normalizedLanguage = normalizeLanguage(storedLanguage);
+
+      if (storedLanguage && storedLanguage !== normalizedLanguage) {
+        window.localStorage.setItem(languageStorageKey, normalizedLanguage);
+      }
+
+      window.queueMicrotask(() => setLanguage(normalizedLanguage));
+    } catch {
+      window.queueMicrotask(() => setLanguage("pl"));
+    }
+  }, []);
+
   React.useEffect(() => {
     document.documentElement.lang = copy.metaLang;
   }, [copy.metaLang]);
@@ -2495,13 +2346,13 @@ export default function ProjectCyprusHomepage() {
     <main className="site-luxury-bg min-h-screen text-[#FFF8E1]">
       <FloatingHeader
         language={language}
-        onLanguageChange={setLanguage}
+        onLanguageChange={handleLanguageChange}
         copy={copy}
       />
       <HeroSection copy={copy} />
       <TrustStrip copy={copy} />
       <IntroSection copy={copy} />
-      <FeaturedProperties copy={copy} />
+      <FeaturedProperties copy={copy} language={language} />
       <WhyCyprus copy={copy} />
       <ProcessTimeline copy={copy} />
       <AboutSection copy={copy} />

@@ -979,7 +979,7 @@ function FloatingHeader({
           <div className="mt-4 flex flex-col gap-3 border-t border-white/10 pt-4">
             <LanguageSwitcher language={language} onChange={onLanguageChange} copy={copy} />
             <PrimaryButton href="#contact">{copy.consultationCta}</PrimaryButton>
-            <SocialLinks copy={copy} />
+            <SocialLinks copy={copy} darkSurface />
           </div>
         </motion.div>
       )}
@@ -1005,19 +1005,23 @@ function SectionHeading({
       className={`mx-auto ${align === "center" ? "max-w-3xl text-center" : "max-w-4xl"}`}
     >
       <p
-        className="text-sm font-bold uppercase tracking-[0.22em] text-[#D4AF37] md:text-base"
+        className={`text-sm font-bold uppercase tracking-[0.22em] md:text-base ${
+          light ? "text-[#D4AF37]" : "text-[#9c7a2f]"
+        }`}
       >
         {eyebrow}
       </p>
       <h2
-        className="mt-4 font-serif text-4xl leading-[1.08] tracking-tight text-[#FFF8E1] sm:text-5xl md:text-[3.25rem]"
+        className={`mt-4 font-serif text-4xl leading-[1.08] tracking-tight sm:text-5xl md:text-[3.25rem] ${
+          light ? "text-[#FFF8E1]" : "text-[#2A241B]"
+        }`}
       >
         {title}
       </h2>
       {text && (
         <p
           className={`mt-6 text-lg leading-8 ${
-            light ? "text-[#FFF8E1]/68" : "text-[#D7C9A0]/76"
+            light ? "text-[#F5E8C7]/72" : "text-[#4d412f]/78"
           }`}
         >
           {text}
@@ -1029,7 +1033,7 @@ function SectionHeading({
 
 function HeroSection({ copy }: { copy: SiteCopy }) {
   return (
-    <section className="relative min-h-[100svh] overflow-hidden bg-[#1d1710] text-[#FFF8E1]">
+    <section className="relative min-h-[100svh] overflow-hidden bg-[#f5e8c7] text-[#FFF8E1]">
       <Image
         src={heroImage}
         alt={copy.hero.imageAlt}
@@ -1038,8 +1042,8 @@ function HeroSection({ copy }: { copy: SiteCopy }) {
         sizes="100vw"
         className="object-cover object-center md:object-[center_46%]"
       />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(18,13,8,0.72),rgba(24,18,11,0.38)_42%,rgba(24,18,11,0.04)_72%),linear-gradient(0deg,rgba(37,28,16,0.76),rgba(31,23,13,0.10)_50%,rgba(18,13,8,0.16))]" />
-      <div className="absolute inset-x-0 bottom-0 h-48 bg-[linear-gradient(180deg,transparent,rgba(50,39,25,0.74)_64%,rgba(50,39,25,0.96))]" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(18,13,8,0.64),rgba(40,30,17,0.28)_44%,rgba(245,232,199,0.02)_74%),linear-gradient(0deg,rgba(42,36,27,0.46),rgba(31,23,13,0.05)_52%,rgba(18,13,8,0.10))]" />
+      <div className="absolute inset-x-0 bottom-0 h-64 bg-[radial-gradient(ellipse_at_32%_100%,rgba(212,175,55,0.30),transparent_44%),radial-gradient(ellipse_at_78%_100%,rgba(245,232,199,0.14),transparent_38%),linear-gradient(180deg,transparent,rgba(65,47,22,0.72)_62%,rgba(45,31,13,0.98))]" />
       <div className="relative mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-end px-5 pb-10 pt-44 md:px-8 md:pb-12 md:pt-52">
         <div className="grid items-end gap-10 lg:grid-cols-[1fr_0.78fr]">
           <motion.div
@@ -1077,13 +1081,13 @@ function HeroSection({ copy }: { copy: SiteCopy }) {
               return (
                 <div
                   key={stat.label}
-                  className="lux-card-soft flex min-h-[9.75rem] flex-col rounded-[1.5rem] border p-4 backdrop-blur-xl"
+                  className="lux-card-dark flex min-h-[9.75rem] flex-col rounded-[1.5rem] border p-4 text-[#FFF8E1] backdrop-blur-xl"
                 >
                   {Icon && <Icon className="mb-4 h-5 w-5 shrink-0 text-[#D4AF37]" />}
                   <p className="text-lg font-semibold leading-tight tracking-tight md:text-xl">
                     {stat.value}
                   </p>
-                  <p className="mt-2 text-xs leading-5 text-[#FFF8E1]/68 md:text-[0.82rem]">{stat.label}</p>
+                  <p className="mt-2 text-xs leading-5 text-[#F5E8C7]/68 md:text-[0.82rem]">{stat.label}</p>
                 </div>
               );
             })}
@@ -1109,10 +1113,10 @@ function TrustStrip({ copy }: { copy: SiteCopy }) {
           const Icon = item.icon;
           return (
             <FadeIn key={item.title} delay={index * 0.06}>
-              <div className="lux-card h-full rounded-[1.75rem] border p-5">
+              <div className="lux-card-dark h-full rounded-[1.75rem] border p-5 text-[#FFF8E1]">
                 <Icon className="h-6 w-6 text-[#D4AF37]" />
-                <h3 className="mt-5 text-base font-semibold leading-6 text-[#FFF8E1]">{item.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-[#FFF8E1]/62">{item.text}</p>
+                <h3 className="mt-5 text-base font-semibold leading-6">{item.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-[#F5E8C7]/64">{item.text}</p>
               </div>
             </FadeIn>
           );
@@ -1124,7 +1128,7 @@ function TrustStrip({ copy }: { copy: SiteCopy }) {
 
 function IntroSection({ copy }: { copy: SiteCopy }) {
   return (
-    <section className="section-champagne-glow px-5 py-24 md:px-8 md:py-32">
+    <section className="section-champagne-glow px-5 py-24 text-[#FFF8E1] md:px-8 md:py-32">
       <div className="mx-auto grid max-w-7xl items-start gap-12 lg:grid-cols-[0.95fr_1.05fr]">
         <FadeIn className="flex h-full flex-col justify-between gap-10">
           <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#D4AF37] md:text-base">
@@ -1133,16 +1137,16 @@ function IntroSection({ copy }: { copy: SiteCopy }) {
           <h2 className="mt-5 max-w-4xl font-serif text-5xl leading-[1.02] tracking-tight text-[#FFF8E1] md:text-7xl">
             {copy.intro.title}
           </h2>
-          <p className="mt-7 max-w-2xl text-lg leading-9 text-[#D7C9A0]/76">
+          <p className="mt-7 max-w-2xl text-lg leading-9 text-[#F5E8C7]/74">
             {copy.intro.text}
           </p>
-          <blockquote className="max-w-3xl border-l border-[#C9A227] pl-6 font-serif text-2xl leading-snug text-[#F5E8C7] md:text-3xl">
+          <blockquote className="max-w-3xl border-l border-[#D4AF37] pl-6 font-serif text-2xl leading-snug text-[#F5E8C7] md:text-3xl">
             {copy.intro.quote}
           </blockquote>
         </FadeIn>
 
         <FadeIn delay={0.12} className="relative">
-          <div className="absolute -left-6 -top-6 hidden h-36 w-36 rounded-[2rem] border border-[#C9A227]/25 bg-[#D4AF37]/30 md:block" />
+          <div className="absolute -left-6 -top-6 hidden h-36 w-36 rounded-[2rem] border border-[#B9975B]/35 bg-[#D4AF37]/24 md:block" />
           <div className="relative">
             <PremiumVideoCard
               previewSrc={brandAssets.videos.whyCyprus.preview}
@@ -1151,7 +1155,7 @@ function IntroSection({ copy }: { copy: SiteCopy }) {
               aspectClassName="aspect-[9/16]"
               className="mx-auto w-full max-w-[420px]"
             />
-            <div className="lux-card mt-4 rounded-[1.5rem] border p-5 text-[#FFF8E1]">
+            <div className="lux-card-dark mt-4 rounded-[1.5rem] border p-5 text-[#FFF8E1]">
               <p className="text-xs uppercase tracking-[0.24em] text-[#D4AF37]">
                 {copy.intro.cardEyebrow}
               </p>
@@ -1174,7 +1178,7 @@ function OfferInfoBadge({
   value: string;
 }) {
   return (
-    <span className="inline-flex min-w-0 items-center gap-2 rounded-full border border-[#F5E8C7]/16 bg-[#070707]/58 px-3 py-2 text-xs font-semibold text-[#FFF8E1] shadow-lg backdrop-blur-xl">
+    <span className="inline-flex min-w-0 items-center gap-2 rounded-full border border-[#D4AF37]/34 bg-[#100d09]/72 px-3 py-2 text-xs font-semibold text-[#FFF8E1] shadow-[0_10px_26px_rgba(212,175,55,0.12)] backdrop-blur-xl">
       <Icon className="h-3.5 w-3.5 shrink-0 text-[#D4AF37]" />
       <span className="sr-only">{label}: </span>
       <span className="truncate">{value}</span>
@@ -1198,7 +1202,7 @@ function OfferCard({
       <button
         type="button"
         onClick={onOpen}
-        className="group relative block w-full overflow-hidden rounded-[2rem] bg-[#221a12] text-left shadow-[0_24px_90px_rgba(0,0,0,0.24),0_0_42px_rgba(212,175,55,0.08)] outline-none ring-1 ring-[#D4AF37]/18 transition duration-500 hover:-translate-y-2 hover:ring-[#D4AF37]/38 focus-visible:ring-4 focus-visible:ring-[#D4AF37]/28"
+        className="group relative block w-full overflow-hidden rounded-[2rem] bg-[#221a12] text-left shadow-[0_24px_90px_rgba(0,0,0,0.26),0_0_72px_rgba(212,175,55,0.16)] outline-none ring-1 ring-[#D4AF37]/32 transition duration-500 hover:-translate-y-2 hover:shadow-[0_28px_96px_rgba(0,0,0,0.28),0_0_92px_rgba(212,175,55,0.22)] hover:ring-[#D4AF37]/50 focus-visible:ring-4 focus-visible:ring-[#D4AF37]/34"
       >
         <span className="relative block aspect-[4/5] min-h-[430px] overflow-hidden">
           <Image
@@ -1208,7 +1212,7 @@ function OfferCard({
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
             className="object-cover transition duration-700 group-hover:scale-105"
           />
-          <span className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,6,4,0.10),rgba(8,6,4,0.36)_48%,rgba(9,7,5,0.92))]" />
+          <span className="absolute inset-0 bg-[radial-gradient(circle_at_82%_18%,rgba(212,175,55,0.16),transparent_34%),linear-gradient(180deg,rgba(8,6,4,0.08),rgba(45,31,13,0.30)_44%,rgba(9,7,5,0.92))]" />
           <span className="absolute left-4 right-4 top-4 flex flex-wrap gap-2">
             <OfferInfoBadge icon={MapPin} label={labels.location} value={offer.location} />
             <OfferInfoBadge icon={Building2} label={labels.type} value={offer.type} />
@@ -1287,7 +1291,7 @@ function OfferDetailsModal({
   }, [hasMultipleImages, onClose, showNextImage, showPreviousImage]);
 
   return (
-    <div className="fixed inset-0 z-[80] overflow-y-auto bg-[#030303]/82 px-4 py-5 text-[#FFF8E1] backdrop-blur-xl md:px-6 md:py-8">
+    <div className="fixed inset-0 z-[80] overflow-y-auto bg-[#030303]/84 px-4 py-5 text-[#FFF8E1] backdrop-blur-xl md:px-6 md:py-8">
       <div className="mx-auto grid min-h-[calc(100svh-2.5rem)] max-w-7xl items-center">
         <div className="lux-panel relative overflow-hidden rounded-[2rem] border">
           <button
@@ -1344,7 +1348,7 @@ function OfferDetailsModal({
                 <OfferInfoBadge icon={Maximize2} label={labels.area} value={offer.area} />
                 <OfferInfoBadge icon={Euro} label={labels.price} value={offer.price} />
               </div>
-              <div className="mt-8 space-y-5 text-base leading-8 text-[#F5E8C7]/78">
+              <div className="mt-8 space-y-5 text-base leading-8 text-[#F5E8C7]/76">
                 {offer.description.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
@@ -1371,7 +1375,7 @@ function FeaturedProperties({ copy, language }: { copy: SiteCopy; language: Lang
   const labels = offerLabels[language];
 
   return (
-    <section id="properties" className="section-graphite-warm scroll-mt-36 px-5 py-24 md:scroll-mt-40 md:px-8 md:py-32">
+    <section id="properties" className="section-graphite-warm scroll-mt-36 px-5 py-24 text-[#FFF8E1] md:scroll-mt-40 md:px-8 md:py-32">
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(320px,440px)] lg:items-start">
           <div className="h-full">
@@ -1383,12 +1387,12 @@ function FeaturedProperties({ copy, language }: { copy: SiteCopy; language: Lang
                 {copy.properties.title}
               </h2>
               <div className="mt-12 max-w-3xl">
-                <div className="space-y-7 text-base leading-8 text-[#D7C9A0]/78 md:text-lg">
+                <div className="space-y-7 text-base leading-8 text-[#F5E8C7]/74 md:text-lg">
                   {copy.properties.text.split("\n").map((paragraph) => (
                     <p key={paragraph}>{paragraph}</p>
                   ))}
                 </div>
-                <p className="mt-12 border-l border-[#C9A227] pl-6 font-serif text-xl leading-snug text-[#F5E8C7] md:text-2xl">
+                <p className="mt-12 border-l border-[#D4AF37] pl-6 font-serif text-xl leading-snug text-[#F5E8C7] md:text-2xl">
                   {copy.properties.emphasis}
                 </p>
               </div>
@@ -1441,10 +1445,10 @@ function WhyCyprus({ copy }: { copy: SiteCopy }) {
               <h2 className="mt-7 font-serif text-4xl leading-[1.08] tracking-tight text-[#FFF8E1] sm:text-5xl md:text-[3.25rem]">
                 {copy.why.title}
               </h2>
-              <p className="mt-9 text-lg leading-8 text-[#FFF8E1]/68">
+              <p className="mt-9 text-lg leading-8 text-[#F5E8C7]/74">
                 {copy.why.text}
               </p>
-              <p className="mt-12 max-w-3xl border-l border-[#C9A227] pl-6 font-serif text-xl leading-snug text-[#F5E8C7] md:text-2xl">
+              <p className="mt-12 max-w-3xl border-l border-[#D4AF37] pl-6 font-serif text-xl leading-snug text-[#F5E8C7] md:text-2xl">
                 {copy.why.locationText}
               </p>
             </FadeIn>
@@ -1453,10 +1457,10 @@ function WhyCyprus({ copy }: { copy: SiteCopy }) {
             {copy.why.cards.map((item) => (
               <div
                 key={item}
-                className="lux-card-soft rounded-[1.35rem] border p-5"
+                className="lux-card-dark rounded-[1.35rem] border p-5"
               >
                 <CheckCircle2 className="mb-4 h-5 w-5 text-[#D4AF37]" />
-                <p className="text-sm font-medium leading-6 text-[#FFF8E1]/82">{item}</p>
+                <p className="text-sm font-medium leading-6 text-[#F5E8C7]/84">{item}</p>
               </div>
             ))}
           </FadeIn>
@@ -1478,16 +1482,16 @@ function WhyCyprus({ copy }: { copy: SiteCopy }) {
       <FadeIn delay={0.18} className="mx-auto mt-16 max-w-7xl">
         <a
           href="#contact"
-          className="lux-card group flex flex-col gap-4 rounded-[1.75rem] border p-5 transition hover:-translate-y-1 hover:border-[#D4AF37]/42 sm:flex-row sm:items-center sm:justify-between md:p-6"
+          className="lux-card-dark group flex flex-col gap-4 rounded-[1.75rem] border p-5 text-[#FFF8E1] transition hover:-translate-y-1 hover:border-[#D4AF37]/42 sm:flex-row sm:items-center sm:justify-between md:p-6"
         >
           <span>
             <span className="block text-xs font-bold uppercase tracking-[0.22em] text-[#D4AF37]">
               {copy.why.locationEyebrow}
             </span>
-            <span className="mt-2 block font-serif text-2xl leading-tight text-[#FFF8E1] md:text-3xl">
+            <span className="mt-2 block font-serif text-2xl leading-tight md:text-3xl">
               {copy.why.locationTitle}
             </span>
-            <span className="mt-2 block max-w-3xl text-sm leading-6 text-[#D7C9A0]/76 md:text-base">
+            <span className="mt-2 block max-w-3xl text-sm leading-6 text-[#F5E8C7]/70 md:text-base">
               {copy.why.locationText}
             </span>
           </span>
@@ -1639,7 +1643,7 @@ function PremiumVideoCard({
       tabIndex={0}
       role="button"
       aria-label={soundEnabled ? labels.unmutedLabel : labels.mutedLabel}
-      className={`group relative isolate cursor-pointer overflow-hidden rounded-[2rem] bg-[#221a12] shadow-[0_28px_90px_rgba(0,0,0,0.34),0_0_52px_rgba(212,175,55,0.12)] outline-none ring-1 ring-inset ring-[#D4AF37]/28 transition hover:-translate-y-1 hover:ring-[#D4AF37]/46 focus-visible:ring-4 focus-visible:ring-[#D4AF37]/22 ${aspectClassName} ${className}`}
+      className={`group relative isolate cursor-pointer overflow-hidden rounded-[2rem] bg-[#221a12] shadow-[0_28px_90px_rgba(0,0,0,0.34),0_0_78px_rgba(212,175,55,0.18)] outline-none ring-1 ring-inset ring-[#D4AF37]/38 transition hover:-translate-y-1 hover:shadow-[0_30px_96px_rgba(0,0,0,0.36),0_0_96px_rgba(212,175,55,0.24)] hover:ring-[#D4AF37]/56 focus-visible:ring-4 focus-visible:ring-[#D4AF37]/30 ${aspectClassName} ${className}`}
     >
       <video
         ref={videoRef}
@@ -1653,7 +1657,7 @@ function PremiumVideoCard({
         aria-hidden="true"
         className={`absolute inset-0 block h-full w-full max-w-none rounded-none ${objectFitClassName} ${objectPositionClassName} ${videoClassName}`}
       />
-      <div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[linear-gradient(180deg,rgba(31,22,12,0.03),rgba(31,22,12,0.10)_62%,rgba(18,14,10,0.54))]" />
+      <div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[radial-gradient(circle_at_80%_15%,rgba(212,175,55,0.12),transparent_34%),linear-gradient(180deg,rgba(31,22,12,0.03),rgba(53,36,15,0.14)_62%,rgba(18,14,10,0.56))]" />
       <button
         type="button"
         aria-label={soundEnabled ? labels.muteAriaLabel : labels.unmuteAriaLabel}
@@ -1688,7 +1692,7 @@ function ProcessVideoCard({ labels }: { labels: VideoCopy }) {
 
 function ProcessTimeline({ copy }: { copy: SiteCopy }) {
   return (
-    <section id="process" className="section-deep-gold relative scroll-mt-36 overflow-hidden px-5 py-24 md:scroll-mt-40 md:px-8 md:py-32">
+    <section id="process" className="section-deep-gold relative scroll-mt-36 overflow-hidden px-5 py-24 text-[#FFF8E1] md:scroll-mt-40 md:px-8 md:py-32">
       <div className="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-[#F5E8C7]/6 to-transparent" />
       <div className="relative mx-auto max-w-7xl">
         <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(360px,460px)]">
@@ -1699,7 +1703,7 @@ function ProcessTimeline({ copy }: { copy: SiteCopy }) {
             <h2 className="mt-4 max-w-4xl font-serif text-4xl leading-[1.08] tracking-tight text-[#FFF8E1] sm:text-5xl md:text-[3.25rem]">
               {copy.process.title}
             </h2>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-[#D7C9A0]/76">
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-[#F5E8C7]/74">
               {copy.process.text}
             </p>
           </FadeIn>
@@ -1708,17 +1712,17 @@ function ProcessTimeline({ copy }: { copy: SiteCopy }) {
           <div className="grid gap-3 sm:grid-cols-2 lg:col-start-1 lg:row-start-2">
             {copy.process.steps.map((step, index) => (
               <FadeIn key={step.title} delay={index * 0.04}>
-                <div className="lux-card group h-full rounded-[1.35rem] border p-4 backdrop-blur transition hover:-translate-y-1 hover:border-[#D4AF37]/38">
+                <div className="lux-card group h-full rounded-[1.35rem] border p-4 text-[#FFF8E1] backdrop-blur transition hover:-translate-y-1 hover:border-[#D4AF37]/38">
                   <div className="flex items-center justify-between">
-                    <span className="font-serif text-3xl text-[#C9A227]">
+                    <span className="font-serif text-3xl text-[#D4AF37]">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     <span className="flex h-9 w-9 items-center justify-center rounded-full border border-[#D4AF37]/24 bg-[#2a2117] text-[#D4AF37] transition group-hover:rotate-6">
                       <ArrowRight className="h-3.5 w-3.5" />
                     </span>
                   </div>
-                  <h3 className="mt-5 text-base font-semibold leading-6 text-[#FFF8E1]">{step.title}</h3>
-                  <p className="mt-2 text-sm leading-6 text-[#D7C9A0]/74">{step.text}</p>
+                  <h3 className="mt-5 text-base font-semibold leading-6">{step.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-[#F5E8C7]/70">{step.text}</p>
                 </div>
               </FadeIn>
             ))}
@@ -1731,8 +1735,8 @@ function ProcessTimeline({ copy }: { copy: SiteCopy }) {
 
 function AboutSection({ copy }: { copy: SiteCopy }) {
   return (
-    <section id="about" className="section-graphite-warm scroll-mt-36 px-5 pb-24 md:scroll-mt-40 md:px-8 md:pb-32">
-      <div className="lux-panel mx-auto max-w-7xl rounded-[2rem] border p-5 lg:p-8">
+    <section id="about" className="section-graphite-warm scroll-mt-36 px-5 pb-24 pt-10 md:scroll-mt-40 md:px-8 md:pb-32">
+      <div className="lux-panel mx-auto max-w-7xl rounded-[2rem] border p-5 text-[#FFF8E1] lg:p-8">
         <div className="grid items-start gap-14 lg:grid-cols-[0.95fr_1fr]">
           <FadeIn>
             <PremiumVideoCard
@@ -1742,7 +1746,7 @@ function AboutSection({ copy }: { copy: SiteCopy }) {
               aspectClassName="aspect-[9/16]"
               className="mx-auto w-full max-w-[440px]"
             />
-            <div className="lux-card mt-4 rounded-[1.4rem] border p-5 text-[#FFF8E1]">
+            <div className="lux-card-dark mt-4 rounded-[1.4rem] border p-5 text-[#F5E8C7]">
               <p className="text-sm leading-6">{copy.about.imageCardText}</p>
             </div>
           </FadeIn>
@@ -1755,8 +1759,8 @@ function AboutSection({ copy }: { copy: SiteCopy }) {
               <h2 className="mt-12 font-serif text-4xl leading-[1.08] tracking-tight text-[#FFF8E1] sm:text-5xl md:text-[3.25rem]">
                 {copy.about.title}
               </h2>
-              <p className="mt-14 text-lg leading-8 text-[#D7C9A0]/76">{copy.about.text}</p>
-              <p className="mt-14 max-w-3xl border-l border-[#C9A227] pl-6 font-serif text-xl leading-snug text-[#F5E8C7] md:text-2xl">
+              <p className="mt-14 text-lg leading-8 text-[#F5E8C7]/74">{copy.about.text}</p>
+              <p className="mt-14 max-w-3xl border-l border-[#D4AF37] pl-6 font-serif text-xl leading-snug text-[#F5E8C7] md:text-2xl">
                 {copy.about.emphasis}
               </p>
             </div>
@@ -1773,7 +1777,7 @@ function AboutSection({ copy }: { copy: SiteCopy }) {
         </div>
 
         <FadeIn delay={0.18} className="mt-14 border-t border-[#D4AF37]/14 pt-14">
-          <div className="lux-card grid gap-10 rounded-[1.75rem] border p-5 md:grid-cols-[260px_1fr] md:p-7 lg:grid-cols-[320px_1fr] lg:gap-14">
+          <div className="lux-card grid gap-10 rounded-[1.75rem] border p-5 text-[#FFF8E1] md:grid-cols-[260px_1fr] md:p-7 lg:grid-cols-[320px_1fr] lg:gap-14">
             <div className="relative overflow-hidden rounded-[1.5rem] border border-[#D4AF37]/20 bg-[#241e15] shadow-[0_24px_90px_rgba(0,0,0,0.28)]">
               <Image
                 src={agentPortrait}
@@ -1788,13 +1792,13 @@ function AboutSection({ copy }: { copy: SiteCopy }) {
               <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#D4AF37] md:text-base">
                 {copy.about.agent.heading}
               </p>
-              <div className="mt-10 space-y-8 text-base leading-8 text-[#D7C9A0]/80 md:text-lg md:leading-9">
+              <div className="mt-10 space-y-8 text-base leading-8 text-[#F5E8C7]/76 md:text-lg md:leading-9">
                 {copy.about.agent.body.map((paragraph, index) => (
                   <p
                     key={paragraph}
                     className={
                       index === 2
-                        ? "my-10 border-l border-[#C9A227] pl-6 font-serif text-xl leading-snug text-[#F5E8C7] md:text-2xl"
+                        ? "my-10 border-l border-[#D4AF37] pl-6 font-serif text-xl leading-snug text-[#F5E8C7] md:text-2xl"
                         : undefined
                     }
                   >
@@ -1816,11 +1820,11 @@ function CredibilitySection({ copy }: { copy: SiteCopy }) {
       <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-4">
         {copy.credibility.map((item, index) => (
           <FadeIn key={item.label} delay={index * 0.05}>
-            <div className="border-l border-white/12 pl-6">
+            <div className="border-l border-[#D4AF37]/26 pl-6">
               <p className="font-serif text-5xl tracking-tight text-[#D4AF37] md:text-6xl">
                 {item.value}
               </p>
-              <p className="mt-3 text-sm uppercase tracking-[0.2em] text-[#FFF8E1]/60">
+              <p className="mt-3 text-sm uppercase tracking-[0.2em] text-[#F5E8C7]/62">
                 {item.label}
               </p>
             </div>
@@ -1849,18 +1853,18 @@ function TestimonialCard({
 
   return (
     <FadeIn delay={index * 0.08}>
-      <article className="lux-card-soft flex h-full min-h-[320px] flex-col rounded-[1.75rem] border p-6 transition hover:-translate-y-1 hover:border-[#D4AF37]/30 md:p-7">
+      <article className="lux-card-dark flex h-full min-h-[320px] flex-col rounded-[1.75rem] border p-6 text-[#FFF8E1] transition hover:-translate-y-1 hover:border-[#D4AF37]/30 md:p-7">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#D4AF37]/82">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#D4AF37]/90">
               {clientLabel}
             </p>
-            <h3 className="mt-3 text-xl font-semibold text-[#FFF8E1]">{testimonial.name}</h3>
+            <h3 className="mt-3 text-xl font-semibold">{testimonial.name}</h3>
           </div>
           <p className="font-serif text-5xl leading-none text-[#D4AF37]">“</p>
         </div>
 
-        <div className="mt-6 flex-1 text-base leading-7 text-[#FFF8E1]/76">
+        <div className="mt-6 flex-1 text-base leading-7 text-[#F5E8C7]/76">
           {expanded ? (
             <div className="space-y-4">
               {text.split("\n\n").map((paragraph) => (
@@ -1876,7 +1880,7 @@ function TestimonialCard({
           type="button"
           onClick={() => setExpanded((value) => !value)}
           aria-expanded={expanded}
-          className="mt-6 inline-flex w-fit items-center gap-2 rounded-full border border-[#D4AF37]/28 bg-[#251d13]/52 px-4 py-2 text-sm font-semibold text-[#D4AF37] transition hover:bg-[#D4AF37] hover:text-[#030303]"
+          className="mt-6 inline-flex w-fit items-center gap-2 rounded-full border border-[#D4AF37]/28 bg-[#D4AF37]/10 px-4 py-2 text-sm font-semibold text-[#D4AF37] transition hover:bg-[#D4AF37] hover:text-[#030303]"
         >
           {expanded ? showLess : readMore}
           <ChevronRight className={`h-4 w-4 transition ${expanded ? "-rotate-90" : "rotate-90"}`} />
@@ -1913,7 +1917,7 @@ function TestimonialsSection({ copy }: { copy: SiteCopy }) {
   );
 }
 
-function SocialLinks({ copy }: { copy: SiteCopy }) {
+function SocialLinks({ copy, darkSurface = false }: { copy: SiteCopy; darkSurface?: boolean }) {
   const links = [
     { label: "Facebook", href: facebookHref, icon: FacebookIcon },
     { label: "Instagram", href: instagramHref, icon: InstagramIcon },
@@ -1921,7 +1925,11 @@ function SocialLinks({ copy }: { copy: SiteCopy }) {
 
   return (
     <div>
-      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#D4AF37]/80">
+      <p
+        className={`text-xs font-semibold uppercase tracking-[0.22em] ${
+          darkSurface ? "text-[#D4AF37]/86" : "text-[#9c7a2f]/90"
+        }`}
+      >
         {copy.contact.socialLabel}
       </p>
       <div className="mt-3 flex items-center gap-2">
@@ -1934,7 +1942,11 @@ function SocialLinks({ copy }: { copy: SiteCopy }) {
               aria-label={link.label}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-white/14 bg-white/10 text-[#FFF8E1] transition hover:-translate-y-0.5 hover:bg-[#D4AF37] hover:text-[#030303]"
+              className={`flex h-11 w-11 items-center justify-center rounded-full border transition hover:-translate-y-0.5 ${
+                darkSurface
+                  ? "border-[#D4AF37]/24 bg-[#FFF8E1]/8 text-[#FFF8E1] hover:bg-[#D4AF37] hover:text-[#030303]"
+                  : "border-[#B9975B]/34 bg-[#FFF8E1]/68 text-[#2A241B] hover:bg-[#2A241B] hover:text-[#FFF8E1]"
+              }`}
             >
               <Icon className="h-4 w-4" />
             </a>
@@ -1954,14 +1966,14 @@ function SelectFieldView({
 }) {
   return (
     <label htmlFor={id} className="block">
-      <span className="text-base font-semibold leading-6 text-[#FFF8E1]/86">{field.label}</span>
+      <span className="text-base font-semibold leading-6 text-[#2A241B]/86">{field.label}</span>
       <span className="relative mt-3 block">
         <select
           id={id}
           name={id}
           required
           defaultValue=""
-          className="lux-field h-16 w-full appearance-none rounded-[1.25rem] border px-5 pr-12 text-base text-[#FFF8E1] outline-none transition focus:border-[#D4AF37]/70 focus:ring-4 focus:ring-[#D4AF37]/12"
+          className="lux-field h-16 w-full appearance-none rounded-[1.25rem] border px-5 pr-12 text-base text-[#2A241B] outline-none transition focus:border-[#B9975B]/70 focus:ring-4 focus:ring-[#B9975B]/14"
         >
           <option value="" disabled>
             {field.placeholder}
@@ -1989,14 +2001,14 @@ function TextFieldView({
 }) {
   return (
     <label htmlFor={id} className="block">
-      <span className="text-base font-semibold leading-6 text-[#FFF8E1]/86">{field.label}</span>
+      <span className="text-base font-semibold leading-6 text-[#2A241B]/86">{field.label}</span>
       <input
         id={id}
         name={id}
         type={type}
         required
         placeholder={field.placeholder}
-        className="lux-field mt-3 h-16 w-full rounded-[1.25rem] border px-5 text-base text-[#FFF8E1] outline-none transition placeholder:text-[#FFF8E1]/34 focus:border-[#D4AF37]/70 focus:ring-4 focus:ring-[#D4AF37]/12"
+        className="lux-field mt-3 h-16 w-full rounded-[1.25rem] border px-5 text-base text-[#2A241B] outline-none transition placeholder:text-[#6b5b41]/48 focus:border-[#B9975B]/70 focus:ring-4 focus:ring-[#B9975B]/14"
       />
     </label>
   );
@@ -2059,7 +2071,7 @@ function ConsultationForm({ copy }: { copy: SiteCopy }) {
       action="/api/contact"
       method="post"
       onSubmit={handleSubmit}
-      className="lux-panel rounded-[2rem] border p-6 backdrop-blur-xl md:p-8"
+      className="lux-panel-light rounded-[2rem] border p-6 text-[#2A241B] backdrop-blur-xl md:p-8"
     >
       <Image
         src={brandAssets.logoTransparent}
@@ -2068,7 +2080,7 @@ function ConsultationForm({ copy }: { copy: SiteCopy }) {
         height={500}
         className="mb-6 h-16 w-16 rounded-full object-contain ring-1 ring-[#D4AF37]/20"
       />
-      <p className="text-lg font-semibold text-[#D4AF37] md:text-xl">{copy.form.title}</p>
+      <p className="text-lg font-semibold text-[#7b5f24] md:text-xl">{copy.form.title}</p>
       <input
         type="text"
         name="company"
@@ -2101,8 +2113,8 @@ function ConsultationForm({ copy }: { copy: SiteCopy }) {
           role="status"
           className={`mt-5 rounded-[1.25rem] border px-4 py-3 text-sm leading-6 ${
             formStatus === "success"
-              ? "border-[#D4AF37]/24 bg-[#D4AF37]/10 text-[#F5E8C7]"
-              : "border-[#D4AF37]/24 bg-[#251d13]/52 text-[#F5E8C7]"
+              ? "border-[#B9975B]/34 bg-[#D4AF37]/12 text-[#2A241B]"
+              : "border-[#B9975B]/34 bg-[#3A3021]/10 text-[#2A241B]"
           }`}
         >
           {formStatus === "success" ? copy.form.success : copy.form.error}
@@ -2114,11 +2126,11 @@ function ConsultationForm({ copy }: { copy: SiteCopy }) {
 
 function ContactDetails({ copy, compact = false }: { copy: SiteCopy; compact?: boolean }) {
   const cardClass = compact
-    ? "lux-card-soft group rounded-[1.15rem] border p-3.5 transition hover:border-[#D4AF37]/26"
-    : "lux-card-soft group rounded-[1.35rem] border p-4 transition hover:border-[#D4AF37]/26";
+    ? "lux-card-soft group rounded-[1.15rem] border p-3.5 text-[#FFF8E1] transition hover:border-[#D4AF37]/32"
+    : "lux-card-soft group rounded-[1.35rem] border p-4 text-[#FFF8E1] transition hover:border-[#D4AF37]/32";
   const labelClass = compact
-    ? "mt-2 text-[0.68rem] uppercase tracking-[0.18em] text-[#FFF8E1]/48"
-    : "mt-3 text-xs uppercase tracking-[0.22em] text-[#FFF8E1]/48";
+    ? "mt-2 text-[0.68rem] uppercase tracking-[0.18em] text-[#F5E8C7]/52"
+    : "mt-3 text-xs uppercase tracking-[0.22em] text-[#F5E8C7]/52";
   const valueClass = compact
     ? "mt-1 text-sm font-semibold text-[#FFF8E1] group-hover:text-[#D4AF37]"
     : "mt-1 text-sm font-semibold text-[#FFF8E1] group-hover:text-[#D4AF37]";
@@ -2126,11 +2138,11 @@ function ContactDetails({ copy, compact = false }: { copy: SiteCopy; compact?: b
 
   return (
     <div className={`grid ${compact ? "gap-2.5" : "gap-4 mt-6"}`}>
-      <div className={compact ? "lux-card-soft rounded-[1.15rem] border p-3.5" : "lux-card-soft rounded-[1.35rem] border p-4"}>
-        <p className="text-xs uppercase tracking-[0.22em] text-[#D4AF37]/80">
+      <div className={compact ? "lux-card-soft rounded-[1.15rem] border p-3.5 text-[#FFF8E1]" : "lux-card-soft rounded-[1.35rem] border p-4 text-[#FFF8E1]"}>
+        <p className="text-xs uppercase tracking-[0.22em] text-[#D4AF37]/90">
           {copy.contact.agentLabel}
         </p>
-        <p className={compact ? "mt-1.5 text-sm font-semibold text-[#FFF8E1]" : "mt-2 font-semibold text-[#FFF8E1]"}>
+        <p className={compact ? "mt-1.5 text-sm font-semibold" : "mt-2 font-semibold"}>
           {agentName}
         </p>
       </div>
@@ -2194,19 +2206,19 @@ function ContactDetails({ copy, compact = false }: { copy: SiteCopy; compact?: b
 
 function CTASection({ copy }: { copy: SiteCopy }) {
   return (
-    <section id="contact" className="section-contact-glow relative scroll-mt-36 overflow-hidden px-5 py-24 text-[#FFF8E1] md:scroll-mt-40 md:px-8 md:py-32">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(245,232,199,0.10),transparent_30rem),radial-gradient(circle_at_88%_72%,rgba(224,196,108,0.10),transparent_26rem)]" />
+    <section id="contact" className="section-contact-glow relative scroll-mt-36 overflow-hidden px-5 py-24 text-[#2A241B] md:scroll-mt-40 md:px-8 md:py-32">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(245,232,199,0.20),transparent_32rem),radial-gradient(circle_at_88%_72%,rgba(224,196,108,0.22),transparent_30rem),radial-gradient(circle_at_48%_4%,rgba(212,175,55,0.12),transparent_26rem),linear-gradient(180deg,rgba(3,3,3,0.08),rgba(3,3,3,0.20))]" />
       <div className="lux-panel relative mx-auto max-w-7xl rounded-[2.2rem] border p-5 backdrop-blur-xl lg:p-8">
         <FadeIn>
-          <div className="rounded-[2rem] border border-[#F5E8C7]/14 bg-[#2a2117]/38 p-5 md:p-7">
+          <div className="lux-panel-light rounded-[2rem] border p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.38)] md:p-7">
             <div className="max-w-4xl">
-              <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#D4AF37] md:text-base">
+              <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#9c7a2f] md:text-base">
                 {copy.cta.eyebrow}
               </p>
               <h2 className="mt-4 font-serif text-4xl leading-[1.08] tracking-tight sm:text-5xl md:text-[3.25rem]">
                 {copy.cta.title}
               </h2>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-[#FFF8E1]/72">
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-[#4d412f]/80">
                 {copy.cta.text}
               </p>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -2221,11 +2233,11 @@ function CTASection({ copy }: { copy: SiteCopy }) {
             </div>
 
             <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
-              <div className="lux-card rounded-[2rem] border p-5 md:p-6">
+              <div className="lux-card rounded-[2rem] border p-5 text-[#FFF8E1] md:p-6">
                 <p className="text-sm font-semibold text-[#D4AF37]">{copy.cta.detailsTitle}</p>
                 <ContactDetails copy={copy} />
                 <div className="mt-6">
-                  <SocialLinks copy={copy} />
+                  <SocialLinks copy={copy} darkSurface />
                 </div>
               </div>
               <PremiumVideoCard
@@ -2249,8 +2261,8 @@ function CTASection({ copy }: { copy: SiteCopy }) {
 
 function Footer({ copy }: { copy: SiteCopy }) {
   return (
-    <footer className="bg-[radial-gradient(circle_at_18%_0%,rgba(212,175,55,0.10),transparent_24rem),linear-gradient(180deg,#201a12,#171612)] px-5 py-12 text-[#FFF8E1] md:px-8">
-      <div className="mx-auto grid max-w-7xl gap-10 border-t border-[#D4AF37]/18 pt-10 lg:grid-cols-[1fr_0.65fr_0.65fr_0.65fr]">
+    <footer className="bg-[radial-gradient(circle_at_18%_0%,rgba(212,175,55,0.26),transparent_28rem),radial-gradient(circle_at_92%_78%,rgba(185,151,91,0.20),transparent_30rem),radial-gradient(circle_at_50%_0%,rgba(245,232,199,0.10),transparent_24rem),linear-gradient(135deg,#3a2a14,#1d1710_46%,#100f0d)] px-5 py-12 text-[#FFF8E1] md:px-8">
+      <div className="mx-auto grid max-w-7xl gap-10 border-t border-[#D4AF37]/30 pt-10 lg:grid-cols-[1fr_0.65fr_0.65fr_0.65fr]">
         <div>
           <Image
             src={brandAssets.logoTransparent}
@@ -2300,7 +2312,7 @@ function Footer({ copy }: { copy: SiteCopy }) {
           </p>
           <p className="mt-4 text-sm text-[#FFF8E1]/62">{copy.footer.languageText}</p>
           <div className="mt-6">
-            <SocialLinks copy={copy} />
+            <SocialLinks copy={copy} darkSurface />
           </div>
         </div>
       </div>

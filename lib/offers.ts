@@ -323,15 +323,15 @@ const offers: Offer[] = [
   },
   {
     id: "offer-6",
-    mainImage: "/images/offers/offer-6/main-v2.jpg",
+    mainImage: "/images/offers/offer-6/main.jpg",
     images: [
-      "/images/offers/offer-6/main-v2.jpg",
+      "/images/offers/offer-6/main.jpg",
       "/images/offers/offer-6/1-v2.jpg",
       "/images/offers/offer-6/2-v2.jpg",
       "/images/offers/offer-6/3-v2.jpg",
       "/images/offers/offer-6/4-v2.jpg",
       "/images/offers/offer-6/5-v2.jpg",
-      "/images/offers/offer-6/6-v2.jpg",
+      "/images/offers/offer-6/6.jpg",
     ],
     content: {
       pl: {

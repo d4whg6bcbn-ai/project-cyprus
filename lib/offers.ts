@@ -26,13 +26,13 @@ type Offer = {
 const offers: Offer[] = [
   {
     id: "offer-1",
-    mainImage: "/images/offers/offer-1/main.jpg",
+    mainImage: "/images/offers/offer-1/main2.jpg",
     images: [
-      "/images/offers/offer-1/main.jpg",
+      "/images/offers/offer-1/main2.jpg",
       "/images/offers/offer-1/1.jpg",
       "/images/offers/offer-1/2.jpg",
       "/images/offers/offer-1/3.jpg",
-      "/images/offers/offer-1/4.jpg",
+      "/images/offers/offer-1/4-v2.jpg",
       "/images/offers/offer-1/5.jpg",
       "/images/offers/offer-1/6.jpg",
       "/images/offers/offer-1/7.jpg",
@@ -155,14 +155,14 @@ const offers: Offer[] = [
   },
   {
     id: "offer-3",
-    mainImage: "/images/offers/offer-3/main.png",
+    mainImage: "/images/offers/offer-3/main-v2.png",
     images: [
-      "/images/offers/offer-3/main.png",
+      "/images/offers/offer-3/main-v2.png",
       "/images/offers/offer-3/1.png",
       "/images/offers/offer-3/2.png",
       "/images/offers/offer-3/3.png",
       "/images/offers/offer-3/4.png",
-      "/images/offers/offer-3/5.png",
+      "/images/offers/offer-3/5-v2.png",
     ],
     content: {
       pl: {
@@ -211,11 +211,11 @@ const offers: Offer[] = [
   },
   {
     id: "offer-4",
-    mainImage: "/images/offers/offer-4/main.jpg",
+    mainImage: "/images/offers/offer-4/main-v2.jpg",
     images: [
-      "/images/offers/offer-4/main.jpg",
+      "/images/offers/offer-4/main-v2.jpg",
       "/images/offers/offer-4/1.jpg",
-      "/images/offers/offer-4/2.jpg",
+      "/images/offers/offer-4/2-v2.jpg",
       "/images/offers/offer-4/3.jpg",
       "/images/offers/offer-4/4.jpg",
     ],

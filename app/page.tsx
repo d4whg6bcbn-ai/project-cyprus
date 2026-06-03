@@ -2071,7 +2071,7 @@ function ConsultationForm({ copy }: { copy: SiteCopy }) {
       action="/api/contact"
       method="post"
       onSubmit={handleSubmit}
-      className="lux-panel-light rounded-[2rem] border p-6 text-[#2A241B] backdrop-blur-xl md:p-8"
+      className="contact-form-card rounded-[2rem] border p-6 text-[#2A241B] backdrop-blur-xl md:p-8"
     >
       <Image
         src={brandAssets.logoTransparent}
@@ -2090,44 +2090,46 @@ function ConsultationForm({ copy }: { copy: SiteCopy }) {
         className="hidden"
       />
 
-      <div className="mt-9 grid gap-6 lg:grid-cols-2">
-        <SelectFieldView id="purchase-purpose" field={fields.purpose} />
-        <SelectFieldView id="budget" field={fields.budget} />
-        <SelectFieldView id="visit-cyprus" field={fields.visit} />
-        <SelectFieldView id="market-type" field={fields.market} />
-        <TextFieldView id="full-name" field={fields.name} />
-        <TextFieldView id="email" field={fields.email} type="email" />
-        <TextFieldView id="phone" field={fields.phone} type="tel" />
-      </div>
+      <div className="contact-form-inner mt-8 rounded-[1.65rem] p-4 md:p-5">
+        <div className="grid gap-6 lg:grid-cols-2">
+          <SelectFieldView id="purchase-purpose" field={fields.purpose} />
+          <SelectFieldView id="budget" field={fields.budget} />
+          <SelectFieldView id="visit-cyprus" field={fields.visit} />
+          <SelectFieldView id="market-type" field={fields.market} />
+          <TextFieldView id="full-name" field={fields.name} />
+          <TextFieldView id="email" field={fields.email} type="email" />
+          <TextFieldView id="phone" field={fields.phone} type="tel" />
+        </div>
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="mt-8 inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-[#D4AF37] px-7 text-base font-semibold text-[#030303] transition hover:bg-[#E0C46C] disabled:cursor-not-allowed disabled:opacity-70"
-      >
-        {isSubmitting ? copy.form.sending : copy.form.submit}
-        <ArrowRight className="h-4 w-4" />
-      </button>
-      {formStatus !== "idle" && (
-        <p
-          role="status"
-          className={`mt-5 rounded-[1.25rem] border px-4 py-3 text-sm leading-6 ${
-            formStatus === "success"
-              ? "border-[#B9975B]/34 bg-[#D4AF37]/12 text-[#2A241B]"
-              : "border-[#B9975B]/34 bg-[#3A3021]/10 text-[#2A241B]"
-          }`}
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="mt-8 inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-full border border-[#D4AF37]/50 bg-[linear-gradient(135deg,#16120b,#4d3718_52%,#D4AF37)] px-7 text-base font-semibold text-[#FFF8E1] shadow-[0_18px_50px_rgba(0,0,0,0.28),0_0_34px_rgba(212,175,55,0.22)] transition hover:shadow-[0_20px_54px_rgba(0,0,0,0.30),0_0_46px_rgba(212,175,55,0.32)] disabled:cursor-not-allowed disabled:opacity-70"
         >
-          {formStatus === "success" ? copy.form.success : copy.form.error}
-        </p>
-      )}
+          {isSubmitting ? copy.form.sending : copy.form.submit}
+          <ArrowRight className="h-4 w-4" />
+        </button>
+        {formStatus !== "idle" && (
+          <p
+            role="status"
+            className={`mt-5 rounded-[1.25rem] border px-4 py-3 text-sm leading-6 ${
+              formStatus === "success"
+                ? "border-[#B9975B]/34 bg-[#D4AF37]/12 text-[#2A241B]"
+                : "border-[#B9975B]/34 bg-[#3A3021]/10 text-[#2A241B]"
+            }`}
+          >
+            {formStatus === "success" ? copy.form.success : copy.form.error}
+          </p>
+        )}
+      </div>
     </form>
   );
 }
 
 function ContactDetails({ copy, compact = false }: { copy: SiteCopy; compact?: boolean }) {
   const cardClass = compact
-    ? "lux-card-soft group rounded-[1.15rem] border p-3.5 text-[#FFF8E1] transition hover:border-[#D4AF37]/32"
-    : "lux-card-soft group rounded-[1.35rem] border p-4 text-[#FFF8E1] transition hover:border-[#D4AF37]/32";
+    ? "contact-info-card group rounded-[1.15rem] border p-3.5 text-[#FFF8E1] transition hover:border-[#D4AF37]/62 hover:shadow-[0_20px_54px_rgba(0,0,0,0.36),0_0_48px_rgba(212,175,55,0.18)]"
+    : "contact-info-card group rounded-[1.35rem] border p-4 text-[#FFF8E1] transition hover:border-[#D4AF37]/62 hover:shadow-[0_20px_54px_rgba(0,0,0,0.36),0_0_48px_rgba(212,175,55,0.18)]";
   const labelClass = compact
     ? "mt-2 text-[0.68rem] uppercase tracking-[0.18em] text-[#F5E8C7]/52"
     : "mt-3 text-xs uppercase tracking-[0.22em] text-[#F5E8C7]/52";
@@ -2138,7 +2140,7 @@ function ContactDetails({ copy, compact = false }: { copy: SiteCopy; compact?: b
 
   return (
     <div className={`grid ${compact ? "gap-2.5" : "gap-4 mt-6"}`}>
-      <div className={compact ? "lux-card-soft rounded-[1.15rem] border p-3.5 text-[#FFF8E1]" : "lux-card-soft rounded-[1.35rem] border p-4 text-[#FFF8E1]"}>
+      <div className={compact ? "contact-info-card rounded-[1.15rem] border p-3.5 text-[#FFF8E1]" : "contact-info-card rounded-[1.35rem] border p-4 text-[#FFF8E1]"}>
         <p className="text-xs uppercase tracking-[0.22em] text-[#D4AF37]/90">
           {copy.contact.agentLabel}
         </p>
@@ -2207,10 +2209,10 @@ function ContactDetails({ copy, compact = false }: { copy: SiteCopy; compact?: b
 function CTASection({ copy }: { copy: SiteCopy }) {
   return (
     <section id="contact" className="section-contact-glow relative scroll-mt-36 overflow-hidden px-5 py-24 text-[#2A241B] md:scroll-mt-40 md:px-8 md:py-32">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(245,232,199,0.20),transparent_32rem),radial-gradient(circle_at_88%_72%,rgba(224,196,108,0.22),transparent_30rem),radial-gradient(circle_at_48%_4%,rgba(212,175,55,0.12),transparent_26rem),linear-gradient(180deg,rgba(3,3,3,0.08),rgba(3,3,3,0.20))]" />
-      <div className="lux-panel relative mx-auto max-w-7xl rounded-[2.2rem] border p-5 backdrop-blur-xl lg:p-8">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(212,175,55,0.34),transparent_32rem),radial-gradient(circle_at_15%_70%,rgba(185,151,91,0.26),transparent_36rem),radial-gradient(circle_at_85%_78%,rgba(94,65,28,0.32),transparent_38rem),linear-gradient(180deg,rgba(3,3,3,0.06),rgba(3,3,3,0.24))]" />
+      <div className="contact-shell relative mx-auto max-w-7xl rounded-[2.2rem] border p-5 backdrop-blur-xl lg:p-8">
         <FadeIn>
-          <div className="lux-panel-light rounded-[2rem] border p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.38)] md:p-7">
+          <div className="contact-form-card rounded-[2rem] border p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.38)] md:p-7">
             <div className="max-w-4xl">
               <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#9c7a2f] md:text-base">
                 {copy.cta.eyebrow}
@@ -2233,7 +2235,7 @@ function CTASection({ copy }: { copy: SiteCopy }) {
             </div>
 
             <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
-              <div className="lux-card rounded-[2rem] border p-5 text-[#FFF8E1] md:p-6">
+              <div className="contact-info-card rounded-[2rem] border p-5 text-[#FFF8E1] md:p-6">
                 <p className="text-sm font-semibold text-[#D4AF37]">{copy.cta.detailsTitle}</p>
                 <ContactDetails copy={copy} />
                 <div className="mt-6">
@@ -2245,7 +2247,7 @@ function CTASection({ copy }: { copy: SiteCopy }) {
                 fullSrc={brandAssets.videos.contact.full}
                 labels={copy.video}
                 aspectClassName="aspect-[9/16]"
-                className="mx-auto max-h-[640px] w-full max-w-[360px] lg:mx-0 lg:ml-auto"
+                className="mx-auto max-h-[640px] w-full max-w-[360px] ring-[#D4AF37]/54 shadow-[0_28px_90px_rgba(0,0,0,0.38),0_0_78px_rgba(212,175,55,0.24)] lg:mx-0 lg:ml-auto"
               />
             </div>
           </div>

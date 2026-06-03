@@ -1817,14 +1817,14 @@ function AboutSection({ copy }: { copy: SiteCopy }) {
 function CredibilitySection({ copy }: { copy: SiteCopy }) {
   return (
     <section className="section-bronze-bridge px-5 py-20 text-[#FFF8E1] md:px-8">
-      <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-4">
+      <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-2 lg:grid-cols-4">
         {copy.credibility.map((item, index) => (
-          <FadeIn key={item.label} delay={index * 0.05}>
-            <div className="border-l border-[#D4AF37]/26 pl-6">
+          <FadeIn key={item.label} delay={index * 0.05} className="min-w-0">
+            <div className="min-w-0 border-l border-[#D4AF37]/26 pl-6">
               <p className="font-serif text-5xl tracking-tight text-[#D4AF37] md:text-6xl">
                 {item.value}
               </p>
-              <p className="mt-3 text-sm uppercase tracking-[0.2em] text-[#F5E8C7]/62">
+              <p className="mt-3 text-sm uppercase tracking-[0.2em] text-[#F5E8C7]/62 [overflow-wrap:anywhere]">
                 {item.label}
               </p>
             </div>
@@ -2073,13 +2073,15 @@ function ConsultationForm({ copy }: { copy: SiteCopy }) {
       onSubmit={handleSubmit}
       className="contact-form-card rounded-[2rem] border p-6 text-[#2A241B] backdrop-blur-xl md:p-8"
     >
-      <Image
-        src={brandAssets.logoTransparent}
-        alt="Project Cyprus"
-        width={500}
-        height={500}
-        className="mb-6 h-16 w-16 rounded-full object-contain ring-1 ring-[#D4AF37]/20"
-      />
+      <div className="contact-logo-patch mb-6 inline-flex rounded-[1.35rem] border p-3">
+        <Image
+          src={brandAssets.logoTransparent}
+          alt="Project Cyprus"
+          width={500}
+          height={500}
+          className="h-[4.5rem] w-[4.5rem] rounded-full object-contain ring-1 ring-[#D4AF37]/28"
+        />
+      </div>
       <p className="text-lg font-semibold text-[#7b5f24] md:text-xl">{copy.form.title}</p>
       <input
         type="text"

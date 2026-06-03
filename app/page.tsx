@@ -219,6 +219,7 @@ type SiteCopy = {
     languageTitle: string;
     languageText: string;
     copyright: string;
+    creditPrefix: string;
     locationLine: string;
   };
 };
@@ -521,6 +522,7 @@ const content = {
       languageTitle: "Język",
       languageText: "Polski · English",
       copyright: "© 2026 Project Cyprus. Nieruchomości na Cyprze.",
+      creditPrefix: "Strona stworzona z sercem przez",
       locationLine: "Pafos · Limassol · Larnaca · Ayia Napa · Protaras",
     },
   },
@@ -774,6 +776,7 @@ const content = {
       languageTitle: "Language",
       languageText: "English · Polski",
       copyright: "© 2026 Project Cyprus. Property in Cyprus.",
+      creditPrefix: "Website built with heart by",
       locationLine: "Paphos · Limassol · Larnaca · Ayia Napa · Protaras",
     },
   },
@@ -2302,7 +2305,21 @@ function Footer({ copy }: { copy: SiteCopy }) {
         </div>
       </div>
       <div className="mx-auto mt-10 flex max-w-7xl flex-col justify-between gap-3 border-t border-white/10 pt-6 text-xs text-[#FFF8E1]/42 md:flex-row">
-        <p>{copy.footer.copyright}</p>
+        <div className="grid gap-1">
+          <p>{copy.footer.copyright}</p>
+          <p className="text-[11px] leading-5 text-[#FFF8E1]/38">
+            {copy.footer.creditPrefix}{" "}
+            <a
+              href="https://www.altusluna.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-[#D4AF37]/70 transition-colors hover:text-[#F4D77A]"
+            >
+              Altus Luna
+            </a>
+            .
+          </p>
+        </div>
         <p>{copy.footer.locationLine}</p>
       </div>
     </footer>

@@ -12,12 +12,14 @@ type OfferContent = {
 
 export type OfferView = OfferContent & {
   id: string;
+  shareId: string;
   mainImage: string;
   images: string[];
 };
 
 type Offer = {
   id: string;
+  shareId: string;
   mainImage: string;
   images: string[];
   content: Record<OfferLanguage, OfferContent>;
@@ -26,6 +28,7 @@ type Offer = {
 const offers: Offer[] = [
   {
     id: "offer-1",
+    shareId: "offer-chloraka-apartments-villas",
     mainImage: "/images/offers/offer-1/main2.jpg",
     images: [
       "/images/offers/offer-1/main2.jpg",
@@ -93,6 +96,7 @@ const offers: Offer[] = [
   },
   {
     id: "offer-2",
+    shareId: "offer-kissonerga-villas-sea",
     mainImage: "/images/offers/offer-2/main3.jpg",
     images: [
       "/images/offers/offer-2/main3.jpg",
@@ -155,6 +159,7 @@ const offers: Offer[] = [
   },
   {
     id: "offer-3",
+    shareId: "offer-emba-modern-development",
     mainImage: "/images/offers/offer-3/main-v2.png",
     images: [
       "/images/offers/offer-3/main-v2.png",
@@ -211,6 +216,7 @@ const offers: Offer[] = [
   },
   {
     id: "offer-4",
+    shareId: "offer-tomb-of-the-kings-apartments",
     mainImage: "/images/offers/offer-4/main-v2.jpg",
     images: [
       "/images/offers/offer-4/main-v2.jpg",
@@ -268,6 +274,7 @@ const offers: Offer[] = [
   },
   {
     id: "offer-5",
+    shareId: "offer-paphos-city-center-apartments",
     mainImage: "/images/offers/offer-5/main.png",
     images: [
       "/images/offers/offer-5/main.png",
@@ -323,6 +330,7 @@ const offers: Offer[] = [
   },
   {
     id: "offer-6",
+    shareId: "offer-geroskipou-sea-villas",
     mainImage: "/images/offers/offer-6/main.jpg",
     images: [
       "/images/offers/offer-6/main.jpg",

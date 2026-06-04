@@ -18,6 +18,7 @@ import {
   Menu,
   MessageCircle,
   Phone,
+  Share2,
   ShieldCheck,
   Sparkles,
   Star,
@@ -251,6 +252,11 @@ const offerLabels = {
     area: "Powierzchnia",
     price: "Cena",
     ask: "Zapytaj o tę nieruchomość",
+    share: "Udostępnij",
+    shareOffer: "Udostępnij ofertę",
+    shareText: "Zobacz tę ofertę nieruchomości na Cyprze w Project Cyprus.",
+    copied: "Link do oferty został skopiowany.",
+    copyFailed: "Nie udało się skopiować linku. Skopiuj adres z paska przeglądarki.",
     close: "Zamknij",
     previous: "Poprzednie zdjęcie",
     next: "Następne zdjęcie",
@@ -262,6 +268,11 @@ const offerLabels = {
     area: "Area",
     price: "Price",
     ask: "Ask about this property",
+    share: "Share",
+    shareOffer: "Share offer",
+    shareText: "View this property offer in Cyprus with Project Cyprus.",
+    copied: "Offer link copied.",
+    copyFailed: "Could not copy the link. Please copy the address from the browser bar.",
     close: "Close",
     previous: "Previous image",
     next: "Next image",
@@ -1191,17 +1202,28 @@ function OfferCard({
   index,
   labels,
   onOpen,
+  onShare,
 }: {
   offer: OfferView;
   index: number;
   labels: typeof offerLabels[Language];
   onOpen: () => void;
+  onShare: () => void;
 }) {
   return (
     <FadeIn delay={index * 0.08}>
-      <button
-        type="button"
+      <article
+        role="button"
+        tabIndex={0}
         onClick={onOpen}
+        onKeyDown={(event) => {
+          if (event.key !== "Enter" && event.key !== " ") {
+            return;
+          }
+
+          event.preventDefault();
+          onOpen();
+        }}
         className="group relative block w-full overflow-hidden rounded-[2rem] bg-[#221a12] text-left shadow-[0_24px_90px_rgba(0,0,0,0.26),0_0_72px_rgba(212,175,55,0.16)] outline-none ring-1 ring-[#D4AF37]/32 transition duration-500 hover:-translate-y-2 hover:shadow-[0_28px_96px_rgba(0,0,0,0.28),0_0_92px_rgba(212,175,55,0.22)] hover:ring-[#D4AF37]/50 focus-visible:ring-4 focus-visible:ring-[#D4AF37]/34"
       >
         <span className="relative block aspect-[4/5] min-h-[430px] overflow-hidden">
@@ -1213,9 +1235,23 @@ function OfferCard({
             className="object-cover transition duration-700 group-hover:scale-105"
           />
           <span className="absolute inset-0 bg-[radial-gradient(circle_at_82%_18%,rgba(212,175,55,0.16),transparent_34%),linear-gradient(180deg,rgba(8,6,4,0.08),rgba(45,31,13,0.30)_44%,rgba(9,7,5,0.92))]" />
-          <span className="absolute left-4 right-4 top-4 flex flex-wrap gap-2">
-            <OfferInfoBadge icon={MapPin} label={labels.location} value={offer.location} />
-            <OfferInfoBadge icon={Building2} label={labels.type} value={offer.type} />
+          <span className="absolute left-4 right-4 top-4 flex items-start justify-between gap-3">
+            <span className="flex min-w-0 flex-wrap gap-2 pr-1">
+              <OfferInfoBadge icon={MapPin} label={labels.location} value={offer.location} />
+              <OfferInfoBadge icon={Building2} label={labels.type} value={offer.type} />
+            </span>
+            <button
+              type="button"
+              onClick={(event) => {
+                event.stopPropagation();
+                onShare();
+              }}
+              aria-label={labels.shareOffer}
+              className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-full border border-[#D4AF37]/34 bg-[#070707]/72 px-3 text-xs font-semibold text-[#F5E8C7] shadow-lg backdrop-blur-xl transition hover:bg-[#D4AF37] hover:text-[#030303] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#D4AF37]/34 sm:px-4"
+            >
+              <Share2 className="h-4 w-4" />
+              <span className="hidden sm:inline">{labels.share}</span>
+            </button>
           </span>
           <span className="absolute bottom-0 left-0 right-0 p-5 text-[#FFF8E1]">
             <span className="mb-4 flex flex-wrap gap-2">
@@ -1236,7 +1272,7 @@ function OfferCard({
             </span>
           </span>
         </span>
-      </button>
+      </article>
     </FadeIn>
   );
 }
@@ -1245,10 +1281,12 @@ function OfferDetailsModal({
   offer,
   labels,
   onClose,
+  onShare,
 }: {
   offer: OfferView;
   labels: typeof offerLabels[Language];
   onClose: () => void;
+  onShare: () => void;
 }) {
   const [imageIndex, setImageIndex] = React.useState(0);
   const activeImage = offer.images[imageIndex] ?? offer.mainImage;
@@ -1348,19 +1386,30 @@ function OfferDetailsModal({
                 <OfferInfoBadge icon={Maximize2} label={labels.area} value={offer.area} />
                 <OfferInfoBadge icon={Euro} label={labels.price} value={offer.price} />
               </div>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <a
+                  href="#contact"
+                  onClick={onClose}
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D4AF37] px-6 text-sm font-semibold text-[#030303] shadow-[0_18px_45px_rgba(212,175,55,0.24)] transition hover:bg-[#E0C46C]"
+                >
+                  {labels.ask}
+                  <ArrowRight className="h-4 w-4" />
+                </a>
+                <button
+                  type="button"
+                  onClick={onShare}
+                  aria-label={labels.shareOffer}
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10 px-6 text-sm font-semibold text-[#F5E8C7] shadow-[0_14px_34px_rgba(0,0,0,0.20)] transition hover:bg-[#D4AF37] hover:text-[#030303] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#D4AF37]/30"
+                >
+                  <Share2 className="h-4 w-4" />
+                  {labels.shareOffer}
+                </button>
+              </div>
               <div className="mt-8 space-y-5 text-base leading-8 text-[#F5E8C7]/76">
                 {offer.description.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
               </div>
-              <a
-                href="#contact"
-                onClick={onClose}
-                className="mt-8 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D4AF37] px-6 text-sm font-semibold text-[#030303] shadow-[0_18px_45px_rgba(212,175,55,0.24)] transition hover:bg-[#E0C46C]"
-              >
-                {labels.ask}
-                <ArrowRight className="h-4 w-4" />
-              </a>
             </div>
           </div>
         </div>
@@ -1371,11 +1420,119 @@ function OfferDetailsModal({
 
 function FeaturedProperties({ copy, language }: { copy: SiteCopy; language: Language }) {
   const [selectedOffer, setSelectedOffer] = React.useState<OfferView | null>(null);
+  const [shareMessage, setShareMessage] = React.useState("");
+  const [shareFailed, setShareFailed] = React.useState(false);
+  const shareMessageTimeoutRef = React.useRef<number | null>(null);
   const offers = React.useMemo(() => getLocalizedOffers(language), [language]);
+  const offerShareIds = React.useMemo(() => new Set(offers.map((offer) => offer.shareId)), [offers]);
   const labels = offerLabels[language];
 
+  const showShareMessage = React.useCallback((message: string, failed = false) => {
+    if (shareMessageTimeoutRef.current) {
+      window.clearTimeout(shareMessageTimeoutRef.current);
+    }
+
+    setShareFailed(failed);
+    setShareMessage(message);
+    shareMessageTimeoutRef.current = window.setTimeout(() => {
+      setShareMessage("");
+      shareMessageTimeoutRef.current = null;
+    }, 3600);
+  }, []);
+
+  const getDirectOfferUrl = React.useCallback((offer: OfferView) => {
+    return `${window.location.origin}/#${offer.shareId}`;
+  }, []);
+
+  const openOffer = React.useCallback((offer: OfferView, updateUrl = true) => {
+    setSelectedOffer(offer);
+
+    if (!updateUrl) {
+      return;
+    }
+
+    const nextUrl = `${window.location.pathname}${window.location.search}#${offer.shareId}`;
+
+    if (window.location.hash !== `#${offer.shareId}`) {
+      window.history.pushState(null, "", nextUrl);
+    }
+  }, []);
+
+  const closeOffer = React.useCallback(() => {
+    setSelectedOffer(null);
+
+    const currentShareId = decodeURIComponent(window.location.hash.replace(/^#/, ""));
+
+    if (offerShareIds.has(currentShareId)) {
+      window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+    }
+  }, [offerShareIds]);
+
+  const handleShareOffer = React.useCallback(
+    async (offer: OfferView) => {
+      const directOfferUrl = getDirectOfferUrl(offer);
+
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: offer.title,
+            text: labels.shareText,
+            url: directOfferUrl,
+          });
+          showShareMessage(labels.copied);
+          return;
+        } catch (error) {
+          if (error instanceof DOMException && error.name === "AbortError") {
+            return;
+          }
+        }
+      }
+
+      try {
+        await navigator.clipboard.writeText(directOfferUrl);
+        showShareMessage(labels.copied);
+      } catch {
+        showShareMessage(labels.copyFailed, true);
+      }
+    },
+    [getDirectOfferUrl, labels.copied, labels.copyFailed, labels.shareText, showShareMessage],
+  );
+
+  React.useEffect(() => {
+    const openOfferFromHash = () => {
+      const shareId = decodeURIComponent(window.location.hash.replace(/^#/, ""));
+      const matchingOffer = offers.find((offer) => offer.shareId === shareId);
+
+      if (!matchingOffer) {
+        setSelectedOffer(null);
+        return;
+      }
+
+      document.getElementById("selected-offers")?.scrollIntoView({ block: "start" });
+      setSelectedOffer(matchingOffer);
+    };
+
+    openOfferFromHash();
+    window.addEventListener("hashchange", openOfferFromHash);
+    window.addEventListener("popstate", openOfferFromHash);
+
+    return () => {
+      window.removeEventListener("hashchange", openOfferFromHash);
+      window.removeEventListener("popstate", openOfferFromHash);
+    };
+  }, [offers]);
+
+  React.useEffect(() => {
+    return () => {
+      if (shareMessageTimeoutRef.current) {
+        window.clearTimeout(shareMessageTimeoutRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <section id="properties" className="section-graphite-warm scroll-mt-36 px-5 py-24 text-[#FFF8E1] md:scroll-mt-40 md:px-8 md:py-32">
+    <section id="selected-offers" className="section-graphite-warm relative scroll-mt-36 px-5 py-24 text-[#FFF8E1] md:scroll-mt-40 md:px-8 md:py-32">
+      <span id="properties" className="absolute top-0 h-0 scroll-mt-36 md:scroll-mt-40" aria-hidden="true" />
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(320px,440px)] lg:items-start">
           <div className="h-full">
@@ -1415,16 +1572,32 @@ function FeaturedProperties({ copy, language }: { copy: SiteCopy; language: Lang
               offer={offer}
               index={index}
               labels={labels}
-              onOpen={() => setSelectedOffer(offer)}
+              onOpen={() => openOffer(offer)}
+              onShare={() => handleShareOffer(offer)}
             />
           ))}
         </div>
       </div>
+      {shareMessage && (
+        <div
+          role="status"
+          aria-live="polite"
+          className={`pointer-events-none fixed bottom-5 left-1/2 z-[90] w-[calc(100%-2rem)] max-w-md -translate-x-1/2 rounded-[1.25rem] border px-4 py-3 text-center text-sm font-semibold shadow-[0_18px_55px_rgba(0,0,0,0.40)] backdrop-blur-xl ${
+            shareFailed
+              ? "border-[#D4AF37]/28 bg-[#120f0b]/92 text-[#F5E8C7]"
+              : "border-[#D4AF37]/44 bg-[#D4AF37]/92 text-[#030303]"
+          }`}
+        >
+          {shareMessage}
+        </div>
+      )}
       {selectedOffer && (
         <OfferDetailsModal
+          key={selectedOffer.id}
           offer={selectedOffer}
           labels={labels}
-          onClose={() => setSelectedOffer(null)}
+          onClose={closeOffer}
+          onShare={() => handleShareOffer(selectedOffer)}
         />
       )}
     </section>
@@ -1712,13 +1885,10 @@ function ProcessTimeline({ copy }: { copy: SiteCopy }) {
           <div className="grid gap-3 sm:grid-cols-2 lg:col-start-1 lg:row-start-2">
             {copy.process.steps.map((step, index) => (
               <FadeIn key={step.title} delay={index * 0.04}>
-                <div className="lux-card group h-full rounded-[1.35rem] border p-4 text-[#FFF8E1] backdrop-blur transition hover:-translate-y-1 hover:border-[#D4AF37]/38">
-                  <div className="flex items-center justify-between">
+                <div className="lux-card h-full rounded-[1.35rem] border p-4 text-[#FFF8E1] backdrop-blur transition hover:-translate-y-1 hover:border-[#D4AF37]/38">
+                  <div className="flex items-center border-b border-[#D4AF37]/16 pb-4">
                     <span className="font-serif text-3xl text-[#D4AF37]">
                       {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <span className="flex h-9 w-9 items-center justify-center rounded-full border border-[#D4AF37]/24 bg-[#2a2117] text-[#D4AF37] transition group-hover:rotate-6">
-                      <ArrowRight className="h-3.5 w-3.5" />
                     </span>
                   </div>
                   <h3 className="mt-5 text-base font-semibold leading-6">{step.title}</h3>

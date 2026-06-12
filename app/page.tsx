@@ -2238,6 +2238,7 @@ function ConsultationForm({ copy }: { copy: SiteCopy }) {
 
       if (typeof window !== "undefined" && typeof window.fbq === "function") {
         window.fbq("track", "Lead");
+        window.fbq("track", "CompleteRegistration");
       }
     } catch {
       setFormStatus("error");

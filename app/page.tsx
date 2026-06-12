@@ -29,6 +29,12 @@ import {
 import { brandAssets } from "@/lib/brand";
 import { getLocalizedOffers, type OfferView } from "@/lib/offers";
 
+declare global {
+  interface Window {
+    fbq?: (...args: unknown[]) => void;
+  }
+}
+
 type Language = "pl" | "en";
 
 type NavItem = {
@@ -2229,6 +2235,10 @@ function ConsultationForm({ copy }: { copy: SiteCopy }) {
 
       form.reset();
       setFormStatus("success");
+
+      if (typeof window !== "undefined" && typeof window.fbq === "function") {
+        window.fbq("track", "Lead");
+      }
     } catch {
       setFormStatus("error");
     } finally {

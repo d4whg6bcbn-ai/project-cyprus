@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import { brandAssets } from "@/lib/brand";
+import { META_PIXEL_ID } from "@/lib/meta";
 import "./globals.css";
-
-const META_PIXEL_ID = "2049948062222671";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

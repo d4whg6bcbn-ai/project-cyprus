@@ -1,0 +1,1 @@
+export const META_PIXEL_ID = "2049948062222671";

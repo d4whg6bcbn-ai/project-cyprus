@@ -1,5 +1,7 @@
+import { createHash } from "crypto";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import { META_PIXEL_ID } from "@/lib/meta";
 
 type ContactPayload = {
   language?: unknown;
@@ -13,6 +15,8 @@ type ContactPayload = {
   phone?: unknown;
   message?: unknown;
   company?: unknown;
+  eventId?: unknown;
+  eventSourceUrl?: unknown;
 };
 
 const requiredFields = [
@@ -54,8 +58,89 @@ function normalizePayload(payload: ContactPayload) {
     marketType: getString(payload.marketType),
     message: getString(payload.message),
     company: getString(payload.company),
+    eventId: getString(payload.eventId),
+    eventSourceUrl: getString(payload.eventSourceUrl),
     submittedAt: new Date().toISOString(),
   };
+}
+
+function hash(value: string) {
+  return createHash("sha256")
+    .update(value.trim().toLowerCase())
+    .digest("hex");
+}
+
+function readCookie(request: Request, name: string) {
+  const header = request.headers.get("cookie");
+  if (!header) return "";
+  const match = header.match(new RegExp(`(?:^|;\\s*)${name}=([^;]+)`));
+  return match ? decodeURIComponent(match[1]) : "";
+}
+
+// Server-side Conversions API event. Deduplicated against the browser pixel
+// via the shared eventId. Failures are logged but never block the response.
+async function sendMetaConversion(
+  request: Request,
+  data: ReturnType<typeof normalizePayload>,
+) {
+  const accessToken = process.env.META_CAPI_ACCESS_TOKEN;
+  if (!accessToken) {
+    // CAPI not configured yet — browser pixel still fires, so just skip.
+    return;
+  }
+
+  const [firstName, ...rest] = data.fullName.trim().split(/\s+/);
+  const lastName = rest.join(" ");
+  const phoneDigits = data.phone.replace(/[^0-9]/g, "");
+
+  const userData: Record<string, string | string[]> = {
+    em: [hash(data.email)],
+    client_user_agent: request.headers.get("user-agent") ?? "",
+  };
+  if (phoneDigits) userData.ph = [hash(phoneDigits)];
+  if (firstName) userData.fn = [hash(firstName)];
+  if (lastName) userData.ln = [hash(lastName)];
+
+  const clientIp =
+    request.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
+    request.headers.get("x-real-ip") ??
+    "";
+  if (clientIp) userData.client_ip_address = clientIp;
+
+  const fbp = readCookie(request, "_fbp");
+  const fbc = readCookie(request, "_fbc");
+  if (fbp) userData.fbp = fbp;
+  if (fbc) userData.fbc = fbc;
+
+  const eventTime = Math.floor(Date.now() / 1000);
+  const baseEvent = {
+    event_time: eventTime,
+    event_id: data.eventId || undefined,
+    action_source: "website",
+    event_source_url: data.eventSourceUrl || undefined,
+    user_data: userData,
+  };
+
+  const body = {
+    data: [
+      { ...baseEvent, event_name: "Lead" },
+      { ...baseEvent, event_name: "CompleteRegistration" },
+    ],
+  };
+
+  const response = await fetch(
+    `https://graph.facebook.com/v21.0/${META_PIXEL_ID}/events?access_token=${accessToken}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    },
+  );
+
+  if (!response.ok) {
+    const detail = await response.text();
+    console.error("Meta Conversions API request failed.", response.status, detail);
+  }
 }
 
 function createTextEmail(data: ReturnType<typeof normalizePayload>) {
@@ -173,6 +258,13 @@ export async function POST(request: Request) {
       text: createTextEmail(data),
       html: createHtmlEmail(data),
     });
+
+    try {
+      await sendMetaConversion(request, data);
+    } catch (error) {
+      // Never fail the submission because of a tracking error.
+      console.error("Meta Conversions API send failed.", error);
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {

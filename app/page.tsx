@@ -27,6 +27,7 @@ import {
   X,
 } from "lucide-react";
 import { brandAssets } from "@/lib/brand";
+import { META_PIXEL_ID } from "@/lib/meta";
 import { getLocalizedOffers, type OfferView } from "@/lib/offers";
 
 declare global {
@@ -2205,6 +2206,17 @@ function ConsultationForm({ copy }: { copy: SiteCopy }) {
     const form = event.currentTarget;
     const formData = new FormData(form);
 
+    const fullName = String(formData.get("full-name") ?? "");
+    const email = String(formData.get("email") ?? "");
+    const phone = String(formData.get("phone") ?? "");
+
+    // Shared id so the browser pixel event and the server-side
+    // Conversions API event are deduplicated by Meta.
+    const eventId =
+      typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+        ? crypto.randomUUID()
+        : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
     setIsSubmitting(true);
     setFormStatus("idle");
 
@@ -2220,11 +2232,14 @@ function ConsultationForm({ copy }: { copy: SiteCopy }) {
           budget: String(formData.get("budget") ?? ""),
           visitCyprus: String(formData.get("visit-cyprus") ?? ""),
           marketType: String(formData.get("market-type") ?? ""),
-          fullName: String(formData.get("full-name") ?? ""),
-          email: String(formData.get("email") ?? ""),
-          phone: String(formData.get("phone") ?? ""),
+          fullName,
+          email,
+          phone,
           message: String(formData.get("message") ?? ""),
           company: String(formData.get("company") ?? ""),
+          eventId,
+          eventSourceUrl:
+            typeof window !== "undefined" ? window.location.href : "",
         }),
       });
 
@@ -2237,8 +2252,16 @@ function ConsultationForm({ copy }: { copy: SiteCopy }) {
       setFormStatus("success");
 
       if (typeof window !== "undefined" && typeof window.fbq === "function") {
-        window.fbq("track", "Lead");
-        window.fbq("track", "CompleteRegistration");
+        // Advanced matching: Meta hashes these in-browser before sending.
+        const [firstName, ...rest] = fullName.trim().split(/\s+/);
+        window.fbq("init", META_PIXEL_ID, {
+          em: email.trim().toLowerCase(),
+          ph: phone.replace(/[^0-9]/g, ""),
+          fn: (firstName ?? "").toLowerCase(),
+          ln: rest.join(" ").toLowerCase(),
+        });
+        window.fbq("track", "Lead", {}, { eventID: eventId });
+        window.fbq("track", "CompleteRegistration", {}, { eventID: eventId });
       }
     } catch {
       setFormStatus("error");

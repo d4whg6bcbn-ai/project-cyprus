@@ -4,7 +4,7 @@ import Script from "next/script";
 import { brandAssets } from "@/lib/brand";
 import "./globals.css";
 
-const META_PIXEL_ID = "883654547394598";
+const META_PIXEL_ID = "2049948062222671";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
